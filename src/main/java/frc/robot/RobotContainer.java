@@ -31,10 +31,10 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final DriveSubsystem robotDrive = new DriveSubsystem();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -42,17 +42,17 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    m_robotDrive.setDefaultCommand(
+    robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () ->
-                m_robotDrive.drive(
-                    m_driverController.getLeftY(),
-                    m_driverController.getLeftX(),
-                    m_driverController.getRightX(),
+                robotDrive.drive(
+                    driverController.getLeftY(),
+                    driverController.getLeftX(),
+                    driverController.getRightX(),
                     false),
-            m_robotDrive));
+                robotDrive));
   }
 
   /**
@@ -72,10 +72,10 @@ public class RobotContainer {
     // Create config for trajectory
     TrajectoryConfig config =
         new TrajectoryConfig(
-                AutoConstants.kMaxSpeedMetersPerSecond,
-                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                AutoConstants.MAX_SPEED_METERS_PER_SECOND,
+                AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
             // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(DriveConstants.kDriveKinematics);
+            .setKinematics(DriveConstants.DRIVE_KINEMATICS);
 
     // An example trajectory to follow.  All units in meters.
     Trajectory exampleTrajectory =
@@ -88,28 +88,33 @@ public class RobotContainer {
             new Pose2d(3, 0, new Rotation2d(0)),
             config);
 
+    SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
+
+    // Reset odometry to the starting pose of the trajectory.
+    robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+
+    // Run path following command, then stop at the end.
+    return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
+  }
+
+  private SwerveControllerCommand getSwerveControllerCommand(Trajectory exampleTrajectory) {
     var thetaController =
         new ProfiledPIDController(
-            AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+            AutoConstants.P_THETA_CONTROLLER, 0, 0, AutoConstants.THETA_CONTROLLER_CONSTRAINTS);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     SwerveControllerCommand swerveControllerCommand =
         new SwerveControllerCommand(
-            exampleTrajectory,
-            m_robotDrive::getPose, // Functional interface to feed supplier
-            DriveConstants.kDriveKinematics,
+                exampleTrajectory,
+            robotDrive::getPose, // Functional interface to feed supplier
+            DriveConstants.DRIVE_KINEMATICS,
 
             // Position controllers
-            new PIDController(AutoConstants.kPXController, 0, 0),
-            new PIDController(AutoConstants.kPYController, 0, 0),
+            new PIDController(AutoConstants.PX_CONTROLLER, 0, 0),
+            new PIDController(AutoConstants.PY_CONTROLLER, 0, 0),
             thetaController,
-            m_robotDrive::setModuleStates,
-            m_robotDrive);
-
-    // Reset odometry to the starting pose of the trajectory.
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-
-    // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+            robotDrive::setModuleStates,
+                robotDrive);
+    return swerveControllerCommand;
   }
 }
