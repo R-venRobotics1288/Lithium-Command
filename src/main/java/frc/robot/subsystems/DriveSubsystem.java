@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import frc.robot.Constants.DriveConstants;
@@ -57,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry odometry =
-      new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d());
+      new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), new SwerveModulePosition[]{});
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {}
@@ -67,10 +68,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Update the odometry in the periodic block
     odometry.update(
         gyro.getRotation2d(),
-        frontLeft.getState(),
-        rearLeft.getState(),
-        frontRight.getState(),
-        rearRight.getState());
+        new SwerveModulePosition[]{});
   }
 
   /**
@@ -88,7 +86,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    odometry.resetPosition(pose, gyro.getRotation2d());
+    odometry.resetPosition(gyro.getRotation2d(), new SwerveModulePosition[]{}, pose);
   }
 
   /**
