@@ -28,10 +28,10 @@ public final class Constants {
         public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
         public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 7;
 
-        public static final int[] FRONT_LEFT_TURNING_ENCODER_PORTS = new int[]{0, 1};
-        public static final int[] REAR_LEFT_TURNING_ENCODER_PORTS = new int[]{2, 3};
-        public static final int[] FRONT_RIGHT_TURNING_ENCODER_PORTS = new int[]{4, 5};
-        public static final int[] REAR_RIGHT_TURNING_ENCODER_PORTS = new int[]{6, 7};
+        public static final int FRONT_LEFT_TURNING_ENCODER_PORTS = new int[]{0, 1};
+        public static final int REAR_LEFT_TURNING_ENCODER_PORTS = new int[]{2, 3};
+        public static final int FRONT_RIGHT_TURNING_ENCODER_PORTS = new int[]{4, 5};
+        public static final int REAR_RIGHT_TURNING_ENCODER_PORTS = new int[]{6, 7};
 
         public static final boolean FRONT_LEFT_TURNING_ENCODER_REVERSED = false;
         public static final boolean REAR_LEFT_TURNING_ENCODER_REVERSED = true;

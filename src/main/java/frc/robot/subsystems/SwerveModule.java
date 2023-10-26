@@ -2,6 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/*
+ * Front Right 21
+ * Front Left 20
+ * Back Left 22
+ * Back Right 23
+ */
+
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -13,12 +20,17 @@ import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
-public class SwerveModule {
-  private final Spark driveMotor;
-  private final Spark turningMotor;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.RelativeEncoder;
 
-  private final Encoder driveEncoder;
-  private final Encoder turningEncoder;
+
+public class SwerveModule {
+  private final CANSparkMax driveMotor;
+  private final CANSparkMax turningMotor;
+
+  private final RelativeEncoder driveEncoder;
+  private final RelativeEncoder turningEncoder;
 
   private final PIDController drivePIDController =
       new PIDController(ModuleConstants.P_MODULE_DRIVE_CONTROLLER, 0, 0);
@@ -46,8 +58,8 @@ public class SwerveModule {
       int[] turningEncoderPorts,
       boolean driveEncoderReversed,
       boolean turningEncoderReversed) {
-    driveMotor = new Spark(driveMotorChannel);
-    turningMotor = new Spark(turningMotorChannel);
+    driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
+    turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
 
     this.driveEncoder = new Encoder(driveEncoderPorts[0], driveEncoderPorts[1]);
 
