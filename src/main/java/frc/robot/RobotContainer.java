@@ -91,7 +91,7 @@ public class RobotContainer {
     SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
 
     // Reset odometry to the starting pose of the trajectory.
-    robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+//    robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));

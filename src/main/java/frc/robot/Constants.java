@@ -18,30 +18,25 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
     public static final class DriveConstants {
-        public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 0;
-        public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 2;
-        public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
-        public static final int REAR_RIGHT_DRIVE_MOTOR_PORT = 6;
+        public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 1;
+        public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 7;
+        public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 8;
+        public static final int REAR_RIGHT_DRIVE_MOTOR_PORT = 3;
 
-        public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
-        public static final int REAR_LEFT_TURNING_MOTOR_PORT = 3;
-        public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
-        public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 7;
+        public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 10;
+        public static final int REAR_LEFT_TURNING_MOTOR_PORT = 6;
+        public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 2;
+        public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 9;
 
-        public static final int FRONT_LEFT_TURNING_ENCODER_PORTS = new int[]{0, 1};
-        public static final int REAR_LEFT_TURNING_ENCODER_PORTS = new int[]{2, 3};
-        public static final int FRONT_RIGHT_TURNING_ENCODER_PORTS = new int[]{4, 5};
-        public static final int REAR_RIGHT_TURNING_ENCODER_PORTS = new int[]{6, 7};
+        public static final int FRONT_LEFT_ABSOLUTE_ENCODER_PORTS = 20;
+        public static final int REAR_LEFT_ABSOLUTE_ENCODER_PORTS = 22;
+        public static final int FRONT_RIGHT_ABSOLUTE_ENCODER_PORTS = 21;
+        public static final int REAR_RIGHT_ABSOLUTE_ENCODER_PORTS = 23;
 
         public static final boolean FRONT_LEFT_TURNING_ENCODER_REVERSED = false;
         public static final boolean REAR_LEFT_TURNING_ENCODER_REVERSED = true;
         public static final boolean FRONT_RIGHT_TURNING_ENCODER_REVERSED = false;
         public static final boolean REAR_RIGHT_TURNING_ENCODER_REVERSED = true;
-
-        public static final int[] FRONT_LEFT_DRIVE_ENCODER_PORTS = new int[]{8, 9};
-        public static final int[] REAR_LEFT_DRIVE_ENCODER_PORTS = new int[]{10, 11};
-        public static final int[] FRONT_RIGHT_DRIVE_ENCODER_PORTS = new int[]{12, 13};
-        public static final int[] REAR_RIGHT_DRIVE_ENCODER_PORTS = new int[]{14, 15};
 
         public static final boolean FRONT_LEFT_DRIVE_ENCODER_REVERSED = false;
         public static final boolean REAR_LEFT_DRIVE_ENCODER_REVERSED = true;
