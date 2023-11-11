@@ -50,12 +50,12 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry odometry =
-      new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getYaw(),
+      new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, new Rotation2d(gyro.getYaw()),
               new SwerveModulePosition[] {
-                         frontLeft.,
-                         frontRight.getAbsoluteEncoderRad(),
-                         rearLeft.getAbsoluteEncoderRad(),
-                         rearRight.getAbsoluteEncoderRad()
+                         frontLeft.getSwerveModulePosition(),
+                         frontRight.getSwerveModulePosition(),
+                         rearLeft.getSwerveModulePosition(),
+                         rearRight.getSwerveModulePosition()
                        });
 
   /** Creates a new DriveSubsystem. */
@@ -65,11 +65,13 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     odometry.update(
-        gyro.getYaw(),
-        frontLeft.getState(),
-        rearLeft.getState(),
-        frontRight.getState(),
-        rearRight.getState());
+        new Rotation2d(gyro.getYaw()),
+        new SwerveModulePosition[] {
+                frontLeft.getSwerveModulePosition(),
+                frontRight.getSwerveModulePosition(),
+                rearLeft.getSwerveModulePosition(),
+                rearRight.getSwerveModulePosition()
+        });
   }
 
   /**
@@ -86,9 +88,15 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @param pose The pose to which to set the odometry.
    */
-//  public void resetOdometry(Pose2d pose) {
-//    odometry.resetPosition(pose, gyro.getRotation2d());
-//  }
+  public void resetOdometry(Pose2d pose) {
+    odometry.resetPosition(new Rotation2d(gyro.getYaw()),
+            new SwerveModulePosition[] {
+                    frontLeft.getSwerveModulePosition(),
+                    frontRight.getSwerveModulePosition(),
+                    rearLeft.getSwerveModulePosition(),
+                    rearRight.getSwerveModulePosition()
+    }, pose);
+  }
 
   /**
    * Method to drive the robot using joystick info.

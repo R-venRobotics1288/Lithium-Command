@@ -15,6 +15,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Encoder;
@@ -124,6 +125,14 @@ public class SwerveModule {
   public void resetEncoders() {
     driveEncoder.setPosition(0);
     turningEncoder.setPosition(0);
+  }
+
+  public SwerveModulePosition getSwerveModulePosition()
+  {
+    // TODO: Get gear ratio and wheel radius or use constant DRIVE_ENCODER_DISTANCE_PER_PULSE
+    return new SwerveModulePosition
+            (driveEncoder.getVelocity() / gearRatio * 2 * Math.PI + wheelRadius / 60,
+            new Rotation2d(turningEncoder.getPosition()));
   }
 
   public double getAbsoluteEncoderRad() {
