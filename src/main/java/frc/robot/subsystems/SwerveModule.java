@@ -131,8 +131,8 @@ public class SwerveModule {
   {
     // TODO: Get gear ratio and wheel radius or use constant DRIVE_ENCODER_DISTANCE_PER_PULSE
     return new SwerveModulePosition
-            (driveEncoder.getVelocity() / gearRatio * 2 * Math.PI + wheelRadius / 60,
-            new Rotation2d(turningEncoder.getPosition()));
+            (absoluteEncoder.getVelocity() / ModuleConstants.GEAR_RATIO * 2 * Math.PI + ModuleConstants.WHEEL_DIAMETER_METERS / 60,
+            new Rotation2d(absoluteEncoder.getPosition()));
   }
 
   public double getAbsoluteEncoderRad() {
