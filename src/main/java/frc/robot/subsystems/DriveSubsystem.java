@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
-  private final SwerveModule frontLeft =
+  public final SwerveModule frontLeft =
       new SwerveModule(
           DriveConstants.FRONT_LEFT_DRIVE_MOTOR_PORT,
           DriveConstants.FRONT_LEFT_TURNING_MOTOR_PORT,
@@ -21,7 +21,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.FRONT_LEFT_DRIVE_ENCODER_REVERSED,
           DriveConstants.FRONT_LEFT_TURNING_ENCODER_REVERSED);
 
-  private final SwerveModule rearLeft =
+  public final SwerveModule rearLeft =
       new SwerveModule(
           DriveConstants.REAR_LEFT_DRIVE_MOTOR_PORT,
           DriveConstants.REAR_LEFT_TURNING_MOTOR_PORT,
@@ -29,7 +29,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.REAR_LEFT_DRIVE_ENCODER_REVERSED,
           DriveConstants.REAR_LEFT_TURNING_ENCODER_REVERSED);
 
-  private final SwerveModule frontRight =
+  public final SwerveModule frontRight =
       new SwerveModule(
           DriveConstants.FRONT_RIGHT_DRIVE_MOTOR_PORT,
           DriveConstants.FRONT_RIGHT_TURNING_MOTOR_PORT,
@@ -37,7 +37,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.FRONT_RIGHT_DRIVE_ENCODER_REVERSED,
           DriveConstants.FRONT_RIGHT_TURNING_ENCODER_REVERSED);
 
-  private final SwerveModule rearRight =
+  public final SwerveModule rearRight =
       new SwerveModule(
           DriveConstants.REAR_RIGHT_DRIVE_MOTOR_PORT,
           DriveConstants.REAR_RIGHT_TURNING_MOTOR_PORT,
@@ -170,4 +170,20 @@ public class DriveSubsystem extends SubsystemBase {
 /*  public double getTurnRate() {
     return gyro.getRate() * (DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
   }*/
+
+  public double getFrontLeft() {
+    return frontLeft.getValue();
+  }
+
+  public double getRearLeft() {
+    return rearLeft.getValue();
+  }
+
+  public double getFrontRight() {
+    return frontRight.getValue();
+  }
+
+  public double getRearRight() {
+    return rearRight.getValue();
+  }
 }

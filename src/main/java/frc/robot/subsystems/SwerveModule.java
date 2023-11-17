@@ -18,12 +18,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.Constants.ModuleConstants;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
@@ -74,7 +71,7 @@ public class SwerveModule {
     driveEncoder.setPosition(ModuleConstants.DRIVE_ENCODER_DISTANCE_PER_PULSE);
 
     // Set whether drive encoder should be reversed or not
-    driveEncoder.setInverted(driveEncoderReversed);
+    // driveEncoder.setInverted(driveEncoderReversed);
 
     // Set the distance (in this case, angle) per pulse for the turning encoder.
     // This is the angle through an entire rotation (2 * pi) divided by the
@@ -82,7 +79,7 @@ public class SwerveModule {
     turningEncoder.setPosition(ModuleConstants.TURNING_ENCODER_DISTANCE_PER_PULSE);
 
     // Set whether turning encoder should be reversed or not
-    turningEncoder.setInverted(turningEncoderReversed);
+    // turningEncoder.setInverted(turningEncoderReversed);
 
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
@@ -137,6 +134,11 @@ public class SwerveModule {
 
   public double getAbsoluteEncoderRad() {
     return absoluteEncoder.getAbsolutePosition();
+  }
+
+  public double getValue()
+  {
+    return absoluteEncoder.getPosition();
   }
 
 }
