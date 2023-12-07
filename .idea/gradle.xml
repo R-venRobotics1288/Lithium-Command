@@ -5,7 +5,7 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="C:/Program Files (x86)/Gradle/gradle-7.6" />
+        <option name="gradleHome" value="$USER_HOME$/Downloads/gradle-7.6.1-all/gradle-7.6.1" />
         <option name="gradleJvm" value="11" />
         <option name="modules">
           <set>
