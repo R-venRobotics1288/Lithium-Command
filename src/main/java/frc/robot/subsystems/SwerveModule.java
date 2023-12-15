@@ -33,6 +33,8 @@ public class SwerveModule {
   private final RelativeEncoder driveEncoder;
   private final RelativeEncoder turningEncoder;
 
+  public double absoluteEnocderOffet;
+
   private final PIDController drivePIDController =
       new PIDController(ModuleConstants.P_MODULE_DRIVE_CONTROLLER, 0, 0);
 
@@ -57,7 +59,8 @@ public class SwerveModule {
       int turningMotorChannel,
       int absoluteEncoderPort,
       boolean driveEncoderReversed,
-      boolean turningEncoderReversed) {
+      boolean turningEncoderReversed,
+      double offset) {
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
     absoluteEncoder = new CANCoder(absoluteEncoderPort);
@@ -84,6 +87,8 @@ public class SwerveModule {
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
     turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+
+    absoluteEnocderOffet = offset;
   }
 
   /**
@@ -102,6 +107,7 @@ public class SwerveModule {
    */
   public void setDesiredState(SwerveModuleState desiredState) {
     // Optimize the reference state to avoid spinning further than 90 degrees
+    desiredState.angle = desiredState.angle.plus(new Rotation2d(absoluteEnocderOffet));
     SwerveModuleState state =
         SwerveModuleState.optimize(desiredState, new Rotation2d(getAbsoluteEncoderRad()));
 
@@ -111,11 +117,11 @@ public class SwerveModule {
 
     // Calculate the turning motor output from the turning PID controller.
     final var turnOutput =
-        turningPIDController.calculate(turningEncoder.getVelocity(), state.angle.getRadians());
+        turningPIDController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
 
     // Calculate the turning motor output from the turning PID controller.
-    driveMotor.set(driveOutput);
-    turningMotor.set(turnOutput);
+    driveMotor.set(driveOutput * 1.2);
+    turningMotor.set(turnOutput * 1.2);
   }
 
   /** Zeros all the SwerveModule encoders. */

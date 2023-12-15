@@ -5,21 +5,33 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
+
+  private final SlewRateLimiter xSpeedLimiter = new SlewRateLimiter(DriveConstants.SPEED_RATE_LIMIT);
+  private final SlewRateLimiter ySpeedLimiter = new SlewRateLimiter(DriveConstants.SPEED_RATE_LIMIT);
+  private final SlewRateLimiter rotSpeedLimiter = new SlewRateLimiter(DriveConstants.SPEED_ROT_LIMIT);
+
+
+
   public final SwerveModule frontLeft =
       new SwerveModule(
           DriveConstants.FRONT_LEFT_DRIVE_MOTOR_PORT,
           DriveConstants.FRONT_LEFT_TURNING_MOTOR_PORT,
           DriveConstants.FRONT_LEFT_ABSOLUTE_ENCODER_PORTS,
           DriveConstants.FRONT_LEFT_DRIVE_ENCODER_REVERSED,
-          DriveConstants.FRONT_LEFT_TURNING_ENCODER_REVERSED);
+          DriveConstants.FRONT_LEFT_TURNING_ENCODER_REVERSED,
+              DriveConstants.ENCODER_OFFSETS[0]);
 
   public final SwerveModule rearLeft =
       new SwerveModule(
@@ -27,7 +39,8 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.REAR_LEFT_TURNING_MOTOR_PORT,
           DriveConstants.REAR_LEFT_ABSOLUTE_ENCODER_PORTS,
           DriveConstants.REAR_LEFT_DRIVE_ENCODER_REVERSED,
-          DriveConstants.REAR_LEFT_TURNING_ENCODER_REVERSED);
+          DriveConstants.REAR_LEFT_TURNING_ENCODER_REVERSED,
+              DriveConstants.ENCODER_OFFSETS[1]);
 
   public final SwerveModule frontRight =
       new SwerveModule(
@@ -35,7 +48,8 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.FRONT_RIGHT_TURNING_MOTOR_PORT,
           DriveConstants.FRONT_RIGHT_ABSOLUTE_ENCODER_PORTS,
           DriveConstants.FRONT_RIGHT_DRIVE_ENCODER_REVERSED,
-          DriveConstants.FRONT_RIGHT_TURNING_ENCODER_REVERSED);
+          DriveConstants.FRONT_RIGHT_TURNING_ENCODER_REVERSED,
+              DriveConstants.ENCODER_OFFSETS[2]);
 
   public final SwerveModule rearRight =
       new SwerveModule(
@@ -43,7 +57,8 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.REAR_RIGHT_TURNING_MOTOR_PORT,
           DriveConstants.REAR_RIGHT_ABSOLUTE_ENCODER_PORTS,
           DriveConstants.REAR_RIGHT_DRIVE_ENCODER_REVERSED,
-          DriveConstants.REAR_RIGHT_TURNING_ENCODER_REVERSED);
+          DriveConstants.REAR_RIGHT_TURNING_ENCODER_REVERSED,
+              DriveConstants.ENCODER_OFFSETS[3]);
 
   // The gyro sensor
   private final PigeonIMU gyro = new PigeonIMU(30);
@@ -108,6 +123,12 @@ public class DriveSubsystem extends SubsystemBase {
    */
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    //var xspeed1 = -xSpeedLimiter.calculate(MathUtil.applyDeadband(RobotContainer
+           // .driverController.getLeftY(), Constants.ModuleConstants.DEADBAND));
+
+    //var yspeed1 = -ySpeedLimiter.calculate(MathUtil
+//.applyDeadband(RobotContainer.driverController.getLeftX(), Constants.ModuleConstants.DEADBAND));
+
     var swerveModuleStates =
         DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
             fieldRelative

@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import org.opencv.core.Mat;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -18,6 +19,20 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
     public static final class DriveConstants {
+
+        /**
+         * The Order from top to bottom is:
+         * Front Left,
+         * Rear Left,
+         * Front Right,
+         * Rear Right
+         * */
+        public static final double[] ENCODER_OFFSETS = {
+                -0.317533381283283,
+                -2.323976196348667 + Math.PI,
+                3.273508384823799 + Math.PI,
+                -2.443626455962658 + Math.PI
+        };
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 1;
         public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 7;
         public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 8;
@@ -42,6 +57,9 @@ public final class Constants {
         public static final boolean REAR_LEFT_DRIVE_ENCODER_REVERSED = true;
         public static final boolean FRONT_RIGHT_DRIVE_ENCODER_REVERSED = false;
         public static final boolean REAR_RIGHT_DRIVE_ENCODER_REVERSED = true;
+
+        public static final double SPEED_RATE_LIMIT = 1.0;
+        public static final double SPEED_ROT_LIMIT = 3.0;
 
         public static final double TRACK_WIDTH = 0.5;
         // Distance between centers of right and left wheels on robot
@@ -83,9 +101,11 @@ public final class Constants {
                 // Assumes the encoders are on a 1:1 reduction with the module shaft.
                 (2 * Math.PI) / (double) ENCODER_CPR;
 
-        public static final double P_MODULE_TURNING_CONTROLLER = 1;
+        public static final double P_MODULE_TURNING_CONTROLLER = 0.6;
 
-        public static final double P_MODULE_DRIVE_CONTROLLER = 1;
+        public static final double P_MODULE_DRIVE_CONTROLLER = 0.25;
+
+        public static final double DEADBAND = 0.1;
     }
 
     public static final class OIConstants {
