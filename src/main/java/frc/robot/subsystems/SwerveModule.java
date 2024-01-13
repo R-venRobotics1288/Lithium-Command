@@ -11,7 +11,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,7 +21,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Constants.ModuleConstants;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 
@@ -29,7 +29,7 @@ public class SwerveModule {
   private final CANSparkMax driveMotor;
   private final CANSparkMax turningMotor;
 
-  private final CANCoder absoluteEncoder;
+  private final CANcoder absoluteEncoder;
   private final RelativeEncoder driveEncoder;
   private final RelativeEncoder turningEncoder;
 
@@ -63,7 +63,7 @@ public class SwerveModule {
       double offset) {
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
-    absoluteEncoder = new CANCoder(absoluteEncoderPort);
+    absoluteEncoder = new CANcoder(absoluteEncoderPort);
 
     this.driveEncoder = driveMotor.getEncoder();
     this.turningEncoder = turningMotor.getEncoder();
@@ -134,17 +134,17 @@ public class SwerveModule {
   {
     // TODO: Get gear ratio and wheel radius or use constant DRIVE_ENCODER_DISTANCE_PER_PULSE
     return new SwerveModulePosition
-            (absoluteEncoder.getVelocity() / ModuleConstants.GEAR_RATIO * 2 * Math.PI + ModuleConstants.WHEEL_DIAMETER_METERS / 60,
-            new Rotation2d(absoluteEncoder.getPosition()));
+            (absoluteEncoder.getVelocity().getValue() / ModuleConstants.GEAR_RATIO * 2 * Math.PI + ModuleConstants.WHEEL_DIAMETER_METERS / 60,
+            new Rotation2d(absoluteEncoder.getPosition().getValue()));
   }
 
   public double getAbsoluteEncoderRad() {
-    return absoluteEncoder.getAbsolutePosition();
+    return absoluteEncoder.getAbsolutePosition().getValue();
   }
 
   public double getValue()
   {
-    return absoluteEncoder.getPosition();
+    return absoluteEncoder.getPosition().getValue();
   }
 
 }

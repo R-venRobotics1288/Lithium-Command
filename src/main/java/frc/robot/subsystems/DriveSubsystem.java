@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -61,11 +61,11 @@ public class DriveSubsystem extends SubsystemBase {
               DriveConstants.ENCODER_OFFSETS[3]);
 
   // The gyro sensor
-  private final PigeonIMU gyro = new PigeonIMU(30);
+  private final Pigeon2 gyro = new Pigeon2(30);
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry odometry =
-      new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, new Rotation2d(gyro.getYaw()),
+      new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, new Rotation2d(gyro.getYaw().getValue()),
               new SwerveModulePosition[] {
                          frontLeft.getSwerveModulePosition(),
                          frontRight.getSwerveModulePosition(),
@@ -80,7 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     odometry.update(
-        new Rotation2d(gyro.getYaw()),
+        new Rotation2d(gyro.getYaw().getValue()),
         new SwerveModulePosition[] {
                 frontLeft.getSwerveModulePosition(),
                 frontRight.getSwerveModulePosition(),
@@ -104,7 +104,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    odometry.resetPosition(new Rotation2d(gyro.getYaw()),
+    odometry.resetPosition(new Rotation2d(gyro.getYaw().getValue()),
             new SwerveModulePosition[] {
                     frontLeft.getSwerveModulePosition(),
                     frontRight.getSwerveModulePosition(),
@@ -175,11 +175,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return gyro.getYaw();
+    return gyro.getYaw().getValue();
   }
 
   private double getGyroValue() {
-    return gyro.getYaw() * Math.PI / 180;
+    return gyro.getYaw().getValue() * Math.PI / 180;
   }
 
 

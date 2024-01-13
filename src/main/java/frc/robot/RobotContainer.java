@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-//import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -74,52 +74,33 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //// Create config for trajectory
-    //TrajectoryConfig config =
-    //    new TrajectoryConfig(
-    //            AutoConstants.MAX_SPEED_METERS_PER_SECOND,
-    //            AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
-    //        // Add kinematics to ensure max speed is actually obeyed
-    //        .setKinematics(DriveConstants.DRIVE_KINEMATICS);
-    //
-    //// An example trajectory to follow.  All units in meters.
-    //Trajectory exampleTrajectory =
-    //    TrajectoryGenerator.generateTrajectory(
-    //        // Start at the origin facing the +X direction
-    //        new Pose2d(0, 0, new Rotation2d(0)),
-    //        // Pass through these two interior waypoints, making an 's' curve path
-    //        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-    //        // End 3 meters straight ahead of where we started, facing forward
-    //        new Pose2d(3, 0, new Rotation2d(0)),
-    //        config);
-    //
-    //SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
-    //
-    //// Reset odometry to the starting pose of the trajectory.
-    //robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-    //
-    //// Run path following command, then stop at the end.
-    //return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
-    //}
+    TrajectoryConfig config =
+       new TrajectoryConfig(
+               AutoConstants.MAX_SPEED_METERS_PER_SECOND,
+               AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+           // Add kinematics to ensure max speed is actually obeyed
+           .setKinematics(DriveConstants.DRIVE_KINEMATICS);
     
     // An example trajectory to follow.  All units in meters.
     Trajectory exampleTrajectory =
-        TrajectoryGenerator.generateTrajectory(
-            // Start at the origin facing the +X direction
-            new Pose2d(0, 0, new Rotation2d(0)),
-            // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-            // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(3, 0, new Rotation2d(0)),
-            config);
-
+       TrajectoryGenerator.generateTrajectory(
+           // Start at the origin facing the +X direction
+           new Pose2d(0, 0, new Rotation2d(0)),
+           // Pass through these two interior waypoints, making an 's' curve path
+           List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+           // End 3 meters straight ahead of where we started, facing forward
+           new Pose2d(3, 0, new Rotation2d(0)),
+           config);
+    
     SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
-
+    
     // Reset odometry to the starting pose of the trajectory.
-//    robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-
+    robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
-  }
+    }
+  
 
   private SwerveControllerCommand getSwerveControllerCommand(Trajectory exampleTrajectory) {
     var thetaController =
@@ -142,3 +123,4 @@ public class RobotContainer {
     return swerveControllerCommand;
 
   }
+}
