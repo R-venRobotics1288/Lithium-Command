@@ -7,15 +7,18 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -32,7 +35,7 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   public final DriveSubsystem robotDrive = new DriveSubsystem();
-
+  public final CameraSubsystem robotCamera = new CameraSubsystem();
 
   // The driver's controller
   public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
@@ -43,20 +46,18 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    //robotDrive.setDefaultCommand(
-    //  // The left stick controls translation of the robot.
-    //  // Turning is controlled by the X axis of the right stick.
-    //  new RunCommand(
-    //    () -> {
-    //      robotDrive.drive(
-    //        driverController.getLeftY(),
-    //        driverController.getLeftX(),
-    //        driverController.getRightX(),
-    //      false);
-    //    },
-    //    robotDrive
-    //  )
-    //);
+    robotCamera.setDefaultCommand(
+      // The left stick controls translation of the robot.
+      // Turning is controlled by the X axis of the right stick.
+      new RunCommand(
+        () -> {
+          Pose3d estimatedPose = robotCamera.getLastEstimatedRobotPose();
+          SmartDashboard.putNumberArray("Camera Estimated Position", new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
+          SmartDashboard.putNumberArray("Camera Estimated Rotation", new double[] { Math.toDegrees(estimatedPose.getRotation().getX()), Math.toDegrees(estimatedPose.getRotation().getY()), Math.toDegrees(estimatedPose.getRotation().getZ()) });
+        },
+        robotCamera
+      )
+    );
   }
 
   /**
