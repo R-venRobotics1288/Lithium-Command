@@ -86,6 +86,7 @@ public final class Constants {
     }
 
     public static final class ModuleConstants {
+        public static final String CAMERA_NAME = "raven1288";
         public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI;
         public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2 * Math.PI;
 
