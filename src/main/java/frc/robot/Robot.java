@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -54,11 +55,10 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Front Left Encoder", robotContainer.robotDrive.getFrontLeft());
-    SmartDashboard.putNumber("Front Right Encoder", robotContainer.robotDrive.getFrontRight());
-    SmartDashboard.putNumber("Rear Left Encoder", robotContainer.robotDrive.getRearLeft());
-    SmartDashboard.putNumber("Rear Right Encoder", robotContainer.robotDrive.getRearRight());
-
+    // SmartDashboard.putNumber("Front Left Encoder", robotContainer.robotDrive.getFrontLeft());
+    // SmartDashboard.putNumber("Front Right Encoder", robotContainer.robotDrive.getFrontRight());
+    // SmartDashboard.putNumber("Rear Left Encoder", robotContainer.robotDrive.getRearLeft());
+    // SmartDashboard.putNumber("Rear Right Encoder", robotContainer.robotDrive.getRearRight());
 
 
   }
@@ -75,12 +75,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    autonomousCommand = robotContainer.getAutonomousCommand();
-
+    // autonomousCommand = robotContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
-    }
+    
+    // if (autonomousCommand != null) {
+    //   autonomousCommand.schedule();
+    // }
   }
 
   /** This function is called periodically during autonomous. */
@@ -93,15 +93,14 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
-    }
+    // if (autonomousCommand != null) {
+    //   autonomousCommand.cancel();
+    // }
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
   }
 
   @Override
@@ -113,6 +112,5 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-
   }
 }

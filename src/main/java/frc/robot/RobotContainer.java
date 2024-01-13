@@ -7,15 +7,18 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -31,11 +34,11 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  public final DriveSubsystem robotDrive = new DriveSubsystem();
-
+  // public final DriveSubsystem robotDrive = new DriveSubsystem();
+  public final CameraSubsystem robotCamera = new CameraSubsystem();
 
   // The driver's controller
-  public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  // public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -43,20 +46,18 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    //robotDrive.setDefaultCommand(
-    //  // The left stick controls translation of the robot.
-    //  // Turning is controlled by the X axis of the right stick.
-    //  new RunCommand(
-    //    () -> {
-    //      robotDrive.drive(
-    //        driverController.getLeftY(),
-    //        driverController.getLeftX(),
-    //        driverController.getRightX(),
-    //      false);
-    //    },
-    //    robotDrive
-    //  )
-    //);
+    robotCamera.setDefaultCommand(
+      // The left stick controls translation of the robot.
+      // Turning is controlled by the X axis of the right stick.
+      new RunCommand(
+        () -> {
+          Pose3d estimatedPose = robotCamera.getLastEstimatedRobotPose(false);
+          SmartDashboard.putNumberArray("Camera Estimated Position", new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
+          SmartDashboard.putNumberArray("Camera Estimated Rotation", new double[] { Math.toDegrees(estimatedPose.getRotation().getX()), Math.toDegrees(estimatedPose.getRotation().getY()), Math.toDegrees(estimatedPose.getRotation().getZ()) });
+        },
+        robotCamera
+      )
+    );
   }
 
   /**
@@ -72,55 +73,55 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    //// Create config for trajectory
-    TrajectoryConfig config =
-       new TrajectoryConfig(
-               AutoConstants.MAX_SPEED_METERS_PER_SECOND,
-               AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
-           // Add kinematics to ensure max speed is actually obeyed
-           .setKinematics(DriveConstants.DRIVE_KINEMATICS);
+  // public Command getAutonomousCommand() {
+  //   //// Create config for trajectory
+  //   TrajectoryConfig config =
+  //      new TrajectoryConfig(
+  //              AutoConstants.MAX_SPEED_METERS_PER_SECOND,
+  //              AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+  //          // Add kinematics to ensure max speed is actually obeyed
+  //          .setKinematics(DriveConstants.DRIVE_KINEMATICS);
     
-    // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory =
-       TrajectoryGenerator.generateTrajectory(
-           // Start at the origin facing the +X direction
-           new Pose2d(0, 0, new Rotation2d(0)),
-           // Pass through these two interior waypoints, making an 's' curve path
-           List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-           // End 3 meters straight ahead of where we started, facing forward
-           new Pose2d(3, 0, new Rotation2d(0)),
-           config);
+  //   // An example trajectory to follow.  All units in meters.
+  //   Trajectory exampleTrajectory =
+  //      TrajectoryGenerator.generateTrajectory(
+  //          // Start at the origin facing the +X direction
+  //          new Pose2d(0, 0, new Rotation2d(0)),
+  //          // Pass through these two interior waypoints, making an 's' curve path
+  //          List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+  //          // End 3 meters straight ahead of where we started, facing forward
+  //          new Pose2d(3, 0, new Rotation2d(0)),
+  //          config);
     
-    SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
+  //   // SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
     
-    // Reset odometry to the starting pose of the trajectory.
-    robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+  //   // Reset odometry to the starting pose of the trajectory.
+  //   // robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
     
-    // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
-    }
+  //   // Run path following command, then stop at the end.
+  //   // return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
+  //   }
   
 
-  private SwerveControllerCommand getSwerveControllerCommand(Trajectory exampleTrajectory) {
-    var thetaController =
-        new ProfiledPIDController(
-            AutoConstants.P_THETA_CONTROLLER, 0, 0, AutoConstants.THETA_CONTROLLER_CONSTRAINTS);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+  // private SwerveControllerCommand getSwerveControllerCommand(Trajectory exampleTrajectory) {
+  //   var thetaController =
+  //       new ProfiledPIDController(
+  //           AutoConstants.P_THETA_CONTROLLER, 0, 0, AutoConstants.THETA_CONTROLLER_CONSTRAINTS);
+  //   thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    SwerveControllerCommand swerveControllerCommand =
-        new SwerveControllerCommand(
-                exampleTrajectory,
-            robotDrive::getPose, // Functional interface to feed supplier
-            DriveConstants.DRIVE_KINEMATICS,
+  //   SwerveControllerCommand swerveControllerCommand =
+  //       new SwerveControllerCommand(
+  //               exampleTrajectory,
+  //           robotDrive::getPose, // Functional interface to feed supplier
+  //           DriveConstants.DRIVE_KINEMATICS,
 
-            // Position controllers
-            new PIDController(AutoConstants.PX_CONTROLLER, 0, 0),
-            new PIDController(AutoConstants.PY_CONTROLLER, 0, 0),
-            thetaController,
-            robotDrive::setModuleStates,
-                robotDrive);
-    return swerveControllerCommand;
+  //           // Position controllers
+  //           new PIDController(AutoConstants.PX_CONTROLLER, 0, 0),
+  //           new PIDController(AutoConstants.PY_CONTROLLER, 0, 0),
+  //           thetaController,
+  //           robotDrive::setModuleStates,
+  //               robotDrive);
+  //   return swerveControllerCommand;
 
-  }
+  // }
 }
