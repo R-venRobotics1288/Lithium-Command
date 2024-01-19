@@ -58,6 +58,13 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Front Right Encoder", robotContainer.robotDrive.getFrontRight());
     SmartDashboard.putNumber("Rear Left Encoder", robotContainer.robotDrive.getRearLeft());
     SmartDashboard.putNumber("Rear Right Encoder", robotContainer.robotDrive.getRearRight());
+    SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
+    SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
+    SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRightX());
+    SmartDashboard.putNumber("Right Joystick Y", robotContainer.driverController.getRightY());
+
+
+
 
 
 

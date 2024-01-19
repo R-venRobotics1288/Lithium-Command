@@ -2,36 +2,34 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-/*
- * Front Right 21
- * Front Left 20
- * Back Left 22
- * Back Right 23
- */
-
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
 
 
 public class SwerveModule {
   private final CANSparkMax driveMotor;
   private final CANSparkMax turningMotor;
 
-  private final CANcoder absoluteEncoder;
+  private final RelativeEncoder absoluteEncoder;
+    private final SparkMaxAlternateEncoder.Type absoluteEncoderType = SparkMaxAlternateEncoder.Type.kQuadrature;
+
   private final RelativeEncoder driveEncoder;
   private final RelativeEncoder turningEncoder;
+
+
 
   public double absoluteEnocderOffet;
 
@@ -57,16 +55,17 @@ public class SwerveModule {
   public SwerveModule(
       int driveMotorChannel,
       int turningMotorChannel,
-      int absoluteEncoderPort,
-      boolean driveEncoderReversed,
-      boolean turningEncoderReversed,
+      boolean IsRevsred,
       double offset) {
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
-    absoluteEncoder = new CANcoder(absoluteEncoderPort);
+
+    absoluteEncoder = driveMotor.getAlternateEncoder(absoluteEncoderType, Constants.ModuleConstants.ENCODER_CPR);
 
     this.driveEncoder = driveMotor.getEncoder();
     this.turningEncoder = turningMotor.getEncoder();
+
+    // driveEncoder.setPositionConversionFactor(2 * Math.PI * Constants.ModuleConstants.WHEEL_DIAMETER_METERS / Constants.ModuleConstants.ENCODER_CPR);
 
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
@@ -87,6 +86,12 @@ public class SwerveModule {
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
     turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+
+    if (IsRevsred)
+    {
+      turningMotor.setInverted(true);
+      turningMotor.burnFlash();
+    }
 
     absoluteEnocderOffet = offset;
   }
@@ -113,15 +118,16 @@ public class SwerveModule {
 
     // Calculate the drive output from the drive PID controller.
     final double driveOutput =
-        drivePIDController.calculate(driveEncoder.getVelocity(), state.speedMetersPerSecond);
+        drivePIDController.calculate(100, state.speedMetersPerSecond);
+        System.out.println(driveEncoder.getVelocity());
 
     // Calculate the turning motor output from the turning PID controller.
     final var turnOutput =
         turningPIDController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
 
     // Calculate the turning motor output from the turning PID controller.
-    driveMotor.set(driveOutput * 1.2);
-    turningMotor.set(turnOutput * 1.2);
+    driveMotor.set(driveOutput);
+    turningMotor.set(turnOutput / 5);
   }
 
   /** Zeros all the SwerveModule encoders. */
@@ -134,17 +140,23 @@ public class SwerveModule {
   {
     // TODO: Get gear ratio and wheel radius or use constant DRIVE_ENCODER_DISTANCE_PER_PULSE
     return new SwerveModulePosition
-            (absoluteEncoder.getVelocity().getValue() / ModuleConstants.GEAR_RATIO * 2 * Math.PI + ModuleConstants.WHEEL_DIAMETER_METERS / 60,
-            new Rotation2d(absoluteEncoder.getPosition().getValue()));
+            (absoluteEncoder.getVelocity() / ModuleConstants.GEAR_RATIO * 2 * Math.PI + ModuleConstants.WHEEL_DIAMETER_METERS / 60,
+            new Rotation2d(absoluteEncoder.getPosition()));
   }
 
   public double getAbsoluteEncoderRad() {
-    return absoluteEncoder.getAbsolutePosition().getValue();
+    return absoluteEncoder.getPosition();
   }
 
   public double getValue()
   {
-    return absoluteEncoder.getPosition().getValue();
+    return absoluteEncoder.getPosition();
+  }
+
+  public void stop()
+  {
+    driveMotor.set(0);
+    turningMotor.set(0);
   }
 
 }

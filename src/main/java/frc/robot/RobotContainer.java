@@ -42,22 +42,41 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+
     // Configure default commands
-    //robotDrive.setDefaultCommand(
-    //  // The left stick controls translation of the robot.
-    //  // Turning is controlled by the X axis of the right stick.
-    //  new RunCommand(
-    //    () -> {
-    //      robotDrive.drive(
-    //        driverController.getLeftY(),
-    //        driverController.getLeftX(),
-    //        driverController.getRightX(),
-    //      false);
-    //    },
-    //    robotDrive
-    //  )
-    //);
+
+          robotDrive.setDefaultCommand(
+            // The left stick controls translation of the robot.
+            // Turning is controlled by the X axis of the right stick.
+            new RunCommand(
+              () -> {
+                driveContainer();
+              },
+              robotDrive
+            )
+            );
+
+    
+
   }
+
+private void driveContainer() 
+{
+    final double DEADBAND = 0.4;
+    if (Math.abs(driverController.getLeftY()) > DEADBAND || Math.abs(driverController.getLeftX()) > DEADBAND)
+    {
+      robotDrive.drive(
+                  driverController.getLeftY(),
+                  driverController.getLeftX(),
+                  driverController.getRightX(),
+                false);
+    }
+    else
+    {
+      robotDrive.stop();
+    }
+
+}
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
