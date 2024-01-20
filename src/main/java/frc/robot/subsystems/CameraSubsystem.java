@@ -10,6 +10,7 @@ import frc.robot.Constants;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.common.hardware.VisionLEDMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -21,10 +22,11 @@ public class CameraSubsystem extends SubsystemBase {
     private Pose3d estimatedRobotPose = new Pose3d();
 
     public CameraSubsystem() {
-        this.photonCamera = new PhotonCamera(Constants.ModuleConstants.CAMERA_NAME);
-        if (!photonCamera.isConnected()) {
-            throw new RuntimeException("Camera isn't connected!");
-        }
+        this.photonCamera = new PhotonCamera("raven1288");
+        //photonCamera.setLED(VisionLEDMode.kBlink);
+        //if (!photonCamera.isConnected()) {
+          //  throw new RuntimeException("Camera isn't connected!");
+        //  }
 
         try {
             this.aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
@@ -35,6 +37,10 @@ public class CameraSubsystem extends SubsystemBase {
 
     public Pose3d getLastEstimatedRobotPose() {
         return estimatedRobotPose;
+    }
+
+    public PhotonPipelineResult rawresult() {
+        return photonCamera.getLatestResult();
     }
 
     @Override
