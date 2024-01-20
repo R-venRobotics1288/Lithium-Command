@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -62,8 +63,7 @@ public class RobotContainer {
 
 private void driveContainer() 
 {
-    final double DEADBAND = 0.4;
-    if (Math.abs(driverController.getLeftY()) > DEADBAND || Math.abs(driverController.getLeftX()) > DEADBAND)
+    if (Math.abs(driverController.getLeftY()) > ModuleConstants.DEADBAND || Math.abs(driverController.getLeftX()) > ModuleConstants.DEADBAND)
     {
       robotDrive.drive(
                   driverController.getLeftY(),

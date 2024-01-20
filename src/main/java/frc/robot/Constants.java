@@ -98,7 +98,7 @@ public final class Constants {
         public static final double DRIVING_ENCODER_VELOCITY_FACTOR = ((WHEEL_DIAMETER_METERS * Math.PI) / DRIVING_MOTOR_REDUCTION) / 60.0;
         public static final double TURNING_ENCODER_POSITION_FACTOR =  (Math.PI * 2);
 
-        public static final double DEADBAND = 0.4;
+        public static final double DEADBAND = 0.05;
     }
 
     public static final class OIConstants {

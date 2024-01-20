@@ -10,8 +10,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
+
+import org.opencv.core.Mat;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
@@ -26,7 +29,7 @@ public class SwerveModule {
   private final CANSparkMax turningMotor;
 
   private final SparkAbsoluteEncoder absoluteEncoder;
- // private final SparkMaxAlternateEncoder.Type absoluteEncoderType = SparkMaxAlternateEncoder.Type.kQuadrature;
+  // private final SparkMaxAlternateEncoder.Type absoluteEncoderType = SparkMaxAlternateEncoder.Type.kQuadrature;
 
   private final RelativeEncoder driveEncoder;
   private final RelativeEncoder turningEncoder;
@@ -37,14 +40,11 @@ public class SwerveModule {
       new PIDController(ModuleConstants.P_MODULE_DRIVE_CONTROLLER, 0, 0);
 
   // Using a TrapezoidProfile PIDController to allow for smooth turning
-  private final ProfiledPIDController turningPIDController =
-      new ProfiledPIDController(
+  private final PIDController turningPIDController =
+      new PIDController(
           ModuleConstants.P_MODULE_TURNING_CONTROLLER,
           0,
-          0,
-          new TrapezoidProfile.Constraints(
-              ModuleConstants.MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND,
-              ModuleConstants.MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED));
+          0);
 
   /**
    * Constructs a SwerveModule.
@@ -71,8 +71,8 @@ public class SwerveModule {
     driveEncoder.setVelocityConversionFactor(ModuleConstants.DRIVING_ENCODER_VELOCITY_FACTOR);
     turningEncoder.setPositionConversionFactor(ModuleConstants.TURNING_ENCODER_POSITION_FACTOR);
     turningEncoder.setVelocityConversionFactor(ModuleConstants.DRIVING_ENCODER_VELOCITY_FACTOR);
-
-    // absoluteEncoder.setPositionConversionFactor(ModuleConstants.TURNING_ENCODER_POSITION_FACTOR);
+   // absoluteEncoder.setVelocityConversionFactor(ModuleConstants.DRIVING_ENCODER_VELOCITY_FACTOR);
+   // absoluteEncoder.setPositionConversionFactor(ModuleConstants.TURNING_ENCODER_POSITION_FACTOR);
 
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
@@ -118,6 +118,7 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
+    XboxController drivController = new XboxController(0);
     // Optimize the reference state to avoid spinning further than 90 degrees
     desiredState.angle = desiredState.angle.plus(new Rotation2d(absoluteEnocderOffet));
     SwerveModuleState state =
@@ -130,11 +131,11 @@ public class SwerveModule {
 
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput =
-        turningPIDController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
+        turningPIDController.calculate(absoluteEncoder.getVelocity(), state.angle.getRadians());
 
     // Calculate the turning motor output from the turning PID controller
-    driveMotor.set(driveOutput);
-    turningMotor.set(turnOutput / 5);
+    driveMotor.set(drivController.getLeftY());
+    turningMotor.set(drivController.getLeftX());
   }
 
   /** Zeros all the SwerveModule encoders. */
@@ -153,12 +154,12 @@ public class SwerveModule {
   }
 
   public double getAbsoluteEncoderRad() {
-    return Math.toDegrees(absoluteEncoder.getPosition());
+    return (absoluteEncoder.getPosition() * (2 * Math.PI));
   }
 
   public double getValue()
   {
-    return getAbsoluteEncoderRad();
+    return (absoluteEncoder.getPosition());
   }
 
   public void stop()
