@@ -13,9 +13,11 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 
 
@@ -24,12 +26,10 @@ public class SwerveModule {
   private final CANSparkMax turningMotor;
 
   private final RelativeEncoder absoluteEncoder;
-    private final SparkMaxAlternateEncoder.Type absoluteEncoderType = SparkMaxAlternateEncoder.Type.kQuadrature;
+  private final SparkMaxAlternateEncoder.Type absoluteEncoderType = SparkMaxAlternateEncoder.Type.kQuadrature;
 
   private final RelativeEncoder driveEncoder;
   private final RelativeEncoder turningEncoder;
-
-
 
   public double absoluteEnocderOffet;
 
@@ -56,16 +56,23 @@ public class SwerveModule {
       int driveMotorChannel,
       int turningMotorChannel,
       boolean IsRevsred,
-      double offset) {
+      double offset) 
+    {
+
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
 
-    absoluteEncoder = driveMotor.getAlternateEncoder(absoluteEncoderType, Constants.ModuleConstants.ENCODER_CPR);
+    //absoluteEncoder = turningMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+    absoluteEncoder = turningMotor.getAlternateEncoder(absoluteEncoderType, Constants.ModuleConstants.ENCODER_CPR);
 
     this.driveEncoder = driveMotor.getEncoder();
     this.turningEncoder = turningMotor.getEncoder();
 
-    // driveEncoder.setPositionConversionFactor(2 * Math.PI * Constants.ModuleConstants.WHEEL_DIAMETER_METERS / Constants.ModuleConstants.ENCODER_CPR);
+    driveEncoder.setVelocityConversionFactor(ModuleConstants.DRIVING_ENCODER_VELOCITY_FACTOR);
+    turningEncoder.setPositionConversionFactor(ModuleConstants.TURNING_ENCODER_POSITION_FACTOR);
+    turningEncoder.setVelocityConversionFactor(ModuleConstants.DRIVING_ENCODER_VELOCITY_FACTOR);
+
+    // absoluteEncoder.setPositionConversionFactor(ModuleConstants.TURNING_ENCODER_POSITION_FACTOR);
 
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
@@ -115,17 +122,17 @@ public class SwerveModule {
     desiredState.angle = desiredState.angle.plus(new Rotation2d(absoluteEnocderOffet));
     SwerveModuleState state =
         SwerveModuleState.optimize(desiredState, new Rotation2d(getAbsoluteEncoderRad()));
+    System.out.println(state.angle);
 
     // Calculate the drive output from the drive PID controller.
     final double driveOutput =
-        drivePIDController.calculate(100, state.speedMetersPerSecond);
-        System.out.println(driveEncoder.getVelocity());
+        drivePIDController.calculate(driveEncoder.getVelocity(), state.speedMetersPerSecond * 2);
 
     // Calculate the turning motor output from the turning PID controller.
-    final var turnOutput =
+    final double turnOutput =
         turningPIDController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians());
 
-    // Calculate the turning motor output from the turning PID controller.
+    // Calculate the turning motor output from the turning PID controller
     driveMotor.set(driveOutput);
     turningMotor.set(turnOutput / 5);
   }
@@ -138,19 +145,20 @@ public class SwerveModule {
 
   public SwerveModulePosition getSwerveModulePosition()
   {
-    // TODO: Get gear ratio and wheel radius or use constant DRIVE_ENCODER_DISTANCE_PER_PULSE
     return new SwerveModulePosition
             (absoluteEncoder.getVelocity() / ModuleConstants.GEAR_RATIO * 2 * Math.PI + ModuleConstants.WHEEL_DIAMETER_METERS / 60,
-            new Rotation2d(absoluteEncoder.getPosition()));
+          new Rotation2d(absoluteEncoder.getPosition()));
+
+    // return new SwerveModulePosition(100, new Rotation2d(absoluteEncoder.getPosition()));
   }
 
   public double getAbsoluteEncoderRad() {
-    return absoluteEncoder.getPosition();
+    return Math.toDegrees(absoluteEncoder.getPosition());
   }
 
   public double getValue()
   {
-    return absoluteEncoder.getPosition();
+    return getAbsoluteEncoderRad();
   }
 
   public void stop()

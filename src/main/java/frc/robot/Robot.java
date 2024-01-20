@@ -61,7 +61,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
     SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
     SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRightX());
-    SmartDashboard.putNumber("Right Joystick Y", robotContainer.driverController.getRightY());
 
 
 

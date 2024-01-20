@@ -120,7 +120,7 @@ public class DriveSubsystem extends SubsystemBase {
     //var ySpeed1 = -ySpeedLimiter.calculate(MathUtil
 //.applyDeadband(RobotContainer.driverController.getLeftX(), Constants.ModuleConstants.DEADBAND));
 
-    var swerveModuleStates =
+    SwerveModuleState[] swerveModuleStates =
         DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, new Rotation2d(getGyroValue()))
