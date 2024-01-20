@@ -25,8 +25,8 @@ public class SwerveModule {
   private final CANSparkMax driveMotor;
   private final CANSparkMax turningMotor;
 
-  private final RelativeEncoder absoluteEncoder;
-  private final SparkMaxAlternateEncoder.Type absoluteEncoderType = SparkMaxAlternateEncoder.Type.kQuadrature;
+  private final SparkAbsoluteEncoder absoluteEncoder;
+ // private final SparkMaxAlternateEncoder.Type absoluteEncoderType = SparkMaxAlternateEncoder.Type.kQuadrature;
 
   private final RelativeEncoder driveEncoder;
   private final RelativeEncoder turningEncoder;
@@ -62,8 +62,8 @@ public class SwerveModule {
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
 
-    //absoluteEncoder = turningMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-    absoluteEncoder = turningMotor.getAlternateEncoder(absoluteEncoderType, Constants.ModuleConstants.ENCODER_CPR);
+    absoluteEncoder = turningMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+    //absoluteEncoder = turningMotor.getAlternateEncoder(absoluteEncoderType, Constants.ModuleConstants.ENCODER_CPR);
 
     this.driveEncoder = driveMotor.getEncoder();
     this.turningEncoder = turningMotor.getEncoder();
