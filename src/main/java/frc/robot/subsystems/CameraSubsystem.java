@@ -47,9 +47,9 @@ public class CameraSubsystem extends SubsystemBase {
     public void periodic() {
         PhotonPipelineResult result = photonCamera.getLatestResult();
         if (result.hasTargets()) {
-            PhotonPoseEstimator poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d()); // TODO: enable multitag PNP on CoProc (RasPi web interface)
-            poseEstimator.setReferencePose(estimatedRobotPose);
-            estimatedRobotPose = poseEstimator.update().get().estimatedPose;
+            //PhotonPoseEstimator poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d()); // TODO: enable multitag PNP on CoProc (RasPi web interface)
+            //poseEstimator.setReferencePose(estimatedRobotPose);
+            //estimatedRobotPose = poseEstimator.update().get().estimatedPose;
         }
     }
 }
