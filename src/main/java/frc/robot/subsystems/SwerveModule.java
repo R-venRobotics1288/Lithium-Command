@@ -80,15 +80,15 @@ public class SwerveModule {
     // to 10 degrees will go through 0 rather than the other direction which is a
     // longer route.
     m_turningPIDController.setPositionPIDWrappingEnabled(true);
-    m_turningPIDController.setPositionPIDWrappingMinInput(ModuleConstants.kTurningEncoderPositionPIDMinInput);
-    m_turningPIDController.setPositionPIDWrappingMaxInput(ModuleConstants.kTurningEncoderPositionPIDMaxInput);
+    m_turningPIDController.setPositionPIDWrappingMinInput(ModuleConstants.kTurningEncoderPositionPIDMinInput); // Min 0
+    m_turningPIDController.setPositionPIDWrappingMaxInput(ModuleConstants.kTurningEncoderPositionPIDMaxInput); // Max 2 * PI
 
     // Set the PID gains for the driving motor. Note these are example gains, and you
     // may need to tune them for your own robot!
     m_drivingPIDController.setP(ModuleConstants.P_MODULE_DRIVE_CONTROLLER);
     m_drivingPIDController.setI(0);
     m_drivingPIDController.setD(0);
-    m_drivingPIDController.setFF(1 / ModuleConstants.kDriveWheelFreeSpeedRps);
+    m_drivingPIDController.setFF(1 / ModuleConstants.kDriveWheelFreeSpeedRps); // FF Value - 0.20875544852568829440720072304831
     m_drivingPIDController.setOutputRange(-1, 1);
 
     // Set the PID gains for the turning motor. Note these are example gains, and you
