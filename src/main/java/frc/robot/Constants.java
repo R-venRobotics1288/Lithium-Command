@@ -106,7 +106,7 @@ public final class Constants {
         public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
         public static final double kWheelCircumferenceMeters = WHEEL_DIAMETER_METERS * Math.PI;
         public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
-        / DRIVING_MOTOR_REDUCTION;
+        / DRIVING_MOTOR_REDUCTION; // Current value 4.7902941315418912960821043628581
 
 
 
