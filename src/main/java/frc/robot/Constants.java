@@ -27,12 +27,20 @@ public final class Constants {
          * Front Right,
          * Rear Right
          * */
+        // public static final double[] ENCODER_OFFSETS = {
+        //         0.0006103515625,
+        //         0.0001220703125,
+        //         0.0010986328125,
+        //         0.00048828125
+        // };
+
         public static final double[] ENCODER_OFFSETS = {
-                0.0006103515625,
-                0.0001220703125,
-                0.0010986328125,
-                0.00048828125
+                -Math.PI / 2,
+                Math.PI,
+                0,
+                (Math.PI / 2) + Math.PI
         };
+
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 4;
         public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 5;
         public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 3;
@@ -87,18 +95,33 @@ public final class Constants {
                 // Assumes the encoders are on a 1:1 reduction with the module shaft.
                 (2 * Math.PI) / (double) ENCODER_CPR;
 
-        public static final double P_MODULE_TURNING_CONTROLLER = 0.25;
+        public static final double P_MODULE_TURNING_CONTROLLER = 0.04;
 
-        public static final double P_MODULE_DRIVE_CONTROLLER = 0.25;
+        public static final double P_MODULE_DRIVE_CONTROLLER = 0.04;
 
         public static final int DRIVING_MOTOR_PINION_TEETH = 14;
 
         public static final double DRIVING_MOTOR_REDUCTION = (45.0 * 22) / (DRIVING_MOTOR_PINION_TEETH * 15);
 
-        public static final double DRIVING_ENCODER_VELOCITY_FACTOR = ((WHEEL_DIAMETER_METERS * Math.PI) / DRIVING_MOTOR_REDUCTION) / 60.0;
-        public static final double TURNING_ENCODER_POSITION_FACTOR =  (Math.PI * 2);
+        public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
+        public static final double kWheelCircumferenceMeters = WHEEL_DIAMETER_METERS * Math.PI;
+        public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
+        / DRIVING_MOTOR_REDUCTION;
 
-        public static final double DEADBAND = 0.05;
+
+
+        public static final double kDrivingEncoderPositionFactor = (WHEEL_DIAMETER_METERS * Math.PI)
+        / DRIVING_MOTOR_REDUCTION; // meters
+    public static final double kDrivingEncoderVelocityFactor = ((WHEEL_DIAMETER_METERS * Math.PI)
+        / DRIVING_MOTOR_REDUCTION) / 60.0; // meters per second
+
+    public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
+    public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
+
+    public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
+    public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
+        
+    public static final double DEADBAND = 0.05;
     }
 
     public static final class OIConstants {
@@ -120,4 +143,8 @@ public final class Constants {
                 new TrapezoidProfile.Constraints(
                         MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
     }
+
+    public static final class NeoMotorConstants {
+        public static final double kFreeSpeedRpm = 5676;
+      }
 }

@@ -27,29 +27,25 @@ public class DriveSubsystem extends SubsystemBase {
 			new SwerveModule(
 					DriveConstants.FRONT_LEFT_DRIVE_MOTOR_PORT,
 					DriveConstants.FRONT_LEFT_TURNING_MOTOR_PORT,
-					false,
-							DriveConstants.ENCODER_OFFSETS[0]);
+							DriveConstants.ENCODER_OFFSETS[0], true);
 
 	public final SwerveModule rearLeft =
 			new SwerveModule(
 					DriveConstants.REAR_LEFT_DRIVE_MOTOR_PORT,
 					DriveConstants.REAR_LEFT_TURNING_MOTOR_PORT,
-					false,
-							DriveConstants.ENCODER_OFFSETS[1]);
+							DriveConstants.ENCODER_OFFSETS[1], true);
 
 	public final SwerveModule frontRight =
 			new SwerveModule(
 					DriveConstants.FRONT_RIGHT_DRIVE_MOTOR_PORT,
 					DriveConstants.FRONT_RIGHT_TURNING_MOTOR_PORT,
-					false,
-							DriveConstants.ENCODER_OFFSETS[2]);
+							DriveConstants.ENCODER_OFFSETS[2], true);
 
 	public final SwerveModule rearRight =
 			new SwerveModule(
 					DriveConstants.REAR_RIGHT_DRIVE_MOTOR_PORT,
 					DriveConstants.REAR_RIGHT_TURNING_MOTOR_PORT,
-					false,
-							DriveConstants.ENCODER_OFFSETS[3]);
+							DriveConstants.ENCODER_OFFSETS[3], true);
 
 	// The gyro sensor
 	private final PigeonIMU gyro = new PigeonIMU(30);
@@ -57,10 +53,10 @@ public class DriveSubsystem extends SubsystemBase {
 	// Odometry class for tracking robot pose
 	SwerveDriveOdometry odometry = new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, new Rotation2d(gyro.getYaw()),
 		new SwerveModulePosition[] {
-			frontLeft.getSwerveModulePosition(),
-			frontRight.getSwerveModulePosition(),
-			rearLeft.getSwerveModulePosition(),
-			rearRight.getSwerveModulePosition()
+			frontLeft.getPosition(),
+			frontRight.getPosition(),
+			rearLeft.getPosition(),
+			rearRight.getPosition()
 		}
 	);
 
@@ -73,10 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
 		odometry.update(
 				new Rotation2d(gyro.getYaw()),
 				new SwerveModulePosition[] {
-								frontLeft.getSwerveModulePosition(),
-								frontRight.getSwerveModulePosition(),
-								rearLeft.getSwerveModulePosition(),
-								rearRight.getSwerveModulePosition()
+								frontLeft.getPosition(),
+								frontRight.getPosition(),
+								rearLeft.getPosition(),
+								rearRight.getPosition()
 				});
 	}
 
@@ -97,10 +93,10 @@ public class DriveSubsystem extends SubsystemBase {
 	public void resetOdometry(Pose2d pose) {
 		odometry.resetPosition(new Rotation2d(gyro.getYaw()),
 						new SwerveModulePosition[] {
-										frontLeft.getSwerveModulePosition(),
-										frontRight.getSwerveModulePosition(),
-										rearLeft.getSwerveModulePosition(),
-										rearRight.getSwerveModulePosition()
+										frontLeft.getPosition(),
+										frontRight.getPosition(),
+										rearLeft.getPosition(),
+										rearRight.getPosition()
 		}, pose);
 	}
 
