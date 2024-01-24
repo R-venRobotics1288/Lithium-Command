@@ -76,8 +76,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // autonomousCommand = robotContainer.getAutonomousCommand();
-
-    // // schedule the autonomous command (example)
+    // schedule the autonomous command (example)
+    
     // if (autonomousCommand != null) {
     //   autonomousCommand.schedule();
     // }
@@ -93,16 +93,14 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-      // if (autonomousCommand != null) {
-      //   autonomousCommand.cancel();
-      // }
+    // if (autonomousCommand != null) {
+    //   autonomousCommand.cancel();
+    // }
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    var result = robotContainer.robotCamera.rawresult();
-    System.out.println(result);
   }
 
   @Override
@@ -114,6 +112,5 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-
   }
 }
