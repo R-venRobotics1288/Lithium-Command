@@ -88,7 +88,7 @@ public class SwerveModule {
     m_drivingPIDController.setP(ModuleConstants.P_MODULE_DRIVE_CONTROLLER);
     m_drivingPIDController.setI(0);
     m_drivingPIDController.setD(0);
-    m_drivingPIDController.setFF(1 / ModuleConstants.kDriveWheelFreeSpeedRps); // FF Value - 0.20875544852568829440720072304831
+    // m_drivingPIDController.setFF(1 / ModuleConstants.kDriveWheelFreeSpeedRps); // FF Value - 0.20875544852568829440720072304831
     m_drivingPIDController.setOutputRange(-1, 1);
 
     // Set the PID gains for the turning motor. Note these are example gains, and you
@@ -96,13 +96,13 @@ public class SwerveModule {
     m_turningPIDController.setP(ModuleConstants.P_MODULE_TURNING_CONTROLLER);
     m_turningPIDController.setI(0);
     m_turningPIDController.setD(0);
-    m_turningPIDController.setFF(1 / ModuleConstants.kDriveWheelFreeSpeedRps);
+    // m_turningPIDController.setFF(1 / ModuleConstants.kDriveWheelFreeSpeedRps);
     m_turningPIDController.setOutputRange(-1, 1);
 
-    m_drivingSparkMax.setIdleMode(IdleMode.kBrake);
-    m_turningSparkMax.setIdleMode(IdleMode.kBrake);
-    m_drivingSparkMax.setSmartCurrentLimit(50);
-    m_turningSparkMax.setSmartCurrentLimit(20);
+    m_drivingSparkMax.setIdleMode(IdleMode.kCoast);
+    m_turningSparkMax.setIdleMode(IdleMode.kCoast);
+   // m_drivingSparkMax.setSmartCurrentLimit(96);
+    m_turningSparkMax.setSmartCurrentLimit(46);
 
     // Save the SPARK MAX configurations. If a SPARK MAX browns out during
     // operation, it will maintain the above configurations.

@@ -35,10 +35,10 @@ public final class Constants {
         // };
 
         public static final double[] ENCODER_OFFSETS = {
-                -Math.PI / 2,
+                -Math.PI * 2,
                 Math.PI,
                 0,
-                (Math.PI / 2) + Math.PI
+                (Math.PI * 2) + Math.PI
         };
 
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 4;
@@ -75,7 +75,7 @@ public final class Constants {
         public static final double kvVoltSecondsPerMeter = 0.8;
         public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
-        public static final double MAX_SPEED_METERS_PER_SECOND = 3;
+        public static final double MAX_SPEED_METERS_PER_SECOND = 10;
     }
 
     public static final class ModuleConstants {
@@ -95,9 +95,9 @@ public final class Constants {
                 // Assumes the encoders are on a 1:1 reduction with the module shaft.
                 (2 * Math.PI) / (double) ENCODER_CPR;
 
-        public static final double P_MODULE_TURNING_CONTROLLER = 0.04;
+        public static final double P_MODULE_TURNING_CONTROLLER = 0.1;
 
-        public static final double P_MODULE_DRIVE_CONTROLLER = 0.04;
+        public static final double P_MODULE_DRIVE_CONTROLLER = 0.45;
 
         public static final int DRIVING_MOTOR_PINION_TEETH = 14;
 
