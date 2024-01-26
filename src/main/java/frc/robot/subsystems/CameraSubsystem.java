@@ -10,6 +10,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.targeting.PhotonPipelineResult;
 
@@ -25,7 +26,7 @@ public class CameraSubsystem extends SubsystemBase {
 
         try {
             this.aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
-            poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d())
+            poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, photonCamera, new Transform3d());
         } catch (Exception e) {
             throw new RuntimeException("IOException while loading AprilTag field layout!");
         }
@@ -35,8 +36,10 @@ public class CameraSubsystem extends SubsystemBase {
      * Gets the current best guess position of the robot.
      * @return Pose3d of estimated robot position.
      */
-    public Pose3d getLastEstimatedRobotPose() {
-        System.out.println("Got estimated position of X: " + estimatedRobotPose.getX() + ", Y: " + estimatedRobotPose.getY() + " Z: " + estimatedRobotPose.getZ());
+    public Pose3d getLastEstimatedRobotPose(boolean debug) {
+        if (debug) {
+            System.out.println("Got estimated position of X: " + estimatedRobotPose.getX() + ", Y: " + estimatedRobotPose.getY() + " Z: " + estimatedRobotPose.getZ());
+        }
         return estimatedRobotPose;
     }
 
