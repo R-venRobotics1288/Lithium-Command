@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.I2C;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -85,7 +86,12 @@ public final class Constants {
     }
 
     public static final class ModuleConstants {
+        // Name of camera used by the CameraSubsystem
         public static final String CAMERA_NAME = "raven1288";
+
+        // I2C port of the REV Colour Sensor V3 used by ColourSensorSubsystem
+        public static final I2C.Port COLOUR_SENSOR_PORT = I2C.Port.kOnboard;
+
         public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI;
         public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2 * Math.PI;
 
