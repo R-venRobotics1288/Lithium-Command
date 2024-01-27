@@ -16,13 +16,18 @@ import frc.robot.Constants;
 
 import org.photonvision.targeting.PhotonPipelineResult;
 
-
+/**
+ * Subsystem for Position Estimation based on AprilTags
+ */
 public class CameraSubsystem extends SubsystemBase {
     private final PhotonCamera photonCamera;
     private final AprilTagFieldLayout aprilTagFieldLayout;
     private final PhotonPoseEstimator poseEstimator;
     private Pose3d estimatedRobotPose = new Pose3d();
 
+    /**
+     * Initialises the CameraSubsystem with the camera named in ModuleConstants
+     */
     public CameraSubsystem() {
         photonCamera = new PhotonCamera(Constants.ModuleConstants.CAMERA_NAME);
 
@@ -36,6 +41,7 @@ public class CameraSubsystem extends SubsystemBase {
 
     /**
      * Gets the current best guess position of the robot.
+     * @param debug Prints debug messages.
      * @return Pose3d of estimated robot position.
      */
     public Pose3d getLastEstimatedRobotPose(boolean debug) {
@@ -50,7 +56,7 @@ public class CameraSubsystem extends SubsystemBase {
         PhotonPipelineResult result = photonCamera.getLatestResult();
         if (result.hasTargets()) {
             poseEstimator.setReferencePose(estimatedRobotPose);
-            // get the estimated pose
+            // gets the estimated pose
             Optional<EstimatedRobotPose> estimatedPoseOptional = poseEstimator.update();
             if (estimatedPoseOptional.isPresent()) {
                 estimatedRobotPose = estimatedPoseOptional.get().estimatedPose;
