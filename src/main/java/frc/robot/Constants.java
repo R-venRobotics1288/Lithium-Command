@@ -35,9 +35,9 @@ public final class Constants {
         // };
 
         public static final double[] ENCODER_OFFSETS = {
-                0,
                 Math.PI,
-                0,
+                Math.PI,
+                Math.PI,
                 Math.PI
         };
 
@@ -97,7 +97,7 @@ public final class Constants {
 
         public static final double P_MODULE_TURNING_CONTROLLER = 0.1;
 
-        public static final double P_MODULE_DRIVE_CONTROLLER = 0.4;
+        public static final double P_MODULE_DRIVE_CONTROLLER = 0.2;
 
         public static final int DRIVING_MOTOR_PINION_TEETH = 14;
 
@@ -118,8 +118,8 @@ public final class Constants {
     public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
     public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
 
-    public static final double kTurningEncoderPositionPIDMinInput = -Math.PI; // radians
-    public static final double kTurningEncoderPositionPIDMaxInput = Math.PI; // radians
+    public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
+    public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
         
     public static final double DEADBAND = 0.05;
     }

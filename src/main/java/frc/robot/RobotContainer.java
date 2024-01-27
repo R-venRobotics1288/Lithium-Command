@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -22,6 +23,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -34,6 +37,14 @@ public class RobotContainer {
   // The robot's subsystems
   public final DriveSubsystem robotDrive = new DriveSubsystem();
 
+   Timer timer = new Timer();
+
+   // Used for generating automatic joystick inputs for testing
+   double auto_angle_deg = 0;
+   double auto_x_input = 0;
+   double auto_y_input = 0;
+
+   Boolean testing = true;
 
   // The driver's controller
   public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
@@ -63,13 +74,32 @@ public class RobotContainer {
 
 private void driveContainer() 
 {
-    if (Math.abs(driverController.getLeftY()) > ModuleConstants.DEADBAND || Math.abs(driverController.getLeftX()) > ModuleConstants.DEADBAND)
+    if (testing || (Math.abs(driverController.getLeftY()) > ModuleConstants.DEADBAND || Math.abs(driverController.getLeftX()) > ModuleConstants.DEADBAND))
     {
+      timer.start();
+
+      if (timer.hasElapsed(.005)) {
+          auto_angle_deg += 5;
+          auto_x_input = Math.cos(Math.toRadians(auto_angle_deg));
+          auto_y_input = Math.sin(Math.toRadians(auto_angle_deg));
+          timer.reset();
+          // System.out.println("Target Angle: " + auto_angle_deg);
+          // System.out.println("Auto X: " + auto_x_input);
+          // System.out.println("Auto Y: " + auto_y_input);
+          // System.out.println(timer.get());
+      }
+
+      // robotDrive.drive(
+      //             driverController.getLeftY(),
+      //             driverController.getLeftX(),
+      //             driverController.getRightX(),
+      //           false);
+
       robotDrive.drive(
-                  driverController.getLeftY(),
-                  driverController.getLeftX(),
-                  driverController.getRightX(),
-                false);
+            auto_y_input,
+            auto_x_input,
+            0,
+          false);
     }
     else
     {
