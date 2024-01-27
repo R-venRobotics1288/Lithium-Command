@@ -61,7 +61,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
     SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
     SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRightX());
-
+    SmartDashboard.putNumberArray("Disred State", robotContainer.robotDrive.getDesiredState());
+    SmartDashboard.putNumberArray("Front Left Turning", new double[] {robotContainer.robotDrive.getFrontLeft(), robotContainer.robotDrive.getDesiredState()[0]});
 
 
 

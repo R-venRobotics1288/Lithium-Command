@@ -101,8 +101,8 @@ public class SwerveModule {
 
     m_drivingSparkMax.setIdleMode(IdleMode.kCoast);
     m_turningSparkMax.setIdleMode(IdleMode.kCoast);
-   // m_drivingSparkMax.setSmartCurrentLimit(96);
-    m_turningSparkMax.setSmartCurrentLimit(46);
+    m_drivingSparkMax.setSmartCurrentLimit(60);
+    m_turningSparkMax.setSmartCurrentLimit(20);
 
     // Save the SPARK MAX configurations. If a SPARK MAX browns out during
     // operation, it will maintain the above configurations.
@@ -159,6 +159,11 @@ public class SwerveModule {
     m_turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
     m_desiredState = desiredState;
+  }
+
+  public double getDesiredState()
+  {
+    return m_desiredState.angle.getRadians();
   }
 
   /** Zeroes all the SwerveModule encoders. */

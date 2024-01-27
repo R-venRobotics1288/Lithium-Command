@@ -110,11 +110,11 @@ public class DriveSubsystem extends SubsystemBase {
 	 */
 	@SuppressWarnings("ParameterName")
 	public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-		//var xSpeed1 = -xSpeedLimiter.calculate(MathUtil.applyDeadband(RobotContainer
-					 // .driverController.getLeftY(), Constants.ModuleConstants.DEADBAND));
+		//double xspeed = -xSpeedLimiter.calculate(MathUtil.applyDeadband(RobotContainer
+					 //.driverController.getLeftY(), Constants.ModuleConstants.DEADBAND));
 
-		//var ySpeed1 = -ySpeedLimiter.calculate(MathUtil
-//.applyDeadband(RobotContainer.driverController.getLeftX(), Constants.ModuleConstants.DEADBAND));
+		// double yspeed = -ySpeedLimiter.calculate(MathUtil
+			//.applyDeadband(RobotContainer.driverController.getLeftX(), Constants.ModuleConstants.DEADBAND));
 
 		SwerveModuleState[] swerveModuleStates =
 				DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
@@ -193,6 +193,16 @@ public class DriveSubsystem extends SubsystemBase {
 
 	public double getRearRight() {
 		return rearRight.getValue();
+	}
+
+	public double[] getDesiredState()
+	{
+		return new double[] {
+			frontLeft.getDesiredState(),
+			frontRight.getDesiredState(),
+			rearLeft.getDesiredState(),
+			rearRight.getDesiredState()
+		};
 	}
 
 	public void stop()
