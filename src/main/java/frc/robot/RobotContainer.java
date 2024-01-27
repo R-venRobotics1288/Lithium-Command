@@ -52,8 +52,12 @@ public class RobotContainer {
       new RunCommand(
         () -> {
           Pose3d estimatedPose = robotCamera.getLastEstimatedRobotPose(false);
-          SmartDashboard.putNumberArray("Camera Estimated Position", new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
-          SmartDashboard.putNumberArray("Camera Estimated Rotation", new double[] { Math.toDegrees(estimatedPose.getRotation().getX()), Math.toDegrees(estimatedPose.getRotation().getY()), Math.toDegrees(estimatedPose.getRotation().getZ()) });
+          SmartDashboard.putNumber("x", robotCamera.getLastEstimatedRobotPose(false).getX());
+          SmartDashboard.putNumber("y", robotCamera.getLastEstimatedRobotPose(false).getY());
+          SmartDashboard.putNumber("z", robotCamera.getLastEstimatedRobotPose(false).getZ());
+	  SmartDashboard.putNumber("xr", robotCamera.getLastEstimatedRobotPose(false).getRotation().getX());
+	  SmartDashboard.putNumber("yr", robotCamera.getLastEstimatedRobotPose(false).getRotation().getY());
+	  SmartDashboard.putNumber("zr", robotCamera.getLastEstimatedRobotPose(false).getRotation().getZ());
         },
         robotCamera
       )
