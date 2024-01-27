@@ -35,10 +35,10 @@ public final class Constants {
         // };
 
         public static final double[] ENCODER_OFFSETS = {
-                (-Math.PI * 2) + Math.PI,
+                0,
                 Math.PI,
                 0,
-                (Math.PI * 2) + Math.PI
+                Math.PI
         };
 
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 4;
