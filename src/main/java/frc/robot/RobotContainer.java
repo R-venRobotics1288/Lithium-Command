@@ -21,6 +21,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LimitSwitchSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -36,8 +37,9 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   public final DriveSubsystem robotDrive = new DriveSubsystem();
-  public final CameraSubsystem robotCamera = new CameraSubsystem();
+  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
+  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
 
   // The driver's controller
   public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
@@ -47,17 +49,37 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // Configure default commands
-    robotCamera.setDefaultCommand(
-      // The left stick controls translation of the robot.
-      // Turning is controlled by the X axis of the right stick.
+    /* Configure default commands */
+    cameraSubsystem.setDefaultCommand(
+      /* Prints estimated pose to SmartDashboard */
       new RunCommand(
         () -> {
-          Pose3d estimatedPose = robotCamera.getLastEstimatedRobotPose(false);
+          Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
           SmartDashboard.putNumberArray("Camera Estimated Position", new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
           SmartDashboard.putNumberArray("Camera Estimated Rotation", new double[] { Math.toDegrees(estimatedPose.getRotation().getX()), Math.toDegrees(estimatedPose.getRotation().getY()), Math.toDegrees(estimatedPose.getRotation().getZ()) });
         },
-        robotCamera
+        cameraSubsystem
+      )
+    );
+    /* Prints Colour Sensor information to SmartDashboard */
+    colourSensorSubsystem.setDefaultCommand(
+      new RunCommand(
+        () -> {
+          SmartDashboard.putNumber("Colour Sensor Proximity", colourSensorSubsystem.getProximity());
+          SmartDashboard.putString("Colour Sensor Detected Colour", colourSensorSubsystem.getDetectedColour().toHexString());
+        },
+        colourSensorSubsystem
+      )
+    );
+    /* Prints current status of limit switches to SmartDashboard */
+    limitSwitchSubsystem.setDefaultCommand(
+      new RunCommand(
+        () -> {
+          for (int i = 0; i < Constants.ModuleConstants.LIMIT_SWITCHES.length; i++) {
+            SmartDashboard.putBoolean("Limit Switch #" + i, limitSwitchSubsystem.isClosed(i));
+          }
+        },
+        limitSwitchSubsystem
       )
     );
   }

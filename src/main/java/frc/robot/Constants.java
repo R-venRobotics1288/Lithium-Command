@@ -92,6 +92,11 @@ public final class Constants {
         // I2C port of the REV Colour Sensor V3 used by ColourSensorSubsystem
         public static final I2C.Port COLOUR_SENSOR_PORT = I2C.Port.kOnboard;
 
+        // DIO address of all Limit Switches we intend to use, add to here if you want to add a switch.
+        public static final int[] LIMIT_SWITCHES = new int[] {
+                0
+        };
+
         public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI;
         public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2 * Math.PI;
 
