@@ -46,15 +46,5 @@
       <option name="name" value="WPI3fcf3402-e646-4fa6-971e-18afe8173b1a_0Release" />
       <option name="url" value="https://maven.ctr-electronics.com/release/" />
     </remote-repository>
-    <remote-repository>
-      <option name="id" value="WPI515fe07e-bfc6-11fa-b3de-0242ac130004_1Release" />
-      <option name="name" value="WPI515fe07e-bfc6-11fa-b3de-0242ac130004_1Release" />
-      <option name="url" value="https://maven.photonvision.org/repository/snapshots" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="WPI515fe07e-bfc6-11fa-b3de-0242ac130004_0Release" />
-      <option name="name" value="WPI515fe07e-bfc6-11fa-b3de-0242ac130004_0Release" />
-      <option name="url" value="https://maven.photonvision.org/repository/internal" />
-    </remote-repository>
   </component>
 </project>
