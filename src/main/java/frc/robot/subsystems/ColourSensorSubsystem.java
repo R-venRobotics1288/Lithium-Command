@@ -32,7 +32,7 @@ public class ColourSensorSubsystem extends SubsystemBase {
 
     /**
      * Gets the current best guess colour of the object closest to the colour sensor.
-     * @return RGBA Colur struct detectedColour
+     * @return RGBA Colour struct detectedColour
      */
     public Color getDetectedColour() {
         return detectedColour;
