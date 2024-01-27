@@ -28,6 +28,11 @@ public class IntakeSubsystem extends SubsystemBase
     @Override
     public void periodic()
     {
+        
+    }
+
+    public void intake()
+    {
         if (gcontroller.getRawButton(7))
         {
             intakingMotor.set(0.8);
