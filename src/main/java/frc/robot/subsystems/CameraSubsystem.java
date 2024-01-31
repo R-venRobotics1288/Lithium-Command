@@ -1,20 +1,20 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import java.util.Optional;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
 import org.photonvision.targeting.PhotonPipelineResult;
+
+import frc.robot.Constants;
 
 /**
  * Subsystem for Position Estimation based on AprilTags
@@ -26,7 +26,7 @@ public class CameraSubsystem extends SubsystemBase {
     private Pose3d estimatedRobotPose = new Pose3d();
 
     /**
-     * Initialises the CameraSubsystem with the camera named in ModuleConstants
+     * Initialises the Camera subsystem with the camera named in ModuleConstants
      */
     public CameraSubsystem() {
         photonCamera = new PhotonCamera(Constants.ModuleConstants.CAMERA_NAME);
