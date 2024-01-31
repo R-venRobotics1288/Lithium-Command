@@ -22,6 +22,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsytem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -45,7 +46,7 @@ public class RobotContainer {
 
   public final CameraSubsystem robotCamera = new CameraSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
-
+  public final ShooterSubsytem robotShooter = new ShooterSubsytem(opetatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -72,6 +73,15 @@ public class RobotContainer {
         () -> {
           robotIntake.intake();
         }, robotIntake
+      )
+    );
+
+    robotShooter.setDefaultCommand(
+      new RunCommand
+      (
+        () -> {
+          robotShooter.buttonShoot();
+        }, robotShooter
       )
     );
   }
