@@ -19,6 +19,13 @@ public class ShooterSubsytem extends SubsystemBase
        shooterRight = new CANSparkMax(15, MotorType.kBrushed);
        feederMotor = new CANSparkMax(13, MotorType.kBrushless);
         this.controller = controller;
+
+        shooterLeft.setSmartCurrentLimit(80);
+        shooterRight.setSmartCurrentLimit(80);
+        feederMotor.setSmartCurrentLimit(80);
+        shooterLeft.burnFlash();
+        shooterRight.burnFlash();
+        feederMotor.burnFlash();
     }
     
     @Override
