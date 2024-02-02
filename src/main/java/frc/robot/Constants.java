@@ -95,7 +95,7 @@ public final class Constants {
                 // Assumes the encoders are on a 1:1 reduction with the module shaft.
                 (2 * Math.PI) / (double) ENCODER_CPR;
 
-        public static final double P_MODULE_TURNING_CONTROLLER = 0.1;
+        public static final double P_MODULE_TURNING_CONTROLLER = 0.5;
 
         public static final double P_MODULE_DRIVE_CONTROLLER = 0.2;
 
@@ -121,7 +121,7 @@ public final class Constants {
     public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
     public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
         
-    public static final double DEADBAND = 0.05;
+    public static final double DEADBAND = 0.4;
     }
 
     public static final class OIConstants {

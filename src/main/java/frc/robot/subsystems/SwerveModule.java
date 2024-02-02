@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -100,10 +101,27 @@ public class SwerveModule {
     // m_turningPIDController.setFF(1 / ModuleConstants.kDriveWheelFreeSpeedRps);
     m_turningPIDController.setOutputRange(-1, 1);
 
-    m_drivingSparkMax.setIdleMode(IdleMode.kCoast);
-    m_turningSparkMax.setIdleMode(IdleMode.kCoast);
+    m_drivingSparkMax.setIdleMode(IdleMode.kBrake);
+    m_turningSparkMax.setIdleMode(IdleMode.kBrake);
     m_drivingSparkMax.setSmartCurrentLimit(60);
     m_turningSparkMax.setSmartCurrentLimit(20);
+
+    m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 55);
+    m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 15);
+    m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 15);
+    m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+    m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+    m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+    m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65565);
+
+    m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 55);
+    m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 65535);
+    m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
+    m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+    m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+    m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 15);
+    m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65565);
+
 
     // Save the SPARK MAX configurations. If a SPARK MAX browns out during
     // operation, it will maintain the above configurations.
