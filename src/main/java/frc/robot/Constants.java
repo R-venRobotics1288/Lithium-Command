@@ -55,6 +55,9 @@ public final class Constants {
         public static final int LEFT_SHOOTER_MOTOR_PORT = 14;
         public static final int RIGHT_SHOOTER_MOTOR_PORT = 15;
 
+        public static final int LEFT_ELEVATOR_MOTOR_PORT = 16;
+        public static final int RIGHT_ELEVATOR_MOTOR_PORT = 17;
+
         public static final boolean FRONT_LEFT_TURNING_ENCODER_REVERSED = false;
         public static final boolean REAR_LEFT_TURNING_ENCODER_REVERSED = true;
         public static final boolean FRONT_RIGHT_TURNING_ENCODER_REVERSED = false;
@@ -133,6 +136,9 @@ public final class Constants {
         public static final int INTAKE_BUTTTON_PORT = 5;
         public static final int AMP_BUTTON_PORT = 7;
         public static final int SPEAKER_BUTTON_PORT = 8;
+
+        public static final int ELEVATOR_UP_BUTTON_PORT = 4;
+        public static final int ELEVATOR_DOWN_BUTTON_PORT = 2;
     }
 
     public static final class AutoConstants 
