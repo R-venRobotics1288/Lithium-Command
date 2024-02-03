@@ -35,7 +35,7 @@ public class CameraSubsystem extends SubsystemBase {
             this.aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
             poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, photonCamera, new Transform3d());
         } catch (Exception e) {
-            throw new RuntimeException("IOException while loading AprilTag field layout!");
+            throw new IllegalStateException("IOException while loading AprilTag field layout!");
         }
     }
 

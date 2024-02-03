@@ -48,6 +48,13 @@ public final class Constants {
         public static final int FRONT_RIGHT_ABSOLUTE_ENCODER_PORTS = 21;
         public static final int REAR_RIGHT_ABSOLUTE_ENCODER_PORTS = 23;
 
+        public static final int INTAKE_MOTOR_PORT = 11;
+        public static final int POSITION_MOTOR_PORT = 12;
+        public static final int FEEDER_MOTOR_PORT = 13;
+
+        public static final int LEFT_SHOOTER_MOTOR_PORT = 14;
+        public static final int RIGHT_SHOOTER_MOTOR_PORT = 15;
+
         public static final boolean FRONT_LEFT_TURNING_ENCODER_REVERSED = false;
         public static final boolean REAR_LEFT_TURNING_ENCODER_REVERSED = true;
         public static final boolean FRONT_RIGHT_TURNING_ENCODER_REVERSED = false;
@@ -122,6 +129,10 @@ public final class Constants {
     public static final class OIConstants {
         public static final int DRIVER_CONTROLLER_PORT = 0;
         public static final int OPERATOR_CONTROLLER_PORT = 1;
+
+        public static final int INTAKE_BUTTTON_PORT = 5;
+        public static final int AMP_BUTTON_PORT = 7;
+        public static final int SPEAKER_BUTTON_PORT = 8;
     }
 
     public static final class AutoConstants {

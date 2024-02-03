@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.OIConstants;
 
 public class IntakeSubsystem extends SubsystemBase
 {
@@ -22,9 +24,9 @@ public class IntakeSubsystem extends SubsystemBase
 
     public IntakeSubsystem(XboxController controller) 
     {
-        intakingMotor = new CANSparkMax(11, MotorType.kBrushless);
-        positioningMotor = new CANSparkMax(12, MotorType.kBrushless);
-        feederMotor = new CANSparkMax(13, MotorType.kBrushless);
+        intakingMotor = new CANSparkMax(DriveConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+        positioningMotor = new CANSparkMax(DriveConstants.POSITION_MOTOR_PORT, MotorType.kBrushless);
+        feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
         
         gcontroller = controller;
 
@@ -54,15 +56,13 @@ public class IntakeSubsystem extends SubsystemBase
 
     public void intake()
     {
-        if (detectedColor.equals(Color.kOrange))
+        // if (detectedColor == Color.kOrange && gcontroller.getRawButton(OIConstants.INTAKE_BUTTTON_PORT))
+        // {
+        //     System.out.println("Orange");
+        // }
+        if (detectedColor == Color.kOrange)
         {
             System.out.println("Orange");
-        }
-        if (gcontroller.getRawButton(5))
-        {
-            intakingMotor.set(0.8);
-            positioningMotor.set(-0.6);
-            feederMotor.set(0.4);
         }
         else 
         {
