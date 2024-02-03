@@ -165,4 +165,9 @@ public final class Constants {
         public static final double SPEAKER_SPEED = 0.5;
         public static final double AMP_SPEED = 0.4;
     }
+    public static final class IntakeConstants
+    {
+        public static final double TOP_ELEVATOR_LIMIT = 50;
+        public static final double BOT_ELEVATOR_LIMIT = 0;
+    }
 }
