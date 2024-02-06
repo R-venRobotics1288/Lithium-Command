@@ -23,6 +23,10 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsytem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsytem;
+
 import frc.robot.subsystems.LimitSwitchSubsystem;
 import frc.robot.subsystems.ShooterSubsytem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,9 +49,18 @@ public class RobotContainer {
   // public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
   
   // The driver's controller
-  // public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
-  public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController);
+
+  public final DriveSubsystem robotDrive = new DriveSubsystem();
+  public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController);
+  public final ShooterSubsytem robotShooter = new ShooterSubsytem(operatorController);
+  public final ElevatorSubsytem robotElevator = new ElevatorSubsytem(operatorController);
+  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
+  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -87,12 +100,30 @@ public class RobotContainer {
     //     limitSwitchSubsystem
     //   )
     // );
-    shooterSubsytem.setDefaultCommand(
+    shooterSubsystem.setDefaultCommand(
       new RunCommand(
         () -> {
           shooterSubsytem.buttonShoot();
         },
-        shooterSubsytem)
+        shooterSubsystem)
+    );
+
+    robotElevator.setDefaultCommand(
+      new RunCommand
+      (
+        () -> {
+          robotElevator.elevatorControl();
+        }, robotElevator
+      )
+    );
+
+    robotElevator.setDefaultCommand(
+      new RunCommand
+      (
+        () -> {
+          robotElevator.elevatorControl();
+        }, robotElevator
+      )
     );
   }
 
