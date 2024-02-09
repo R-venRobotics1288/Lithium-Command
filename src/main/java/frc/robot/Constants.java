@@ -97,7 +97,7 @@ public final class Constants {
         public static final String CAMERA_NAME = "raven1288";
 
         // I2C port of the REV Colour Sensor V3 used by ColourSensorSubsystem
-        public static final I2C.Port COLOUR_SENSOR_PORT = I2C.Port.kOnboard;
+        public static final I2C.Port COLOUR_SENSOR_PORT = I2C.Port.kMXP;
 
         // DIO address of all Limit Switches we intend to use, add to here if you want to add a switch.
         public static final int[] LIMIT_SWITCHES = new int[] {

@@ -95,6 +95,11 @@ public class DriveSubsystem extends SubsystemBase {
     return odometry.getPoseMeters();
   }
 
+  public void cameraAutoAlign()
+  {
+    System.out.println("Hi");
+  }
+
   /**
    * Resets the odometry to the specified pose.
    *

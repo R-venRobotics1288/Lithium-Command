@@ -18,58 +18,63 @@ public class IntakeSubsystem extends SubsystemBase
     private CANSparkMax feederMotor;
 
     private XboxController gcontroller;
+    private ColourSensorSubsystem colourSensorSubsystem;
 
-    private RobotContainer robotContainer;
     private Color detectedColor;
 
     public IntakeSubsystem(XboxController controller) 
     {
-        intakingMotor = new CANSparkMax(DriveConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
-        positioningMotor = new CANSparkMax(DriveConstants.POSITION_MOTOR_PORT, MotorType.kBrushless);
-        feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
+        //intakingMotor = new CANSparkMax(DriveConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+        //positioningMotor = new CANSparkMax(DriveConstants.POSITION_MOTOR_PORT, MotorType.kBrushless);
+        //feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
         
+        intakingMotor = null;
+        positioningMotor = null;
+        feederMotor = null;
+
+        colourSensorSubsystem = new ColourSensorSubsystem();
+
         gcontroller = controller;
 
-        robotContainer = new RobotContainer();
-
-        intakingMotor.setSmartCurrentLimit(80);
-        positioningMotor.setSmartCurrentLimit(80);
-        feederMotor.setSmartCurrentLimit(80);
-        intakingMotor.burnFlash();
-        positioningMotor.burnFlash();
-        feederMotor.burnFlash();
+        // intakingMotor.setSmartCurrentLimit(80);
+        // positioningMotor.setSmartCurrentLimit(80);
+        // feederMotor.setSmartCurrentLimit(80);
+        // intakingMotor.burnFlash();
+        // positioningMotor.burnFlash();
+        // feederMotor.burnFlash();
     }
 
     @Override
     public void periodic()
     {
-      grabColorDetector();
+        // grabColorDetector();
+        detectedColor = colourSensorSubsystem.getDetectedColour();
+        // System.out.println("Red - " + detectedColor.red);
+        // System.out.println("Green - " + detectedColor.green);
+        // System.out.println("Blue - " + detectedColor.blue);
     }
-
+    
     public Command grabColorDetector()
     {
         return this.runOnce(
-            () -> 
-                detectedColor = robotContainer.colourSensorSubsystem.getDetectedColour()
-            );
+            () -> {
+                detectedColor = colourSensorSubsystem.getDetectedColour();
+            }
+        );
     }
 
     public void intake()
     {
-        // if (detectedColor == Color.kOrange && gcontroller.getRawButton(OIConstants.INTAKE_BUTTTON_PORT))
-        // {
-        //     System.out.println("Orange");
-        // }
-        if (detectedColor == Color.kOrange)
+        if (detectedColor.red > detectedColor.green && gcontroller.getRawButton(OIConstants.INTAKE_BUTTTON_PORT))
         {
             System.out.println("Orange");
         }
-        else 
-        {
-            intakingMotor.set(0);
-            positioningMotor.set(0);
-            feederMotor.set(0);
-        }
+        // else 
+        // {
+        //     intakingMotor.set(0);
+        //     positioningMotor.set(0);
+        //     feederMotor.set(0);
+        // }
     }
     
 }

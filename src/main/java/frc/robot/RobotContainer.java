@@ -47,14 +47,12 @@ public class RobotContainer {
   public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static XboxController opetatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
 
-  public final DriveSubsystem robotDrive = new DriveSubsystem();
+  // public final DriveSubsystem robotDrive = new DriveSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
   public final ShooterSubsytem robotShooter = new ShooterSubsytem(opetatorController);
   public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
   public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
-
-  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -73,27 +71,19 @@ public class RobotContainer {
         cameraSubsystem
       )
     );
-    /* Prints Colour Sensor information to SmartDashboard */
-    colourSensorSubsystem.setDefaultCommand(
-      new RunCommand(
-        () -> {
-          SmartDashboard.putNumber("Colour Sensor Proximity", colourSensorSubsystem.getProximity());
-          SmartDashboard.putString("Colour Sensor Detected Colour", colourSensorSubsystem.getDetectedColour().toHexString());
-        },
-        colourSensorSubsystem
-      )
-    );
     /* Prints current status of limit switches to SmartDashboard */
-    limitSwitchSubsystem.setDefaultCommand(
-      new RunCommand(
-        () -> {
-          for (int i = 0; i < Constants.ModuleConstants.LIMIT_SWITCHES.length; i++) {
-            SmartDashboard.putBoolean("Limit Switch #" + i, limitSwitchSubsystem.isClosed(i));
-          }
-        },
-        limitSwitchSubsystem
-      )
-    );
+    // limitSwitchSubsystem.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> {
+    //       for (int i = 0; i < Constants.ModuleConstants.LIMIT_SWITCHES.length; i++) {
+    //         SmartDashboard.putBoolean("Limit Switch #" + i, limitSwitchSubsystem.isClosed(i));
+    //       }
+    //     },
+    //     limitSwitchSubsystem
+    //   )
+    // );
+    
+    
 
     robotIntake.setDefaultCommand(
       new RunCommand
@@ -104,14 +94,14 @@ public class RobotContainer {
       )
     );
 
-    robotShooter.setDefaultCommand(
-      new RunCommand
-      (
-        () -> {
-          robotShooter.buttonShoot();
-        }, robotShooter
-      )
-    );
+    // robotShooter.setDefaultCommand(
+    //   new RunCommand
+    //   (
+    //     () -> {
+    //       robotShooter.buttonShoot();
+    //     }, robotShooter
+    //   )
+    // );
   }
 
   /**
@@ -127,54 +117,64 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    //// Create config for trajectory
-    TrajectoryConfig config =
-       new TrajectoryConfig(
-               AutoConstants.MAX_SPEED_METERS_PER_SECOND,
-               AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
-           // Add kinematics to ensure max speed is actually obeyed
-           .setKinematics(DriveConstants.DRIVE_KINEMATICS);
-    // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory =
-       TrajectoryGenerator.generateTrajectory(
-           // Start at the origin facing the +X direction
-           new Pose2d(0, 0, new Rotation2d(0)),
-           // Pass through these two interior waypoints, making an 's' curve path
-           List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-           // End 3 meters straight ahead of where we started, facing forward
-           new Pose2d(3, 0, new Rotation2d(0)),
-           config);
+  // public Command getAutonomousCommand() {
+  //   //// Create config for trajectory
+  //   TrajectoryConfig config =
+  //      new TrajectoryConfig(
+  //              AutoConstants.MAX_SPEED_METERS_PER_SECOND,
+  //              AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+  //          // Add kinematics to ensure max speed is actually obeyed
+  //          .setKinematics(DriveConstants.DRIVE_KINEMATICS);
+  //   // An example trajectory to follow.  All units in meters.
+  //   Trajectory exampleTrajectory =
+  //      TrajectoryGenerator.generateTrajectory(
+  //          // Start at the origin facing the +X direction
+  //          new Pose2d(0, 0, new Rotation2d(0)),
+  //          // Pass through these two interior waypoints, making an 's' curve path
+  //          List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+  //          // End 3 meters straight ahead of where we started, facing forward
+  //          new Pose2d(3, 0, new Rotation2d(0)),
+  //          config);
     
-    SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
+  //   SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
     
-    // Reset odometry to the starting pose of the trajectory.
-    robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+  //   // Reset odometry to the starting pose of the trajectory.
+  //   robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
     
-    // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
-  }
+  //   // Run path following command, then stop at the end.
+  //   return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
+  // }
   
 
-  private SwerveControllerCommand getSwerveControllerCommand(Trajectory exampleTrajectory) {
-    var thetaController =
-        new ProfiledPIDController(
-            AutoConstants.P_THETA_CONTROLLER, 0, 0, AutoConstants.THETA_CONTROLLER_CONSTRAINTS);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+  // private SwerveControllerCommand getSwerveControllerCommand(Trajectory exampleTrajectory) {
+  //   var thetaController =
+  //       new ProfiledPIDController(
+  //           AutoConstants.P_THETA_CONTROLLER, 0, 0, AutoConstants.THETA_CONTROLLER_CONSTRAINTS);
+  //   thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    SwerveControllerCommand swerveControllerCommand =
-        new SwerveControllerCommand(
-                exampleTrajectory,
-            robotDrive::getPose, // Functional interface to feed supplier
-            DriveConstants.DRIVE_KINEMATICS,
+  //   SwerveControllerCommand swerveControllerCommand =
+  //       new SwerveControllerCommand(
+  //               exampleTrajectory,
+  //           robotDrive::getPose, // Functional interface to feed supplier
+  //           DriveConstants.DRIVE_KINEMATICS,
 
-            // Position controllers
-            new PIDController(AutoConstants.PX_CONTROLLER, 0, 0),
-            new PIDController(AutoConstants.PY_CONTROLLER, 0, 0),
-            thetaController,
-            robotDrive::setModuleStates,
-                robotDrive);
-    return swerveControllerCommand;
+  //           // Position controllers
+  //           new PIDController(AutoConstants.PX_CONTROLLER, 0, 0),
+  //           new PIDController(AutoConstants.PY_CONTROLLER, 0, 0),
+  //           thetaController,
+  //           robotDrive::setModuleStates,
+  //               robotDrive);
+  //   return swerveControllerCommand;
 
+  // }
+
+  public Command getAlginmentCommand()
+  {
+    return robotShooter.cameraAutoAlign();
+  }
+
+  public Command getShooter()
+  {
+    return robotShooter.buttonShoot();
   }
 }
