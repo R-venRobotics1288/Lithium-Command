@@ -52,10 +52,10 @@ public class ShooterSubsytem extends SubsystemBase {
     }
 
     public Command cameraAutoAlign() {
-        return this.run(() -> {
-            if (gcontroller.getRawButton(1)) {
-                System.out.println("Hi");
-            }
+        return this.runOnce(() -> {
+                if (gcontroller.getRawButton(1)) {
+                    System.out.println("Hi");
+                }
         });
 
     }
