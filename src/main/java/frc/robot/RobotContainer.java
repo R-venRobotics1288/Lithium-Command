@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
@@ -30,7 +32,10 @@ import frc.robot.subsystems.LimitSwitchSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -41,12 +46,14 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  // public final DriveSubsystem robotDrive = new DriveSubsystem();
 
+   
   // The driver's controller
-  public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static XboxController opetatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
 
+
+  // The driver's controller  public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
   public final ShooterSubsytem robotShooter = new ShooterSubsytem(opetatorController);
@@ -60,6 +67,24 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    // Configure default commands
+          robotDrive.setDefaultCommand(
+            // The left stick controls translation of the robot.
+            // Turning is controlled by the X axis of the right stick.
+            new RunCommand(
+              () -> {
+                robotDrive.drive(
+                    Math.pow(MathUtil.applyDeadband(-driverController.getLeftY(), ModuleConstants.DEADBAND), 3),
+                    Math.pow(MathUtil.applyDeadband(-driverController.getLeftX(), ModuleConstants.DEADBAND), 3),
+                    Math.pow(MathUtil.applyDeadband(driverController.getRightX(), ModuleConstants.DEADBAND),3),
+                    true
+                );
+              },
+              robotDrive
+            )
+            );
+}
 
     /* Configure default commands */
     cameraSubsystem.setDefaultCommand(
@@ -83,18 +108,6 @@ public class RobotContainer {
         colourSensorSubsystem
       )
     );
-    /* Prints current status of limit switches to SmartDashboard */
-    limitSwitchSubsystem.setDefaultCommand(
-      new RunCommand(
-        () -> {
-          for (int i = 0; i < Constants.ModuleConstants.LIMIT_SWITCHES.length; i++) {
-            SmartDashboard.putBoolean("Limit Switch #" + i, limitSwitchSubsystem.isClosed(i));
-          }
-        },
-        limitSwitchSubsystem
-      )
-    );
-
     robotIntake.setDefaultCommand(
       new RunCommand
       (
@@ -175,6 +188,5 @@ public class RobotContainer {
             robotDrive::setModuleStates,
                 robotDrive);
     return swerveControllerCommand;
-
   }
 }
