@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -22,6 +23,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import java.util.Date;
@@ -47,50 +49,29 @@ public class RobotContainer {
    Boolean testing = true;
 
   // The driver's controller
-  public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
-
     // Configure default commands
-
           robotDrive.setDefaultCommand(
             // The left stick controls translation of the robot.
             // Turning is controlled by the X axis of the right stick.
             new RunCommand(
               () -> {
-                driveContainer();
+                robotDrive.drive(
+                    Math.pow(MathUtil.applyDeadband(-driverController.getLeftY(), ModuleConstants.DEADBAND), 3),
+                    Math.pow(MathUtil.applyDeadband(-driverController.getLeftX(), ModuleConstants.DEADBAND), 3),
+                    Math.pow(MathUtil.applyDeadband(driverController.getRightX(), ModuleConstants.DEADBAND),3),
+                    true
+                );
               },
               robotDrive
             )
             );
-
-    
-
-  }
-
-private void driveContainer() 
-{
-    if (Math.abs(driverController.getLeftY()) > ModuleConstants.DEADBAND || Math.abs(driverController.getLeftX()) > ModuleConstants.DEADBAND)
-    {
-
-
-      robotDrive.drive(
-                  driverController.getLeftY(),
-                  driverController.getLeftX(),
-                  driverController.getRightX(),
-                false);
-
-      
-    }
-    else
-    {
-      robotDrive.stop();
-    }
-
 }
 
   /**
@@ -155,6 +136,5 @@ private void driveContainer()
             robotDrive::setModuleStates,
                 robotDrive);
     return swerveControllerCommand;
-
   }
 }

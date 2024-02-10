@@ -54,20 +54,15 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Front Left Encoder", robotContainer.robotDrive.getFrontLeft());
-    SmartDashboard.putNumber("Front Right Encoder", robotContainer.robotDrive.getFrontRight());
-    SmartDashboard.putNumber("Rear Left Encoder", robotContainer.robotDrive.getRearLeft());
-    SmartDashboard.putNumber("Rear Right Encoder", robotContainer.robotDrive.getRearRight());
+    SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
+    SmartDashboard.putNumber("Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
+    SmartDashboard.putNumber("Rear Left Encoder", Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
+    SmartDashboard.putNumber("Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
     SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
     SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
     SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRightX());
-    SmartDashboard.putNumberArray("Disred State", robotContainer.robotDrive.getDesiredState());
-    SmartDashboard.putNumberArray("Front Left Turning", new double[] {robotContainer.robotDrive.getFrontLeft(), robotContainer.robotDrive.getDesiredState()[0]});
-
-
-
-
-
+    SmartDashboard.putNumberArray("Desired State", robotContainer.robotDrive.getDesiredState());
+    // SmartDashboard.putNumberArray("Front Left Turning", new double[] {robotContainer.robotDrive.getFrontLeft(), robotContainer.robotDrive.getDesiredState()[0]});
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

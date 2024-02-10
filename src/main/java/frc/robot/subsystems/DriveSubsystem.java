@@ -115,6 +115,8 @@ public class DriveSubsystem extends SubsystemBase {
 
 		// double yspeed = -ySpeedLimiter.calculate(MathUtil
 			//.applyDeadband(RobotContainer.driverController.getLeftX(), Constants.ModuleConstants.DEADBAND));
+		xSpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
+		ySpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
 
 		SwerveModuleState[] swerveModuleStates =
 				DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
@@ -122,7 +124,7 @@ public class DriveSubsystem extends SubsystemBase {
 								? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, new Rotation2d(getGyroValue()))
 								: new ChassisSpeeds(xSpeed, ySpeed, rot));
 		SwerveDriveKinematics.desaturateWheelSpeeds(
-				swerveModuleStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
+				swerveModuleStates, ModuleConstants.MAX_MODULE_METERS_PER_SECOND);
 		frontLeft.setDesiredState(swerveModuleStates[0]);
 		frontRight.setDesiredState(swerveModuleStates[1]);
 		rearLeft.setDesiredState(swerveModuleStates[2]);
@@ -136,7 +138,7 @@ public class DriveSubsystem extends SubsystemBase {
 	 */
 	public void setModuleStates(SwerveModuleState[] desiredStates) {
 		SwerveDriveKinematics.desaturateWheelSpeeds(
-				desiredStates, DriveConstants.MAX_SPEED_METERS_PER_SECOND);
+				desiredStates, ModuleConstants.MAX_MODULE_METERS_PER_SECOND);
 		frontLeft.setDesiredState(desiredStates[0]);
 		frontRight.setDesiredState(desiredStates[1]);
 		rearLeft.setDesiredState(desiredStates[2]);

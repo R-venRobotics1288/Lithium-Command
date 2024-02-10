@@ -35,10 +35,10 @@ public final class Constants {
         // };
 
         public static final double[] ENCODER_OFFSETS = {
-                Math.PI,
-                Math.PI,
-                Math.PI,
-                Math.PI
+                Math.PI - Math.toRadians(0.73),
+                Math.PI - Math.toRadians(357.18),
+                Math.PI - Math.toRadians(0.28),
+                Math.PI - Math.toRadians(359.32)
         };
 
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 4;
@@ -78,12 +78,14 @@ public final class Constants {
         public static final double MAX_SPEED_METERS_PER_SECOND = 10;
     }
 
-    public static final class ModuleConstants {
+    public static final class ModuleConstants 
+    {
         public static final String CAMERA_NAME = "raven1288";
         public static final double MAX_MODULE_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI;
         public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2 * Math.PI;
 
-        public static final double GEAR_RATIO = 5.08;
+        public static final double MAX_MODULE_METERS_PER_SECOND = 10;
+        //public static final double GEAR_RATIO = 5.08;
 
         public static final int ENCODER_CPR = 8192;
         public static final double WHEEL_DIAMETER_METERS = 0.076;
@@ -95,9 +97,9 @@ public final class Constants {
                 // Assumes the encoders are on a 1:1 reduction with the module shaft.
                 (2 * Math.PI) / (double) ENCODER_CPR;
 
-        public static final double P_MODULE_TURNING_CONTROLLER = 0.5;
+        public static final double P_MODULE_TURNING_CONTROLLER = 0.4;
 
-        public static final double P_MODULE_DRIVE_CONTROLLER = 0.2;
+        public static final double P_MODULE_DRIVE_CONTROLLER = 0.1;
 
         public static final int DRIVING_MOTOR_PINION_TEETH = 14;
 
@@ -125,7 +127,7 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final int DRIVER_CONTROLLER_PORT = 0;
+        public static final int DRIVER_CONTROLLER_PORT = 1;
     }
 
     public static final class AutoConstants {
