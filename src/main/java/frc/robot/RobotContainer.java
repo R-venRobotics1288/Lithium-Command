@@ -8,18 +8,27 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsytem;
+
+import frc.robot.subsystems.LimitSwitchSubsystem;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -37,19 +46,22 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  public final DriveSubsystem robotDrive = new DriveSubsystem();
 
-   //Timer timer = new Timer();
-
-   // Used for generating automatic joystick inputs for testing
-   //double auto_angle_deg = 0;
-   //double auto_x_input = 0;
-   //double auto_y_input = 0;
-
-   Boolean testing = true;
-
+   
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public static XboxController opetatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+
+
+  // The driver's controller  public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public final DriveSubsystem robotDrive = new DriveSubsystem();
+  public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
+  public final ShooterSubsytem robotShooter = new ShooterSubsytem(opetatorController);
+  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
+  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -74,6 +86,47 @@ public class RobotContainer {
             );
 }
 
+    /* Configure default commands */
+    cameraSubsystem.setDefaultCommand(
+      /* Prints estimated pose to SmartDashboard */
+      new RunCommand(
+        () -> {
+          Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
+          SmartDashboard.putNumberArray("Camera Estimated Position", new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
+          SmartDashboard.putNumberArray("Camera Estimated Rotation", new double[] { Math.toDegrees(estimatedPose.getRotation().getX()), Math.toDegrees(estimatedPose.getRotation().getY()), Math.toDegrees(estimatedPose.getRotation().getZ()) });
+        },
+        cameraSubsystem
+      )
+    );
+    /* Prints Colour Sensor information to SmartDashboard */
+    colourSensorSubsystem.setDefaultCommand(
+      new RunCommand(
+        () -> {
+          SmartDashboard.putNumber("Colour Sensor Proximity", colourSensorSubsystem.getProximity());
+          SmartDashboard.putString("Colour Sensor Detected Colour", colourSensorSubsystem.getDetectedColour().toHexString());
+        },
+        colourSensorSubsystem
+      )
+    );
+    robotIntake.setDefaultCommand(
+      new RunCommand
+      (
+        () -> {
+          robotIntake.intake();
+        }, robotIntake
+      )
+    );
+
+    robotShooter.setDefaultCommand(
+      new RunCommand
+      (
+        () -> {
+          robotShooter.buttonShoot();
+        }, robotShooter
+      )
+    );
+  }
+
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its subclasses ({@link
@@ -95,7 +148,6 @@ public class RobotContainer {
                AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
            // Add kinematics to ensure max speed is actually obeyed
            .setKinematics(DriveConstants.DRIVE_KINEMATICS);
-    
     // An example trajectory to follow.  All units in meters.
     Trajectory exampleTrajectory =
        TrajectoryGenerator.generateTrajectory(
@@ -114,7 +166,7 @@ public class RobotContainer {
     
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
-    }
+  }
   
 
   private SwerveControllerCommand getSwerveControllerCommand(Trajectory exampleTrajectory) {
