@@ -177,4 +177,10 @@ public final class Constants {
         public static final double SPEAKER_SPEED = 0.5;
         public static final double AMP_SPEED = 0.4;
     }
+    public static final class IntakeConstants
+    {
+        public static final double INTAKING_SPEED = 0.1;
+        public static final double POSITIONING_SPEED = 0.1;
+        public static final double FEEDER_SPEED = 0.15;
+    }
 }

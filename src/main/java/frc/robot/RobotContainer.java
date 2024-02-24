@@ -45,17 +45,17 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-  // public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
-  // public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
   
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
-
+  
   public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
-  // public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
+  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
+  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+  public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -106,11 +106,11 @@ public class RobotContainer {
               robotIntake.intake();
             }, robotIntake));
 
-    robotShooter.setDefaultCommand(
+    shooterSubsytem.setDefaultCommand(
         new RunCommand(
             () -> {
-              robotShooter.buttonShoot();
-            }, robotShooter));
+              shooterSubsytem.buttonShoot();
+            }, shooterSubsytem));
   }
 
   /**
@@ -122,7 +122,8 @@ public class RobotContainer {
    * passing it to a
    * {@link JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configureButtonBindings() 
+  {
     // EventLoop event = new EventLoop();
     // event.bind(
     //   () -> {
@@ -187,5 +188,5 @@ public class RobotContainer {
   //               robotDrive);
   //   return swerveControllerCommand;
 
-  // }
-} 
+ //}
+}

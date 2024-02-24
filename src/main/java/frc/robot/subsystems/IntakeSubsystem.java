@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class IntakeSubsystem extends SubsystemBase
 {
@@ -24,9 +26,9 @@ public class IntakeSubsystem extends SubsystemBase
 
     public IntakeSubsystem(XboxController controller) 
     {
-        //intakingMotor = new CANSparkMax(DriveConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
-        //positioningMotor = new CANSparkMax(DriveConstants.POSITION_MOTOR_PORT, MotorType.kBrushless);
-        //feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
+        intakingMotor = new CANSparkMax(DriveConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+        positioningMotor = new CANSparkMax(DriveConstants.POSITION_MOTOR_PORT, MotorType.kBrushless);
+        feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
         
         intakingMotor = null;
         positioningMotor = null;
@@ -36,12 +38,12 @@ public class IntakeSubsystem extends SubsystemBase
 
         gcontroller = controller;
 
-        // intakingMotor.setSmartCurrentLimit(80);
-        // positioningMotor.setSmartCurrentLimit(80);
-        // feederMotor.setSmartCurrentLimit(80);
-        // intakingMotor.burnFlash();       
-        // positioningMotor.burnFlash();
-        // feederMotor.burnFlash();
+        intakingMotor.setSmartCurrentLimit(80);
+        positioningMotor.setSmartCurrentLimit(80);
+        feederMotor.setSmartCurrentLimit(80);
+        intakingMotor.burnFlash();       
+        positioningMotor.burnFlash();
+        feederMotor.burnFlash();
     }
 
     @Override
@@ -52,16 +54,25 @@ public class IntakeSubsystem extends SubsystemBase
     
     public void intake()
     {
-        // if (detectedColor.red > detectedColor.green && gcontroller.getRawButton(OIConstants.INTAKE_BUTTTON_PORT))
-        // {
-        //     System.out.println("Orange");
-        // }
-        // else 
-        // {
-        //     intakingMotor.set(0);
-        //     positioningMotor.set(0);
-        //     feederMotor.set(0);
-        // }
+        // detectedColor.red > detectedColor.green 
+        if (gcontroller.getRightBumper())
+        {
+            intakingMotor.set(IntakeConstants.INTAKING_SPEED);
+            positioningMotor.set(IntakeConstants.POSITIONING_SPEED);
+            feederMotor.set(IntakeConstants.FEEDER_SPEED);
+        }
+        else if (gcontroller.getLeftBumper())
+        {
+            intakingMotor.set(-IntakeConstants.INTAKING_SPEED);
+            positioningMotor.set(-IntakeConstants.POSITIONING_SPEED);
+            feederMotor.set(-IntakeConstants.FEEDER_SPEED);
+        }
+        else 
+        {
+            intakingMotor.set(0);
+            positioningMotor.set(0);
+            feederMotor.set(0);
+        }
     }
     
 }
