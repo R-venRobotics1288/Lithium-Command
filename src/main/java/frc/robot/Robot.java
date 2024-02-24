@@ -32,8 +32,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    alignmentCommand = robotContainer.getAlginmentCommand();
-    shooterCommand = robotContainer.getShooter();
 
   }
 
@@ -46,7 +44,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().schedule(alignmentCommand, shooterCommand);
+    // CommandScheduler.getInstance().schedule(alignmentCommand, shooterCommand);
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic

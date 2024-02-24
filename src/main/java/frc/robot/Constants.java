@@ -135,7 +135,8 @@ public final class Constants {
         public static final int SPEAKER_BUTTON_PORT = 8;
     }
 
-    public static final class AutoConstants {
+    public static final class AutoConstants 
+    {
         public static final double MAX_SPEED_METERS_PER_SECOND = 3;
         public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
@@ -149,5 +150,13 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS =
                 new TrapezoidProfile.Constraints(
                         MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
+    }
+
+    public static final class ShooterConstants
+    {
+        public static final double FEEDER_SPEED = 0.15;
+        public static final double SHOOTER_REVERSE_SPEED = 0.15;
+        public static final double SPEAKER_SPEED = 0.5;
+        public static final double AMP_SPEED = 0.4;
     }
 }

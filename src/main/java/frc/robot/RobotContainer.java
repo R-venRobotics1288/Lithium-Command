@@ -13,8 +13,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.event.BooleanEvent;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -22,11 +23,8 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsytem;
-
 import frc.robot.subsystems.LimitSwitchSubsystem;
-
+import frc.robot.subsystems.ShooterSubsytem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -42,17 +40,14 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   // public final DriveSubsystem robotDrive = new DriveSubsystem();
-
+  // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  // public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
+  // public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+  
   // The driver's controller
-  public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
-  public static XboxController opetatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
-
-  // public final DriveSubsystem robotDrive = new DriveSubsystem();
-  public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
-  public final ShooterSubsytem robotShooter = new ShooterSubsytem(opetatorController);
-  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
-  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+  // public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+  public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -60,17 +55,27 @@ public class RobotContainer {
     configureButtonBindings();
 
     /* Configure default commands */
-    cameraSubsystem.setDefaultCommand(
-      /* Prints estimated pose to SmartDashboard */
-      new RunCommand(
-        () -> {
-          Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
-          SmartDashboard.putNumberArray("Camera Estimated Position", new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
-          SmartDashboard.putNumberArray("Camera Estimated Rotation", new double[] { Math.toDegrees(estimatedPose.getRotation().getX()), Math.toDegrees(estimatedPose.getRotation().getY()), Math.toDegrees(estimatedPose.getRotation().getZ()) });
-        },
-        cameraSubsystem
-      )
-    );
+    // cameraSubsystem.setDefaultCommand(
+    //   /* Prints estimated pose to SmartDashboard */
+    //   new RunCommand(
+    //     () -> {
+    //       Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
+    //       SmartDashboard.putNumberArray("Camera Estimated Position", new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
+    //       SmartDashboard.putNumberArray("Camera Estimated Rotation", new double[] { Math.toDegrees(estimatedPose.getRotation().getX()), Math.toDegrees(estimatedPose.getRotation().getY()), Math.toDegrees(estimatedPose.getRotation().getZ()) });
+    //     },
+    //     cameraSubsystem
+    //   )
+    // );
+    /* Prints Colour Sensor information to SmartDashboard */
+    // colourSensorSubsystem.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> {
+    //       SmartDashboard.putNumber("Colour Sensor Proximity", colourSensorSubsystem.getProximity());
+    //       SmartDashboard.putString("Colour Sensor Detected Colour", colourSensorSubsystem.getDetectedColour().toHexString());
+    //     },
+    //     colourSensorSubsystem
+    //   )
+    // );
     /* Prints current status of limit switches to SmartDashboard */
     // limitSwitchSubsystem.setDefaultCommand(
     //   new RunCommand(
@@ -82,26 +87,13 @@ public class RobotContainer {
     //     limitSwitchSubsystem
     //   )
     // );
-    
-    
-
-    robotIntake.setDefaultCommand(
-      new RunCommand
-      (
+    shooterSubsytem.setDefaultCommand(
+      new RunCommand(
         () -> {
-          robotIntake.intake();
-        }, robotIntake
-      )
+          shooterSubsytem.buttonShoot();
+        },
+        shooterSubsytem)
     );
-
-    // robotShooter.setDefaultCommand(
-    //   new RunCommand
-    //   (
-    //     () -> {
-    //       robotShooter.buttonShoot();
-    //     }, robotShooter
-    //   )
-    // );
   }
 
   /**
@@ -110,7 +102,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
    * {@link JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    EventLoop event = new EventLoop();
+    event.bind(
+      () -> {
+        System.out.println("Hello");
+      }
+    );
+    operatorController.button(2, event);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -167,14 +167,4 @@ public class RobotContainer {
   //   return swerveControllerCommand;
 
   // }
-
-  public Command getAlginmentCommand()
-  {
-    return robotShooter.cameraAutoAlign();
-  }
-
-  public Command getShooter()
-  {
-    return robotShooter.buttonShoot();
-  }
-}
+} 
