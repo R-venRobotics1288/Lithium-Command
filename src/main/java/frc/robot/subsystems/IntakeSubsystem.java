@@ -52,10 +52,10 @@ public class IntakeSubsystem extends SubsystemBase
     
     public void intake()
     {
-        if (detectedColor.red > detectedColor.green && gcontroller.getRawButton(OIConstants.INTAKE_BUTTTON_PORT))
-        {
-            System.out.println("Orange");
-        }
+        // if (detectedColor.red > detectedColor.green && gcontroller.getRawButton(OIConstants.INTAKE_BUTTTON_PORT))
+        // {
+        //     System.out.println("Orange");
+        // }
         // else 
         // {
         //     intakingMotor.set(0);

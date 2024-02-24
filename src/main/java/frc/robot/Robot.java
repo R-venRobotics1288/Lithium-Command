@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -50,10 +51,14 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    // SmartDashboard.putNumber("Front Left Encoder", robotContainer.robotDrive.getFrontLeft());
-    // SmartDashboard.putNumber("Front Right Encoder", robotContainer.robotDrive.getFrontRight());
-    // SmartDashboard.putNumber("Rear Left Encoder", robotContainer.robotDrive.getRearLeft());
-    // SmartDashboard.putNumber("Rear Right Encoder", robotContainer.robotDrive.getRearRight());
+    SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
+    SmartDashboard.putNumber("Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
+    SmartDashboard.putNumber("Rear Left Encoder", Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
+    SmartDashboard.putNumber("Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
+    SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
+    SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
+    SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRawAxis(4));
+    SmartDashboard.putNumberArray("Desired State", robotContainer.robotDrive.getDesiredState());
 
 
   }

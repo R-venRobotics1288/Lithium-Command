@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -13,22 +15,27 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.event.BooleanEvent;
-import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.LimitSwitchSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsytem;
+
+import frc.robot.subsystems.LimitSwitchSubsystem;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import java.util.List;
 
 /*
@@ -45,48 +52,32 @@ public class RobotContainer {
   // public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
   
   // The driver's controller
-  // public static XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+
   public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController);
+  public final DriveSubsystem robotDrive = new DriveSubsystem();
+  // public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
-    /* Configure default commands */
-    // cameraSubsystem.setDefaultCommand(
-    //   /* Prints estimated pose to SmartDashboard */
-    //   new RunCommand(
-    //     () -> {
-    //       Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
-    //       SmartDashboard.putNumberArray("Camera Estimated Position", new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
-    //       SmartDashboard.putNumberArray("Camera Estimated Rotation", new double[] { Math.toDegrees(estimatedPose.getRotation().getX()), Math.toDegrees(estimatedPose.getRotation().getY()), Math.toDegrees(estimatedPose.getRotation().getZ()) });
-    //     },
-    //     cameraSubsystem
-    //   )
-    // );
-    /* Prints Colour Sensor information to SmartDashboard */
-    // colourSensorSubsystem.setDefaultCommand(
-    //   new RunCommand(
-    //     () -> {
-    //       SmartDashboard.putNumber("Colour Sensor Proximity", colourSensorSubsystem.getProximity());
-    //       SmartDashboard.putString("Colour Sensor Detected Colour", colourSensorSubsystem.getDetectedColour().toHexString());
-    //     },
-    //     colourSensorSubsystem
-    //   )
-    // );
-    /* Prints current status of limit switches to SmartDashboard */
-    // limitSwitchSubsystem.setDefaultCommand(
-    //   new RunCommand(
-    //     () -> {
-    //       for (int i = 0; i < Constants.ModuleConstants.LIMIT_SWITCHES.length; i++) {
-    //         SmartDashboard.putBoolean("Limit Switch #" + i, limitSwitchSubsystem.isClosed(i));
-    //       }
-    //     },
-    //     limitSwitchSubsystem
-    //   )
-    // );
+    robotDrive.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> {
+              robotDrive.drive(
+                  Math.pow(MathUtil.applyDeadband(-driverController.getLeftY(), ModuleConstants.DEADBAND), 3),
+                  Math.pow(MathUtil.applyDeadband(-driverController.getLeftX(), ModuleConstants.DEADBAND), 3),
+                  Math.pow(MathUtil.applyDeadband(driverController.getRawAxis(4), ModuleConstants.DEADBAND), 3),
+                  true);
+            },
+        robotDrive));
+    
     shooterSubsytem.setDefaultCommand(
       new RunCommand(
         () -> {
@@ -103,13 +94,13 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    EventLoop event = new EventLoop();
-    event.bind(
-      () -> {
-        System.out.println("Hello");
-      }
-    );
-    operatorController.button(2, event);
+    // EventLoop event = new EventLoop();
+    // event.bind(
+    //   () -> {
+    //     System.out.println("Hello");
+    //   }
+    // );
+    // operatorController.button(2, event);
   }
 
   /**
