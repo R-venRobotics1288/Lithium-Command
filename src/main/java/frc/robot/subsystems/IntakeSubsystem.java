@@ -39,7 +39,7 @@ public class IntakeSubsystem extends SubsystemBase
         // intakingMotor.setSmartCurrentLimit(80);
         // positioningMotor.setSmartCurrentLimit(80);
         // feederMotor.setSmartCurrentLimit(80);
-        // intakingMotor.burnFlash();
+        // intakingMotor.burnFlash();       
         // positioningMotor.burnFlash();
         // feederMotor.burnFlash();
     }
