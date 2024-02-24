@@ -54,6 +54,13 @@ public final class Constants {
         public static final double SPEED_RATE_LIMIT = 1.0;
         public static final double SPEED_ROT_LIMIT = 3.0;
 
+        public static final int INTAKE_MOTOR_PORT = 11;
+        public static final int POSITION_MOTOR_PORT = 12;
+        public static final int FEEDER_MOTOR_PORT = 13;
+
+        public static final int LEFT_SHOOTER_MOTOR_PORT = 14;
+        public static final int RIGHT_SHOOTER_MOTOR_PORT = 15;
+
         public static final double TRACK_WIDTH = 25.5625;
         // Distance between centers of right and left wheels on robot
         public static final double WHEEL_BASE = 26.0;
@@ -84,7 +91,7 @@ public final class Constants {
         public static final String CAMERA_NAME = "raven1288";
 
         // I2C port of the REV Colour Sensor V3 used by ColourSensorSubsystem
-        public static final I2C.Port COLOUR_SENSOR_PORT = I2C.Port.kOnboard;
+        public static final I2C.Port COLOUR_SENSOR_PORT = I2C.Port.kMXP;
 
         // DIO address of all Limit Switches we intend to use, add to here if you want to add a switch.
         public static final int[] LIMIT_SWITCHES = new int[] {
@@ -95,8 +102,9 @@ public final class Constants {
         public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2 * Math.PI;
 
         public static final double MAX_MODULE_METERS_PER_SECOND = 10;
-        //public static final double GEAR_RATIO = 5.08;
-
+      
+        // public static final double GEAR_RATIO = 8.14;
+  
         public static final int ENCODER_CPR = 8192;
         public static final double WHEEL_DIAMETER_METERS = 0.076;
         public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE =
@@ -120,20 +128,19 @@ public final class Constants {
         public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
         / DRIVING_MOTOR_REDUCTION; // Current value 4.7902941315418912960821043628581
 
-
-
         public static final double kDrivingEncoderPositionFactor = (WHEEL_DIAMETER_METERS * Math.PI)
         / DRIVING_MOTOR_REDUCTION; // meters
-    public static final double kDrivingEncoderVelocityFactor = ((WHEEL_DIAMETER_METERS * Math.PI)
-        / DRIVING_MOTOR_REDUCTION) / 60.0; // meters per second
+        public static final double kDrivingEncoderVelocityFactor = ((WHEEL_DIAMETER_METERS * Math.PI)
+                / DRIVING_MOTOR_REDUCTION) / 60.0; // meters per second
 
-    public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
-    public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
+        public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
+        public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
 
-    public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
-    public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
-        
-    public static final double DEADBAND = 0.4;
+        public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
+        public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
+                
+        public static final double DEADBAND = 0.4;
+
     }
 
     public static final class OIConstants {
@@ -141,7 +148,8 @@ public final class Constants {
         public static final int OPERATOR_CONTROLLER_PORT = 1;
     }
 
-    public static final class AutoConstants {
+    public static final class AutoConstants 
+    {
         public static final double MAX_SPEED_METERS_PER_SECOND = 3;
         public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
@@ -157,7 +165,16 @@ public final class Constants {
                         MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
     }
 
-    public static final class NeoMotorConstants {
+    public static final class NeoMotorConstants 
+    {
         public static final double kFreeSpeedRpm = 5676;
-      }
+    }
+
+    public static final class ShooterConstants
+    {
+        public static final double FEEDER_SPEED = 0.15;
+        public static final double SHOOTER_REVERSE_SPEED = 0.15;
+        public static final double SPEAKER_SPEED = 0.5;
+        public static final double AMP_SPEED = 0.4;
+    }
 }

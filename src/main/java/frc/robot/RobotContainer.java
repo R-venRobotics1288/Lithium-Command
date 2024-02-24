@@ -45,26 +45,23 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-
+  // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  // public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
+  // public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+  
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
-  public static XboxController opetatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+  public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
 
-  // The driver's controller public static XboxController driverController = new
-  // XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
-  public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
-  public final ShooterSubsytem robotShooter = new ShooterSubsytem(opetatorController);
-  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
-  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+  // public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
 
     // Configure default commands
     robotDrive.setDefaultCommand(
@@ -75,7 +72,7 @@ public class RobotContainer {
               robotDrive.drive(
                   Math.pow(MathUtil.applyDeadband(-driverController.getLeftY(), ModuleConstants.DEADBAND), 3),
                   Math.pow(MathUtil.applyDeadband(-driverController.getLeftX(), ModuleConstants.DEADBAND), 3),
-                  Math.pow(MathUtil.applyDeadband(driverController.getRightX(), ModuleConstants.DEADBAND), 3),
+                  Math.pow(MathUtil.applyDeadband(driverController.getRawAxis(4), ModuleConstants.DEADBAND), 3),
                   true);
             },
             robotDrive));
@@ -126,6 +123,14 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+    // EventLoop event = new EventLoop();
+    // event.bind(
+    //   () -> {
+    //     System.out.println("Hello");
+    //   }
+    // );
+    // operatorController.button(2, event);
+
   }
 
   /**
@@ -133,48 +138,54 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    //// Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(
-        AutoConstants.MAX_SPEED_METERS_PER_SECOND,
-        AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
-        // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(DriveConstants.DRIVE_KINEMATICS);
-    // An example trajectory to follow. All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
-        config);
+  // public Command getAutonomousCommand() {
+  //   //// Create config for trajectory
+  //   TrajectoryConfig config =
+  //      new TrajectoryConfig(
+  //              AutoConstants.MAX_SPEED_METERS_PER_SECOND,
+  //              AutoConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+  //          // Add kinematics to ensure max speed is actually obeyed
+  //          .setKinematics(DriveConstants.DRIVE_KINEMATICS);
+  //   // An example trajectory to follow.  All units in meters.
+  //   Trajectory exampleTrajectory =
+  //      TrajectoryGenerator.generateTrajectory(
+  //          // Start at the origin facing the +X direction
+  //          new Pose2d(0, 0, new Rotation2d(0)),
+  //          // Pass through these two interior waypoints, making an 's' curve path
+  //          List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+  //          // End 3 meters straight ahead of where we started, facing forward
+  //          new Pose2d(3, 0, new Rotation2d(0)),
+  //          config);
+    
+  //   SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
+    
+  //   // Reset odometry to the starting pose of the trajectory.
+  //   robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    
+  //   // Run path following command, then stop at the end.
+  //   return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
+  // }
+  
 
-    SwerveControllerCommand swerveControllerCommand = getSwerveControllerCommand(exampleTrajectory);
+  // private SwerveControllerCommand getSwerveControllerCommand(Trajectory exampleTrajectory) {
+  //   var thetaController =
+  //       new ProfiledPIDController(
+  //           AutoConstants.P_THETA_CONTROLLER, 0, 0, AutoConstants.THETA_CONTROLLER_CONSTRAINTS);
+  //   thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    // Reset odometry to the starting pose of the trajectory.
-    robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+  //   SwerveControllerCommand swerveControllerCommand =
+  //       new SwerveControllerCommand(
+  //               exampleTrajectory,
+  //           robotDrive::getPose, // Functional interface to feed supplier
+  //           DriveConstants.DRIVE_KINEMATICS,
 
-    // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false));
-  }
+  //           // Position controllers
+  //           new PIDController(AutoConstants.PX_CONTROLLER, 0, 0),
+  //           new PIDController(AutoConstants.PY_CONTROLLER, 0, 0),
+  //           thetaController,
+  //           robotDrive::setModuleStates,
+  //               robotDrive);
+  //   return swerveControllerCommand;
 
-  private SwerveControllerCommand getSwerveControllerCommand(Trajectory exampleTrajectory) {
-    var thetaController = new ProfiledPIDController(
-        AutoConstants.P_THETA_CONTROLLER, 0, 0, AutoConstants.THETA_CONTROLLER_CONSTRAINTS);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-        exampleTrajectory,
-        robotDrive::getPose, // Functional interface to feed supplier
-        DriveConstants.DRIVE_KINEMATICS,
-
-        // Position controllers
-        new PIDController(AutoConstants.PX_CONTROLLER, 0, 0),
-        new PIDController(AutoConstants.PY_CONTROLLER, 0, 0),
-        thetaController,
-        robotDrive::setModuleStates,
-        robotDrive);
-    return swerveControllerCommand;
-  }
-}
+  // }
+} 

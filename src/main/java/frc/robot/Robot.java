@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command autonomousCommand;
+  private Command alignmentCommand;
+  private Command shooterCommand;
 
   private RobotContainer robotContainer;
 
@@ -32,7 +34,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
 
-
   }
 
   /**
@@ -44,6 +45,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    // CommandScheduler.getInstance().schedule(alignmentCommand, shooterCommand);
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -55,9 +57,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
     SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
     SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
-    SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRightX());
+    SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRawAxis(4));
     SmartDashboard.putNumberArray("Desired State", robotContainer.robotDrive.getDesiredState());
-    // SmartDashboard.putNumberArray("Front Left Turning", new double[] {robotContainer.robotDrive.getFrontLeft(), robotContainer.robotDrive.getDesiredState()[0]});
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
