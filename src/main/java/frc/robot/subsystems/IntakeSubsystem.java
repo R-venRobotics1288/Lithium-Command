@@ -47,22 +47,9 @@ public class IntakeSubsystem extends SubsystemBase
     @Override
     public void periodic()
     {
-        // grabColorDetector();
         detectedColor = colourSensorSubsystem.getDetectedColour();
-        // System.out.println("Red - " + detectedColor.red);
-        // System.out.println("Green - " + detectedColor.green);
-        // System.out.println("Blue - " + detectedColor.blue);
     }
     
-    public Command grabColorDetector()
-    {
-        return this.runOnce(
-            () -> {
-                detectedColor = colourSensorSubsystem.getDetectedColour();
-            }
-        );
-    }
-
     public void intake()
     {
         if (detectedColor.red > detectedColor.green && gcontroller.getRawButton(OIConstants.INTAKE_BUTTTON_PORT))
