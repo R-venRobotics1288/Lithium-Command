@@ -27,6 +27,13 @@ public final class Constants {
          * Front Right,
          * Rear Right
          * */
+        // public static final double[] ENCODER_OFFSETS = {
+        //         0.0006103515625,
+        //         0.0001220703125,
+        //         0.0010986328125,
+        //         0.00048828125
+        // };
+
         public static final double[] ENCODER_OFFSETS = {
                 Math.PI - Math.toRadians(0.73),
                 Math.PI - Math.toRadians(357.18),
@@ -78,6 +85,7 @@ public final class Constants {
         public static final double MAX_SPEED_METERS_PER_SECOND = 10;
     }
 
+
     public static final class ModuleConstants {
         // Name of camera used by the CameraSubsystem
         public static final String CAMERA_NAME = "raven1288";
@@ -94,8 +102,9 @@ public final class Constants {
         public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 2 * Math.PI;
 
         public static final double MAX_MODULE_METERS_PER_SECOND = 10;
+      
         // public static final double GEAR_RATIO = 8.14;
-
+  
         public static final int ENCODER_CPR = 8192;
         public static final double WHEEL_DIAMETER_METERS = 0.076;
         public static final double DRIVE_ENCODER_DISTANCE_PER_PULSE =
@@ -131,6 +140,7 @@ public final class Constants {
         public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
                 
         public static final double DEADBAND = 0.4;
+
     }
 
     public static final class OIConstants {

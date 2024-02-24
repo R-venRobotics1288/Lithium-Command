@@ -59,8 +59,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
     SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRawAxis(4));
     SmartDashboard.putNumberArray("Desired State", robotContainer.robotDrive.getDesiredState());
-
-
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

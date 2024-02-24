@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -46,7 +45,6 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  // public final DriveSubsystem robotDrive = new DriveSubsystem();
   // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   // public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
   // public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
@@ -59,12 +57,13 @@ public class RobotContainer {
   public final DriveSubsystem robotDrive = new DriveSubsystem();
   // public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
 
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
+
+    // Configure default commands
     robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
@@ -76,21 +75,51 @@ public class RobotContainer {
                   Math.pow(MathUtil.applyDeadband(driverController.getRawAxis(4), ModuleConstants.DEADBAND), 3),
                   true);
             },
-        robotDrive));
-    
-    shooterSubsytem.setDefaultCommand(
-      new RunCommand(
-        () -> {
-          shooterSubsytem.buttonShoot();
-        },
-        shooterSubsytem)
-    );
+            robotDrive));
+
+    /* Configure default commands */
+    cameraSubsystem.setDefaultCommand(
+        /* Prints estimated pose to SmartDashboard */
+        new RunCommand(
+            () -> {
+              Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
+              SmartDashboard.putNumberArray("Camera Estimated Position",
+                  new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
+              SmartDashboard.putNumberArray("Camera Estimated Rotation",
+                  new double[] { Math.toDegrees(estimatedPose.getRotation().getX()),
+                      Math.toDegrees(estimatedPose.getRotation().getY()),
+                      Math.toDegrees(estimatedPose.getRotation().getZ()) });
+            },
+            cameraSubsystem));
+    /* Prints Colour Sensor information to SmartDashboard */
+    colourSensorSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              SmartDashboard.putNumber("Colour Sensor Proximity", colourSensorSubsystem.getProximity());
+              SmartDashboard.putString("Colour Sensor Detected Colour",
+                  colourSensorSubsystem.getDetectedColour().toHexString());
+            },
+            colourSensorSubsystem));
+    robotIntake.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              robotIntake.intake();
+            }, robotIntake));
+
+    robotShooter.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              robotShooter.buttonShoot();
+            }, robotShooter));
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
+   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
+   * subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling
+   * passing it to a
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
@@ -101,6 +130,7 @@ public class RobotContainer {
     //   }
     // );
     // operatorController.button(2, event);
+
   }
 
   /**
