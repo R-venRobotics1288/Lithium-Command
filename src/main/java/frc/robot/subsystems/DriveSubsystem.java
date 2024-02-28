@@ -113,8 +113,13 @@ public class DriveSubsystem extends SubsystemBase {
 
 		// double yspeed = -ySpeedLimiter.calculate(MathUtil
 			//.applyDeadband(RobotContainer.driverController.getLeftX(), Constants.ModuleConstants.DEADBAND));
-		xSpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
+		
+    xSpeed = xSpeedLimiter.calculate(xSpeed);
+    ySpeed = ySpeedLimiter.calculate(ySpeed);
+    
+    xSpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
 		ySpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
+    rot /= 4;
 
 		SwerveModuleState[] swerveModuleStates =
 				DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(

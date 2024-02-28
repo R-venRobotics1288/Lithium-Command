@@ -22,9 +22,8 @@ public class ShooterSubsytem extends SubsystemBase {
 
     Pose3d robotPositonToApril;
 
-    public ShooterSubsytem(XboxController controller) {
-        feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT,
-        MotorType.kBrushless);
+    public ShooterSubsytem(XboxController controller, CANSparkMax feederMotor) {
+        this.feederMotor = feederMotor;
         shooterLeft = new CANSparkMax(DriveConstants.LEFT_SHOOTER_MOTOR_PORT,
         MotorType.kBrushless);
         shooterRight = new CANSparkMax(DriveConstants.RIGHT_SHOOTER_MOTOR_PORT,
@@ -36,12 +35,6 @@ public class ShooterSubsytem extends SubsystemBase {
         shooterLeft.setSmartCurrentLimit(80);
         shooterRight.setSmartCurrentLimit(80);
         feederMotor.setSmartCurrentLimit(80);
-
-        feederMotor.setIdleMode(IdleMode.kBrake);
-
-        shooterLeft.burnFlash();
-        shooterRight.burnFlash();
-        feederMotor.burnFlash();
     }
 
     // @Override

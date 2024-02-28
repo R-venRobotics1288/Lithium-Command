@@ -27,18 +27,12 @@ public final class Constants {
          * Front Right,
          * Rear Right
          * */
-        // public static final double[] ENCODER_OFFSETS = {
-        //         0.0006103515625,
-        //         0.0001220703125,
-        //         0.0010986328125,
-        //         0.00048828125
-        // };
 
         public static final double[] ENCODER_OFFSETS = {
-                Math.PI - Math.toRadians(0.73),
-                Math.PI - Math.toRadians(357.18),
-                Math.PI - Math.toRadians(0.28),
-                Math.PI - Math.toRadians(359.32)
+                Math.PI - Math.toRadians(187.5),
+                Math.toRadians(358.9),
+                Math.PI + Math.toRadians(160.54),
+                Math.PI - Math.toRadians(185.4)
         };
 
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 4;
@@ -82,7 +76,7 @@ public final class Constants {
         public static final double kvVoltSecondsPerMeter = 0.8;
         public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
-        public static final double MAX_SPEED_METERS_PER_SECOND = 10;
+        public static final double MAX_SPEED_METERS_PER_SECOND = 5;
     }
 
 
@@ -179,8 +173,8 @@ public final class Constants {
     }
     public static final class IntakeConstants
     {
-        public static final double INTAKING_SPEED = 0.1;
-        public static final double POSITIONING_SPEED = 0.1;
+        public static final double INTAKING_SPEED = 0.3;
+        public static final double POSITIONING_SPEED = 0.7;
         public static final double FEEDER_SPEED = 0.15;
     }
 }

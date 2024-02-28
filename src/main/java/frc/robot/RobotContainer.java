@@ -37,6 +37,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -49,16 +54,23 @@ public class RobotContainer {
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+  public static CANSparkMax feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
   
-  public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController);
+  public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController, feederMotor);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
-  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+ // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
   public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
-  public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController);
+  public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController, feederMotor);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+
+    feederMotor.setSmartCurrentLimit(80);
+    feederMotor.setIdleMode(IdleMode.kBrake);
+    feederMotor.burnFlash();
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -78,20 +90,20 @@ public class RobotContainer {
             robotDrive));
 
     /* Configure default commands */
-    cameraSubsystem.setDefaultCommand(
-        /* Prints estimated pose to SmartDashboard */
-        new RunCommand(
-            () -> {
-              Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
-              SmartDashboard.putNumberArray("Camera Estimated Position",
-                  new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
-              SmartDashboard.putNumberArray("Camera Estimated Rotation",
-                  new double[] { Math.toDegrees(estimatedPose.getRotation().getX()),
-                      Math.toDegrees(estimatedPose.getRotation().getY()),
-                      Math.toDegrees(estimatedPose.getRotation().getZ()) });
-            },
-            cameraSubsystem));
-    /* Prints Colour Sensor information to SmartDashboard */
+    // cameraSubsystem.setDefaultCommand(
+    //     /* Prints estimated pose to SmartDashboard */
+    //     new RunCommand(
+    //         () -> {
+    //           Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
+    //           SmartDashboard.putNumberArray("Camera Estimated Position",
+    //               new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
+    //           SmartDashboard.putNumberArray("Camera Estimated Rotation",
+    //               new double[] { Math.toDegrees(estimatedPose.getRotation().getX()),
+    //                   Math.toDegrees(estimatedPose.getRotation().getY()),
+    //                   Math.toDegrees(estimatedPose.getRotation().getZ()) });
+    //         },
+    //         cameraSubsystem));
+    // /* Prints Colour Sensor information to SmartDashboard */
     colourSensorSubsystem.setDefaultCommand(
         new RunCommand(
             () -> {
@@ -100,17 +112,18 @@ public class RobotContainer {
                   colourSensorSubsystem.getDetectedColour().toHexString());
             },
             colourSensorSubsystem));
-    robotIntake.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              robotIntake.intake();
-            }, robotIntake));
+        
+            shooterSubsytem.setDefaultCommand(
+                new RunCommand(
+                    () -> {
+                      shooterSubsytem.buttonShoot();
+                    }, shooterSubsytem));
 
-    shooterSubsytem.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              shooterSubsytem.buttonShoot();
-            }, shooterSubsytem));
+            robotIntake.setDefaultCommand(
+                new RunCommand(
+                    () -> {
+                      robotIntake.intake();
+                    }, robotIntake));
   }
 
   /**
