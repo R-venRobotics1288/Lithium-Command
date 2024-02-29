@@ -148,8 +148,8 @@ public final class Constants {
         public static final int OPERATOR_CONTROLLER_PORT = 1;
     }
 
-    public static final class AutoConstants 
-    {
+    public static final class AutoConstants {
+        public static final boolean SWITCH_ALLIANCE = false; // switches auto origin between red and blue alliance, default blue-origin
         public static final double MAX_SPEED_METERS_PER_SECOND = 3;
         public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
