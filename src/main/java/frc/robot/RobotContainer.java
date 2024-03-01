@@ -45,17 +45,17 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-  // public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
+  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
   // public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
   
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
 
-  public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController);
+  public final ShooterSubsytem robotShooter = new ShooterSubsytem(operatorController);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
-  // public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
+  public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
