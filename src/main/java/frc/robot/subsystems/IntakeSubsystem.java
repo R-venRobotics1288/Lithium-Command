@@ -39,7 +39,7 @@ public class IntakeSubsystem extends SubsystemBase
         // intakingMotor.setSmartCurrentLimit(80);
         // positioningMotor.setSmartCurrentLimit(80);
         // feederMotor.setSmartCurrentLimit(80);
-        // intakingMotor.burnFlash();
+        // intakingMotor.burnFlash();       
         // positioningMotor.burnFlash();
         // feederMotor.burnFlash();
     }
@@ -52,10 +52,10 @@ public class IntakeSubsystem extends SubsystemBase
     
     public void intake()
     {
-        if (detectedColor.red > detectedColor.green && gcontroller.getRawButton(OIConstants.INTAKE_BUTTTON_PORT))
-        {
-            System.out.println("Orange");
-        }
+        // if (detectedColor.red > detectedColor.green && gcontroller.getRawButton(OIConstants.INTAKE_BUTTTON_PORT))
+        // {
+        //     System.out.println("Orange");
+        // }
         // else 
         // {
         //     intakingMotor.set(0);
