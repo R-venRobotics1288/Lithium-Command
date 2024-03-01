@@ -119,7 +119,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     xSpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
 		ySpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
-    rot /= 4;
+    rot /= DriveConstants.ROTATION_DIVISOR;
 
 		SwerveModuleState[] swerveModuleStates =
 				DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(

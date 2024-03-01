@@ -77,6 +77,8 @@ public final class Constants {
         public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
         public static final double MAX_SPEED_METERS_PER_SECOND = 5;
+                public static final double ROTATION_DIVISOR = 4;
+
     }
 
 
