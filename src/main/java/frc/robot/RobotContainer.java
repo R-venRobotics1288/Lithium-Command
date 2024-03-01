@@ -55,7 +55,7 @@ public class RobotContainer {
 
   public final ShooterSubsytem robotShooter = new ShooterSubsytem(operatorController);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
-  public final IntakeSubsystem robotIntake = new IntakeSubsystem(opetatorController);
+  public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
