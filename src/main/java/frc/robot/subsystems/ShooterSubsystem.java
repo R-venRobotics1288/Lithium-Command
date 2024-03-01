@@ -13,7 +13,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 
-public class ShooterSubsytem extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
     private CANSparkMax shooterLeft;
     private CANSparkMax shooterRight;
     private CANSparkMax feederMotor;
@@ -22,7 +22,7 @@ public class ShooterSubsytem extends SubsystemBase {
 
     Pose3d robotPositonToApril;
 
-    public ShooterSubsytem(XboxController controller) {
+    public ShooterSubsystem(XboxController controller) {
         feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT,
         MotorType.kBrushless);
         shooterLeft = new CANSparkMax(DriveConstants.LEFT_SHOOTER_MOTOR_PORT,

@@ -25,10 +25,9 @@ import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsytem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsytem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 import frc.robot.subsystems.LimitSwitchSubsystem;
-import frc.robot.subsystems.ShooterSubsytem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -54,7 +53,7 @@ public class RobotContainer {
 
   public final DriveSubsystem robotDrive = new DriveSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController);
-  public final ShooterSubsytem robotShooter = new ShooterSubsytem(operatorController);
+  public final ShooterSubsystem robotShooter = new ShooterSubsystem(operatorController);
   public final ElevatorSubsytem robotElevator = new ElevatorSubsytem(operatorController);
   public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
@@ -100,12 +99,12 @@ public class RobotContainer {
     //     limitSwitchSubsystem
     //   )
     // );
-    shooterSubsystem.setDefaultCommand(
+    robotShooter.setDefaultCommand(
       new RunCommand(
         () -> {
-          shooterSubsytem.buttonShoot();
+          robotShooter.buttonShoot();
         },
-        shooterSubsystem)
+        robotShooter)
     );
 
     robotElevator.setDefaultCommand(
