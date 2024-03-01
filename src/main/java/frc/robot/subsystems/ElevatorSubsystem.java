@@ -47,13 +47,13 @@ public class ElevatorSubsystem extends SubsystemBase
     {
         if((leftElevatorEncoder.getPosition() < ElevatorConstants.TOP_ELEVATOR_LIMIT || rightElevatorEncoder.getPosition() < ElevatorConstants.BOT_ELEVATOR_LIMIT) && gController.getLeftY() > ModuleConstants.DEADBAND)
         {
-            leftElevatorMotor.set(0.35);
-            rightElevatorMotor.set(0.35);
+            leftElevatorMotor.set(ElevatorConstants.LEFT_MOTOR_SPEED);
+            rightElevatorMotor.set(ElevatorConstants.RIGHT_MOTOR_SPEED);
         }
         else if((leftElevatorEncoder.getPosition() > ElevatorConstants.BOT_ELEVATOR_LIMIT || rightElevatorEncoder.getPosition() > ElevatorConstants.BOT_ELEVATOR_LIMIT) && gController.getLeftY() < -ModuleConstants.DEADBAND)
         {
-            leftElevatorMotor.set(-0.35);
-            rightElevatorMotor.set(-0.35);
+            leftElevatorMotor.set(-ElevatorConstants.LEFT_MOTOR_SPEED);
+            rightElevatorMotor.set(-ElevatorConstants.RIGHT_MOTOR_SPEED);
         }
         else
         {
