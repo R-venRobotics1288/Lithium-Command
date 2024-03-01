@@ -23,7 +23,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ElevatorSubsytem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -54,7 +54,7 @@ public class RobotContainer {
   public final DriveSubsystem robotDrive = new DriveSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController);
   public final ShooterSubsystem robotShooter = new ShooterSubsystem(operatorController);
-  public final ElevatorSubsytem robotElevator = new ElevatorSubsytem(operatorController);
+  public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
   public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
   public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();

@@ -136,9 +136,6 @@ public final class Constants {
         public static final int INTAKE_BUTTTON_PORT = 5;
         public static final int AMP_BUTTON_PORT = 7;
         public static final int SPEAKER_BUTTON_PORT = 8;
-
-        public static final int ELEVATOR_UP_BUTTON_PORT = 4;
-        public static final int ELEVATOR_DOWN_BUTTON_PORT = 2;
     }
 
     public static final class AutoConstants 
@@ -165,7 +162,7 @@ public final class Constants {
         public static final double SPEAKER_SPEED = 0.5;
         public static final double AMP_SPEED = 0.4;
     }
-    public static final class IntakeConstants
+    public static final class ElevatorConstants
     {
         public static final double TOP_ELEVATOR_LIMIT = 50;
         public static final double BOT_ELEVATOR_LIMIT = 0;
