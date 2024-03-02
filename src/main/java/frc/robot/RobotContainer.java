@@ -53,7 +53,7 @@ public class RobotContainer {
   
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
-  public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+  public static CommandXboxController operatorController = new CommandXboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
   public static CANSparkMax feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
   
   public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController, feederMotor);
@@ -137,13 +137,29 @@ public class RobotContainer {
    */
   private void configureButtonBindings() 
   {
-    // EventLoop event = new EventLoop();
-    // event.bind(
-    //   () -> {
-    //     System.out.println("Hello");
-    //   }
-    // );
-    // operatorController.button(2, event);
+    driverController.button(7).and(driverController.button(8)).whileTrue(robotDrive.ResetGyro());
+
+    operatorController.rightBumper().whileTrue(robotIntake.IntakeForward());
+    operatorController.leftBumper().whileTrue(robotIntake.IntakeReverse());
+
+    operatorController.rightBumper().whileFalse(robotIntake.IntakeStop());
+    operatorController.rightBumper().whileFalse(robotIntake.IntakeStop());
+
+    operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsytem.FeederMotorForward());
+    operatorController.axisGreaterThan(2, 0.75).whileTrue(shooterSubsytem.FeederMotorReverse());
+
+    operatorController.axisGreaterThan(3, 0.75).whileFalse(shooterSubsytem.FeederStop());
+    operatorController.axisGreaterThan(2, 0.75).whileFalse(shooterSubsytem.FeederStop());
+
+    operatorController.x().whileTrue(shooterSubsytem.ShooterReverse());
+    operatorController.x().whileFalse(shooterSubsytem.ShooterStop());
+
+    operatorController.y().whileTrue(shooterSubsytem.SpeakerShooter());
+    operatorController.y().whileFalse(shooterSubsytem.ShooterStop());
+
+    operatorController.a().whileTrue(shooterSubsytem.AMPShooter());
+    operatorController.a().whileFalse(shooterSubsytem.ShooterStop());
+
 
   }
 
