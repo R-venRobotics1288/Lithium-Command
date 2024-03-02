@@ -142,7 +142,7 @@ public class RobotContainer {
     operatorController.rightBumper().whileTrue(robotIntake.IntakeForward());
     operatorController.leftBumper().whileTrue(robotIntake.IntakeReverse());
 
-    operatorController.rightBumper().whileFalse(robotIntake.IntakeStop());
+    operatorController.leftBumper().whileFalse(robotIntake.IntakeStop());
     operatorController.rightBumper().whileFalse(robotIntake.IntakeStop());
 
     operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsytem.FeederMotorForward());

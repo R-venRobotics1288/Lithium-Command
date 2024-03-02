@@ -38,8 +38,6 @@ public class IntakeSubsystem extends SubsystemBase
     @Override
     public void periodic()
     {
-      
-      
         detectedColor = colourSensorSubsystem.getDetectedColour();
     }
     
@@ -47,7 +45,7 @@ public class IntakeSubsystem extends SubsystemBase
         return this.run(() -> {
             intakingMotor.set(IntakeConstants.INTAKING_SPEED);
             positioningMotor.set(IntakeConstants.POSITIONING_SPEED);
-            feederMotor.set(IntakeConstants.FEEDER_SPEED);
+            feederMotor.set(-IntakeConstants.FEEDER_SPEED);
         });
     };
 
@@ -56,13 +54,13 @@ public class IntakeSubsystem extends SubsystemBase
         return this.run(() -> {
             intakingMotor.set(-IntakeConstants.INTAKING_SPEED);
             positioningMotor.set(-IntakeConstants.POSITIONING_SPEED);
-            feederMotor.set(-IntakeConstants.FEEDER_SPEED);
+            feederMotor.set(IntakeConstants.FEEDER_SPEED);
         });
     }
 
     public Command IntakeStop()
     {
-        return this.runOnce(() -> {
+        return this.run(() -> {
             intakingMotor.set(0);
             positioningMotor.set(0);
             feederMotor.set(0);

@@ -71,7 +71,7 @@ public class ShooterSubsytem extends SubsystemBase {
 
     public Command FeederStop()
     {
-        return this.runOnce(() -> {
+        return this.run(() -> {
             feederMotor.set(0);
         });
     }
@@ -102,7 +102,7 @@ public class ShooterSubsytem extends SubsystemBase {
 
     public Command ShooterStop()
     {
-        return this.runOnce(() -> {
+        return this.run(() -> {
             shooterLeft.set(0);
             shooterRight.set(0);
         });
@@ -110,36 +110,6 @@ public class ShooterSubsytem extends SubsystemBase {
 
     // TODO: event driven button input
     public void buttonShoot() {
-        // Feeder Motor
-        if (gcontroller.getRightTriggerAxis() > 0.75)
-        {
-        }
-        // Feeder Revserse
-        else if (gcontroller.getLeftTriggerAxis() > 0.75)
-        {
-        }
-        else
-        {
-        }
-
-        // Shooter Backwards
-        if (gcontroller.getXButton()) 
-        {
-          
-        }
-        // Speaker Button
-        else if (gcontroller.getYButton())
-        {
-           
-        }
-        // AMP Button
-        else if (gcontroller.getAButton())
-        {
-            
-        }
-        else 
-        {
-           
-        }
+        
     }
 }

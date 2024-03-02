@@ -175,8 +175,8 @@ public final class Constants {
     }
     public static final class IntakeConstants
     {
-        public static final double INTAKING_SPEED = 0.3;
-        public static final double POSITIONING_SPEED = 0.7;
+        public static final double INTAKING_SPEED = 0.35;
+        public static final double POSITIONING_SPEED = 0.25;
         public static final double FEEDER_SPEED = 0.15;
     }
 }
