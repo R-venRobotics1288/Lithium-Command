@@ -57,12 +57,12 @@ public class RobotContainer {
   public static CommandXboxController operatorController = new CommandXboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
   public static CANSparkMax feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
   
-  public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(operatorController, feederMotor);
+  public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(feederMotor);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
  // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
   public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
-  public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController, feederMotor);
+  public final IntakeSubsystem robotIntake = new IntakeSubsystem(feederMotor);
   public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -136,18 +136,6 @@ public class RobotContainer {
                   colourSensorSubsystem.getDetectedColour().toHexString());
             },
             colourSensorSubsystem));
-        
-            shooterSubsystem.setDefaultCommand(
-                new RunCommand(
-                    () -> {
-                      shooterSubsystem.buttonShoot();
-                    }, shooterSubsystem));
-
-            robotIntake.setDefaultCommand(
-                new RunCommand(
-                    () -> {
-                      robotIntake.intake();
-                    }, robotIntake));
   }
 
   /**
@@ -183,8 +171,6 @@ public class RobotContainer {
 
     operatorController.a().whileTrue(shooterSubsystem.AMPShooter());
     operatorController.a().whileFalse(shooterSubsystem.ShooterStop());
-
-
   }
 
   /**

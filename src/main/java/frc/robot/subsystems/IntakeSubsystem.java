@@ -20,19 +20,17 @@ public class IntakeSubsystem extends SubsystemBase
     private CANSparkMax positioningMotor;
     private CANSparkMax feederMotor;
 
-    private CommandXboxController gcontroller;
     private ColourSensorSubsystem colourSensorSubsystem;
 
     private Color detectedColor;
 
-    public IntakeSubsystem(CommandXboxController controller, CANSparkMax feederMotor) 
+    public IntakeSubsystem(CANSparkMax feederMotor) 
     {
         this.feederMotor = feederMotor;
         intakingMotor = new CANSparkMax(DriveConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
         positioningMotor = new CANSparkMax(DriveConstants.POSITION_MOTOR_PORT, MotorType.kBrushless);
 
         colourSensorSubsystem = new ColourSensorSubsystem();
-        gcontroller = controller;
     }
 
     @Override
@@ -66,12 +64,4 @@ public class IntakeSubsystem extends SubsystemBase
             feederMotor.set(0);
         });
     }
-
-    public void intake()
-    {
-     
-        // detectedColor.red > detectedColor.green 
-       
-    }
-    
 }

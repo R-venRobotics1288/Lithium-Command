@@ -18,11 +18,9 @@ public class ShooterSubsystem extends SubsystemBase {
     private CANSparkMax shooterRight;
     private CANSparkMax feederMotor;
 
-    private final XboxController gcontroller = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
-
     Pose3d robotPositonToApril;
 
-    public ShooterSubsystem(CommandXboxController controller, CANSparkMax feederMotor) {
+    public ShooterSubsystem(CANSparkMax feederMotor) {
         this.feederMotor = feederMotor;
         shooterLeft = new CANSparkMax(DriveConstants.LEFT_SHOOTER_MOTOR_PORT,
         MotorType.kBrushless);
@@ -106,10 +104,5 @@ public class ShooterSubsystem extends SubsystemBase {
             shooterLeft.set(0);
             shooterRight.set(0);
         });
-    }
-
-    // TODO: event driven button input
-    public void buttonShoot() {
-        
     }
 }
