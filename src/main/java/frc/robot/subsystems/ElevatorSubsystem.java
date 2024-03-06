@@ -7,6 +7,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ModuleConstants;
@@ -19,9 +21,9 @@ public class ElevatorSubsystem extends SubsystemBase
     private RelativeEncoder rightElevatorEncoder;
     private RelativeEncoder leftElevatorEncoder;
 
-    private XboxController gController;
+    private CommandXboxController gController;
 
-    public ElevatorSubsystem(XboxController controller)
+    public ElevatorSubsystem(CommandXboxController controller)
     {
         leftElevatorMotor = new CANSparkMax(DriveConstants.LEFT_ELEVATOR_MOTOR_PORT,MotorType.kBrushless);
         rightElevatorMotor = new CANSparkMax(DriveConstants.RIGHT_ELEVATOR_MOTOR_PORT, MotorType.kBrushless);
