@@ -29,8 +29,8 @@ public class ElevatorSubsystem extends SubsystemBase
         
         gController = controller;
 
-        leftElevatorMotor.setSmartCurrentLimit(130);
-        rightElevatorMotor.setSmartCurrentLimit(130);
+        // leftElevatorMotor.setSmartCurrentLimit(230);
+        // rightElevatorMotor.setSmartCurrentLimit(230);
         leftElevatorMotor.setIdleMode(IdleMode.kBrake);
         rightElevatorMotor.setIdleMode(IdleMode.kBrake);
         leftElevatorMotor.burnFlash();
@@ -48,17 +48,19 @@ public class ElevatorSubsystem extends SubsystemBase
 
     public void elevatorControl()
     {
+        System.out.println("Left Encoder Position:" +  leftElevatorEncoder.getPosition());
+        System.out.println((leftElevatorEncoder.getPosition() > ElevatorConstants.BOT_ELEVATOR_LIMIT));
         // Up
-        if((rightElevatorEncoder.getPosition() < ElevatorConstants.TOP_ELEVATOR_LIMIT) && gController.getLeftY() > ModuleConstants.DEADBAND)
-        {
-            leftElevatorMotor.set(-ElevatorConstants.LEFT_MOTOR_SPEED);
-            rightElevatorMotor.set(ElevatorConstants.RIGHT_MOTOR_SPEED);
-        }
-        // Down
-        else if((leftElevatorEncoder.getPosition() > ElevatorConstants.BOT_ELEVATOR_LIMIT) && gController.getLeftY() < -ModuleConstants.DEADBAND)
+        if((rightElevatorEncoder.getPosition() > -ElevatorConstants.TOP_ELEVATOR_LIMIT) && gController.getLeftY() < -ModuleConstants.DEADBAND)
         {
             leftElevatorMotor.set(ElevatorConstants.LEFT_MOTOR_SPEED);
             rightElevatorMotor.set(-ElevatorConstants.RIGHT_MOTOR_SPEED);
+        }
+        // Down
+        else if((leftElevatorEncoder.getPosition() > ElevatorConstants.BOT_ELEVATOR_LIMIT) && gController.getLeftY() > ModuleConstants.DEADBAND)
+        {
+            leftElevatorMotor.set(-ElevatorConstants.LEFT_MOTOR_SPEED);
+            rightElevatorMotor.set(ElevatorConstants.RIGHT_MOTOR_SPEED);
         }
         else
         {
