@@ -24,10 +24,10 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsytem;
-
 import frc.robot.subsystems.LimitSwitchSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -50,18 +50,20 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
  */
 public class RobotContainer {
   // The robot's subsystems
+
   
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static CommandXboxController operatorController = new CommandXboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
   public static CANSparkMax feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
   
-  public final ShooterSubsytem shooterSubsytem = new ShooterSubsytem(operatorController, feederMotor);
+  public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(operatorController, feederMotor);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
  // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
   public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController, feederMotor);
+  public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -104,6 +106,28 @@ public class RobotContainer {
     //         },
     //         cameraSubsystem));
     // /* Prints Colour Sensor information to SmartDashboard */
+
+    /* Prints current status of limit switches to SmartDashboard */
+    // limitSwitchSubsystem.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> {
+    //       for (int i = 0; i < Constants.ModuleConstants.LIMIT_SWITCHES.length; i++) {
+    //         SmartDashboard.putBoolean("Limit Switch #" + i, limitSwitchSubsystem.isClosed(i));
+    //       }
+    //     },
+    //     limitSwitchSubsystem
+    //   )
+    // );
+
+    robotElevator.setDefaultCommand(
+      new RunCommand
+      (
+        () -> {
+          robotElevator.elevatorControl();
+        }, robotElevator
+      )
+    );
+
     colourSensorSubsystem.setDefaultCommand(
         new RunCommand(
             () -> {
@@ -113,11 +137,11 @@ public class RobotContainer {
             },
             colourSensorSubsystem));
         
-            shooterSubsytem.setDefaultCommand(
+            shooterSubsystem.setDefaultCommand(
                 new RunCommand(
                     () -> {
-                      shooterSubsytem.buttonShoot();
-                    }, shooterSubsytem));
+                      shooterSubsystem.buttonShoot();
+                    }, shooterSubsystem));
 
             robotIntake.setDefaultCommand(
                 new RunCommand(
@@ -145,20 +169,20 @@ public class RobotContainer {
     operatorController.leftBumper().whileFalse(robotIntake.IntakeStop());
     operatorController.rightBumper().whileFalse(robotIntake.IntakeStop());
 
-    operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsytem.FeederMotorForward());
-    operatorController.axisGreaterThan(2, 0.75).whileTrue(shooterSubsytem.FeederMotorReverse());
+    operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsystem.FeederMotorForward());
+    operatorController.axisGreaterThan(2, 0.75).whileTrue(shooterSubsystem.FeederMotorReverse());
 
-    operatorController.axisGreaterThan(3, 0.75).whileFalse(shooterSubsytem.FeederStop());
-    operatorController.axisGreaterThan(2, 0.75).whileFalse(shooterSubsytem.FeederStop());
+    operatorController.axisGreaterThan(3, 0.75).whileFalse(shooterSubsystem.FeederStop());
+    operatorController.axisGreaterThan(2, 0.75).whileFalse(shooterSubsystem.FeederStop());
 
-    operatorController.x().whileTrue(shooterSubsytem.ShooterReverse());
-    operatorController.x().whileFalse(shooterSubsytem.ShooterStop());
+    operatorController.x().whileTrue(shooterSubsystem.ShooterReverse());
+    operatorController.x().whileFalse(shooterSubsystem.ShooterStop());
 
-    operatorController.y().whileTrue(shooterSubsytem.SpeakerShooter());
-    operatorController.y().whileFalse(shooterSubsytem.ShooterStop());
+    operatorController.y().whileTrue(shooterSubsystem.SpeakerShooter());
+    operatorController.y().whileFalse(shooterSubsystem.ShooterStop());
 
-    operatorController.a().whileTrue(shooterSubsytem.AMPShooter());
-    operatorController.a().whileFalse(shooterSubsytem.ShooterStop());
+    operatorController.a().whileTrue(shooterSubsystem.AMPShooter());
+    operatorController.a().whileFalse(shooterSubsystem.ShooterStop());
 
 
   }
