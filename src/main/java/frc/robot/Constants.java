@@ -51,15 +51,28 @@ public final class Constants {
         public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 6;
         public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 9;
 
-        public static final double SPEED_RATE_LIMIT = 1.0;
-        public static final double SPEED_ROT_LIMIT = 3.0;
-
         public static final int INTAKE_MOTOR_PORT = 11;
         public static final int POSITION_MOTOR_PORT = 12;
         public static final int FEEDER_MOTOR_PORT = 13;
 
         public static final int LEFT_SHOOTER_MOTOR_PORT = 14;
         public static final int RIGHT_SHOOTER_MOTOR_PORT = 15;
+
+        public static final int LEFT_ELEVATOR_MOTOR_PORT = 16;
+        public static final int RIGHT_ELEVATOR_MOTOR_PORT = 17;
+
+        public static final boolean FRONT_LEFT_TURNING_ENCODER_REVERSED = false;
+        public static final boolean REAR_LEFT_TURNING_ENCODER_REVERSED = true;
+        public static final boolean FRONT_RIGHT_TURNING_ENCODER_REVERSED = false;
+        public static final boolean REAR_RIGHT_TURNING_ENCODER_REVERSED = true;
+
+        public static final boolean FRONT_LEFT_DRIVE_ENCODER_REVERSED = false;
+        public static final boolean REAR_LEFT_DRIVE_ENCODER_REVERSED = true;
+        public static final boolean FRONT_RIGHT_DRIVE_ENCODER_REVERSED = false;
+        public static final boolean REAR_RIGHT_DRIVE_ENCODER_REVERSED = true;
+
+        public static final double SPEED_RATE_LIMIT = 1.0;
+        public static final double SPEED_ROT_LIMIT = 3.0;
 
         public static final double TRACK_WIDTH = 25.5625;
         // Distance between centers of right and left wheels on robot
@@ -176,5 +189,13 @@ public final class Constants {
         public static final double SHOOTER_REVERSE_SPEED = 0.15;
         public static final double SPEAKER_SPEED = 0.5;
         public static final double AMP_SPEED = 0.4;
+    }
+    public static final class ElevatorConstants
+    {
+        public static final double TOP_ELEVATOR_LIMIT = 24;
+        public static final double BOT_ELEVATOR_LIMIT = 0;
+
+        public static final double LEFT_MOTOR_SPEED = 0.1;
+        public static final double RIGHT_MOTOR_SPEED = 0.1;
     }
 }

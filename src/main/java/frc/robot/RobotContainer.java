@@ -24,10 +24,10 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsytem;
-
 import frc.robot.subsystems.LimitSwitchSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -45,17 +45,18 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems
-  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
-  // public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
-  
+
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
 
-  public final ShooterSubsytem robotShooter = new ShooterSubsytem(operatorController);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController);
+  public final ShooterSubsystem robotShooter = new ShooterSubsystem(operatorController);
+  public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
+  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
+  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -91,7 +92,27 @@ public class RobotContainer {
                       Math.toDegrees(estimatedPose.getRotation().getZ()) });
             },
             cameraSubsystem));
-    /* Prints Colour Sensor information to SmartDashboard */
+    /* Prints current status of limit switches to SmartDashboard */
+    // limitSwitchSubsystem.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> {
+    //       for (int i = 0; i < Constants.ModuleConstants.LIMIT_SWITCHES.length; i++) {
+    //         SmartDashboard.putBoolean("Limit Switch #" + i, limitSwitchSubsystem.isClosed(i));
+    //       }
+    //     },
+    //     limitSwitchSubsystem
+    //   )
+    // );
+
+    robotElevator.setDefaultCommand(
+      new RunCommand
+      (
+        () -> {
+          robotElevator.elevatorControl();
+        }, robotElevator
+      )
+    );
+
     colourSensorSubsystem.setDefaultCommand(
         new RunCommand(
             () -> {
