@@ -49,14 +49,12 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
-
-  
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static CommandXboxController operatorController = new CommandXboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
   public static CANSparkMax feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
   
+  // The robot's subsystems
   public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(feederMotor);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
  // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
@@ -66,9 +64,8 @@ public class RobotContainer {
   public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-
-
+  public RobotContainer() 
+  {
     feederMotor.setSmartCurrentLimit(80);
     feederMotor.setIdleMode(IdleMode.kBrake);
     feederMotor.burnFlash();
@@ -171,6 +168,8 @@ public class RobotContainer {
 
     operatorController.a().whileTrue(shooterSubsystem.AMPShooter());
     operatorController.a().whileFalse(shooterSubsystem.ShooterStop());
+
+    operatorController.button(7).whileTrue(robotElevator.ResetEncoders());
   }
 
   /**
