@@ -67,8 +67,8 @@ public class ElevatorSubsystem extends SubsystemBase
             leftElevatorMotor.set(ElevatorConstants.LEFT_MOTOR_SPEED);
             rightElevatorMotor.set(-ElevatorConstants.RIGHT_MOTOR_SPEED);
         }
-        // Down
-        else if((leftElevatorEncoder.getPosition() > ElevatorConstants.BOT_ELEVATOR_LIMIT) && gController.getLeftY() > ModuleConstants.DEADBAND)
+        // Down    
+        else if(((int)leftElevatorEncoder.getPosition() > ElevatorConstants.BOT_ELEVATOR_LIMIT) && gController.getLeftY() > ModuleConstants.DEADBAND)
         {
             leftElevatorMotor.set(-ElevatorConstants.LEFT_MOTOR_SPEED);
             rightElevatorMotor.set(ElevatorConstants.RIGHT_MOTOR_SPEED);
