@@ -37,6 +37,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -44,22 +49,27 @@ import java.util.List;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
-
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
-  public static XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
-
+  public static CommandXboxController operatorController = new CommandXboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+  public static CANSparkMax feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
+  
+  // The robot's subsystems
+  public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(feederMotor);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
-  public final IntakeSubsystem robotIntake = new IntakeSubsystem(operatorController);
-  public final ShooterSubsystem robotShooter = new ShooterSubsystem(operatorController);
-  public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
-  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+ // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
   public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+  public final IntakeSubsystem robotIntake = new IntakeSubsystem(feederMotor);
+  public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  public RobotContainer() 
+  {
+    feederMotor.setSmartCurrentLimit(80);
+    feederMotor.setIdleMode(IdleMode.kBrake);
+    feederMotor.burnFlash();
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -79,19 +89,21 @@ public class RobotContainer {
             robotDrive));
 
     /* Configure default commands */
-    cameraSubsystem.setDefaultCommand(
-        /* Prints estimated pose to SmartDashboard */
-        new RunCommand(
-            () -> {
-              Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
-              SmartDashboard.putNumberArray("Camera Estimated Position",
-                  new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
-              SmartDashboard.putNumberArray("Camera Estimated Rotation",
-                  new double[] { Math.toDegrees(estimatedPose.getRotation().getX()),
-                      Math.toDegrees(estimatedPose.getRotation().getY()),
-                      Math.toDegrees(estimatedPose.getRotation().getZ()) });
-            },
-            cameraSubsystem));
+    // cameraSubsystem.setDefaultCommand(
+    //     /* Prints estimated pose to SmartDashboard */
+    //     new RunCommand(
+    //         () -> {
+    //           Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
+    //           SmartDashboard.putNumberArray("Camera Estimated Position",
+    //               new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
+    //           SmartDashboard.putNumberArray("Camera Estimated Rotation",
+    //               new double[] { Math.toDegrees(estimatedPose.getRotation().getX()),
+    //                   Math.toDegrees(estimatedPose.getRotation().getY()),
+    //                   Math.toDegrees(estimatedPose.getRotation().getZ()) });
+    //         },
+    //         cameraSubsystem));
+    // /* Prints Colour Sensor information to SmartDashboard */
+
     /* Prints current status of limit switches to SmartDashboard */
     // limitSwitchSubsystem.setDefaultCommand(
     //   new RunCommand(
@@ -121,17 +133,6 @@ public class RobotContainer {
                   colourSensorSubsystem.getDetectedColour().toHexString());
             },
             colourSensorSubsystem));
-    robotIntake.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              robotIntake.intake();
-            }, robotIntake));
-
-    robotShooter.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              robotShooter.buttonShoot();
-            }, robotShooter));
   }
 
   /**
@@ -143,15 +144,32 @@ public class RobotContainer {
    * passing it to a
    * {@link JoystickButton}.
    */
-  private void configureButtonBindings() {
-    // EventLoop event = new EventLoop();
-    // event.bind(
-    //   () -> {
-    //     System.out.println("Hello");
-    //   }
-    // );
-    // operatorController.button(2, event);
+  private void configureButtonBindings() 
+  {
+    driverController.button(7).and(driverController.button(8)).whileTrue(robotDrive.ResetGyro());
 
+    operatorController.rightBumper().whileTrue(robotIntake.IntakeForward());
+    operatorController.leftBumper().whileTrue(robotIntake.IntakeReverse());
+
+    operatorController.leftBumper().whileFalse(robotIntake.IntakeStop());
+    operatorController.rightBumper().whileFalse(robotIntake.IntakeStop());
+
+    operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsystem.FeederMotorForward());
+    operatorController.axisGreaterThan(2, 0.75).whileTrue(shooterSubsystem.FeederMotorReverse());
+
+    operatorController.axisGreaterThan(3, 0.75).whileFalse(shooterSubsystem.FeederStop());
+    operatorController.axisGreaterThan(2, 0.75).whileFalse(shooterSubsystem.FeederStop());
+
+    operatorController.x().whileTrue(shooterSubsystem.ShooterReverse());
+    operatorController.x().whileFalse(shooterSubsystem.ShooterStop());
+
+    operatorController.y().whileTrue(shooterSubsystem.SpeakerShooter());
+    operatorController.y().whileFalse(shooterSubsystem.ShooterStop());
+
+    operatorController.a().whileTrue(shooterSubsystem.AMPShooter());
+    operatorController.a().whileFalse(shooterSubsystem.ShooterStop());
+
+    operatorController.button(7).whileTrue(robotElevator.ResetEncoders());
   }
 
   /**
@@ -208,5 +226,5 @@ public class RobotContainer {
   //               robotDrive);
   //   return swerveControllerCommand;
 
-  // }
-} 
+ //}
+}

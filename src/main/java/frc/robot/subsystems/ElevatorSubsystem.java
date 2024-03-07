@@ -6,7 +6,10 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ModuleConstants;
@@ -19,9 +22,9 @@ public class ElevatorSubsystem extends SubsystemBase
     private RelativeEncoder rightElevatorEncoder;
     private RelativeEncoder leftElevatorEncoder;
 
-    private XboxController gController;
+    private CommandXboxController gController;
 
-    public ElevatorSubsystem(XboxController controller)
+    public ElevatorSubsystem(CommandXboxController controller)
     {
         leftElevatorMotor = new CANSparkMax(DriveConstants.LEFT_ELEVATOR_MOTOR_PORT,MotorType.kBrushless);
         rightElevatorMotor = new CANSparkMax(DriveConstants.RIGHT_ELEVATOR_MOTOR_PORT, MotorType.kBrushless);
@@ -46,6 +49,14 @@ public class ElevatorSubsystem extends SubsystemBase
         
     }
 
+    public Command ResetEncoders()
+    {
+        return this.runOnce(() -> {
+            leftElevatorEncoder.setPosition(0);
+            rightElevatorEncoder.setPosition(0);
+        });
+    }
+
     public void elevatorControl()
     {
         System.out.println("Left Encoder Position:" +  leftElevatorEncoder.getPosition());
@@ -56,8 +67,8 @@ public class ElevatorSubsystem extends SubsystemBase
             leftElevatorMotor.set(ElevatorConstants.LEFT_MOTOR_SPEED);
             rightElevatorMotor.set(-ElevatorConstants.RIGHT_MOTOR_SPEED);
         }
-        // Down
-        else if((leftElevatorEncoder.getPosition() > ElevatorConstants.BOT_ELEVATOR_LIMIT) && gController.getLeftY() > ModuleConstants.DEADBAND)
+        // Down    
+        else if(((int)leftElevatorEncoder.getPosition() > ElevatorConstants.BOT_ELEVATOR_LIMIT) && gController.getLeftY() > ModuleConstants.DEADBAND)
         {
             leftElevatorMotor.set(-ElevatorConstants.LEFT_MOTOR_SPEED);
             rightElevatorMotor.set(ElevatorConstants.RIGHT_MOTOR_SPEED);

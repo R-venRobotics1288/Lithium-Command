@@ -102,8 +102,8 @@ public class SwerveModule {
     // m_turningPIDController.setFF(1 / ModuleConstants.kDriveWheelFreeSpeedRps);
     m_turningPIDController.setOutputRange(-1, 1);
 
-    m_drivingSparkMax.setIdleMode(IdleMode.kBrake);
-    m_turningSparkMax.setIdleMode(IdleMode.kBrake);
+    m_drivingSparkMax.setIdleMode(IdleMode.kCoast);
+    m_turningSparkMax.setIdleMode(IdleMode.kCoast);
     m_drivingSparkMax.setSmartCurrentLimit(60);
     m_turningSparkMax.setSmartCurrentLimit(20);
 

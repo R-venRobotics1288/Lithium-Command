@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -60,6 +61,13 @@ public class DriveSubsystem extends SubsystemBase {
 
 	/** Creates a new DriveSubsystem. */
 	public DriveSubsystem() {}
+
+	public Command ResetGyro()
+	{
+		return this.runOnce(() -> {
+			gyro.setYaw(0);
+		});
+	}
 
 	@Override
 	public void periodic() {
@@ -113,8 +121,13 @@ public class DriveSubsystem extends SubsystemBase {
 
 		// double yspeed = -ySpeedLimiter.calculate(MathUtil
 			//.applyDeadband(RobotContainer.driverController.getLeftX(), Constants.ModuleConstants.DEADBAND));
-		xSpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
+		
+    xSpeed = xSpeedLimiter.calculate(xSpeed);
+    ySpeed = ySpeedLimiter.calculate(ySpeed);
+    
+    xSpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
 		ySpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
+    rot /= DriveConstants.ROTATION_DIVISOR;
 
 		SwerveModuleState[] swerveModuleStates =
 				DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(

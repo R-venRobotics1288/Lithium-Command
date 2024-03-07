@@ -111,4 +111,10 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+
+  @Override
+  public void simulationPeriodic() {
+        CommandScheduler.getInstance().run();
+
+  }
 }
