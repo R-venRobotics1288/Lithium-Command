@@ -9,39 +9,45 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
+
+	SlewRateLimiter xSpeedLimiter = new SlewRateLimiter(DriveConstants.SPEED_RATE_LIMIT);
+	SlewRateLimiter ySpeedLimiter = new SlewRateLimiter(DriveConstants.SPEED_RATE_LIMIT);
+
 	// Robot swerve modules
 	public final SwerveModule frontLeft =
 			new SwerveModule(
 					DriveConstants.FRONT_LEFT_DRIVE_MOTOR_PORT,
 					DriveConstants.FRONT_LEFT_TURNING_MOTOR_PORT,
-							DriveConstants.ENCODER_OFFSETS[0], true);
+							DriveConstants.LEFT_FRONT_ENCODER_OFFSET, true);
 
 	public final SwerveModule rearLeft =
 			new SwerveModule(
 					DriveConstants.REAR_LEFT_DRIVE_MOTOR_PORT,
 					DriveConstants.REAR_LEFT_TURNING_MOTOR_PORT,
-							DriveConstants.ENCODER_OFFSETS[1], true);
+							DriveConstants.LEFT_REAR_ENCODER_OFFSET, true);
 
 	public final SwerveModule frontRight =
 			new SwerveModule(
 					DriveConstants.FRONT_RIGHT_DRIVE_MOTOR_PORT,
 					DriveConstants.FRONT_RIGHT_TURNING_MOTOR_PORT,
-							DriveConstants.ENCODER_OFFSETS[2], true);
+							DriveConstants.RIGHT_FRONT_ENCODER_OFFET, true);
 
 	public final SwerveModule rearRight =
 			new SwerveModule(
 					DriveConstants.REAR_RIGHT_DRIVE_MOTOR_PORT,
 					DriveConstants.REAR_RIGHT_TURNING_MOTOR_PORT,
-							DriveConstants.ENCODER_OFFSETS[3], true);
+							DriveConstants.RIGHT_REAR_ENCODER_OFFET, true);
 
 	// The gyro sensor
 	private final PigeonIMU gyro = new PigeonIMU(30);
@@ -75,6 +81,13 @@ public class DriveSubsystem extends SubsystemBase {
 			this::switchAlliance,
 			this
 		);
+	}
+
+	public Command ResetGyro()
+	{
+		return this.runOnce(() -> {
+			gyro.setYaw(0);
+		});
 	}
 
 	@Override
@@ -163,8 +176,18 @@ public class DriveSubsystem extends SubsystemBase {
 	 * @param fieldRelative Whether the provided x and y speeds are relative to the field.
 	 */
 	public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+		//double xspeed = -xSpeedLimiter.calculate(MathUtil.applyDeadband(RobotContainer
+					 //.driverController.getLeftY(), Constants.ModuleConstants.DEADBAND));
+
+		// double yspeed = -ySpeedLimiter.calculate(MathUtil
+			//.applyDeadband(RobotContainer.driverController.getLeftX(), Constants.ModuleConstants.DEADBAND));
+		
+		xSpeed = xSpeedLimiter.calculate(xSpeed);
+		ySpeed = ySpeedLimiter.calculate(ySpeed);
+		
 		xSpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
 		ySpeed *= DriveConstants.MAX_SPEED_METERS_PER_SECOND;
+		rot /= DriveConstants.ROTATION_DIVISOR;
 
 		SwerveModuleState[] swerveModuleStates =
 				DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(

@@ -20,26 +20,10 @@ import edu.wpi.first.wpilibj.I2C;
 public final class Constants {
     public static final class DriveConstants {
 
-        /**
-         * The Order from top to bottom is:
-         * Front Left,
-         * Rear Left,
-         * Front Right,
-         * Rear Right
-         * */
-        // public static final double[] ENCODER_OFFSETS = {
-        //         0.0006103515625,
-        //         0.0001220703125,
-        //         0.0010986328125,
-        //         0.00048828125
-        // };
-
-        public static final double[] ENCODER_OFFSETS = {
-                Math.PI - Math.toRadians(0.73),
-                Math.PI - Math.toRadians(357.18),
-                Math.PI - Math.toRadians(0.28),
-                Math.PI - Math.toRadians(359.32)
-        };
+        public static final double LEFT_FRONT_ENCODER_OFFSET = Math.PI + Math.toRadians(180.83);
+        public static final double LEFT_REAR_ENCODER_OFFSET  = Math.PI + Math.toRadians(174.21);
+        public static final double RIGHT_FRONT_ENCODER_OFFET = Math.toRadians(345.98);
+        public static final double RIGHT_REAR_ENCODER_OFFET  = Math.toRadians(356.82);
 
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 4;
         public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 5;
@@ -51,15 +35,28 @@ public final class Constants {
         public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 6;
         public static final int REAR_RIGHT_TURNING_MOTOR_PORT = 9;
 
-        public static final double SPEED_RATE_LIMIT = 1.0;
-        public static final double SPEED_ROT_LIMIT = 3.0;
-
         public static final int INTAKE_MOTOR_PORT = 11;
         public static final int POSITION_MOTOR_PORT = 12;
         public static final int FEEDER_MOTOR_PORT = 13;
 
         public static final int LEFT_SHOOTER_MOTOR_PORT = 14;
         public static final int RIGHT_SHOOTER_MOTOR_PORT = 15;
+
+        public static final int LEFT_ELEVATOR_MOTOR_PORT = 16;
+        public static final int RIGHT_ELEVATOR_MOTOR_PORT = 17;
+
+        public static final boolean FRONT_LEFT_TURNING_ENCODER_REVERSED = false;
+        public static final boolean REAR_LEFT_TURNING_ENCODER_REVERSED = true;
+        public static final boolean FRONT_RIGHT_TURNING_ENCODER_REVERSED = false;
+        public static final boolean REAR_RIGHT_TURNING_ENCODER_REVERSED = true;
+
+        public static final boolean FRONT_LEFT_DRIVE_ENCODER_REVERSED = false;
+        public static final boolean REAR_LEFT_DRIVE_ENCODER_REVERSED = true;
+        public static final boolean FRONT_RIGHT_DRIVE_ENCODER_REVERSED = false;
+        public static final boolean REAR_RIGHT_DRIVE_ENCODER_REVERSED = true;
+
+        public static final double SPEED_RATE_LIMIT = 1.0;
+        public static final double SPEED_ROT_LIMIT = 3.0;
 
         public static final double TRACK_WIDTH = 25.5625;
         // Distance between centers of right and left wheels on robot
@@ -82,7 +79,9 @@ public final class Constants {
         public static final double kvVoltSecondsPerMeter = 0.8;
         public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
-        public static final double MAX_SPEED_METERS_PER_SECOND = 10;
+        public static final double MAX_SPEED_METERS_PER_SECOND = 5;
+        public static final double ROTATION_DIVISOR = 7;
+
     }
 
 
@@ -139,7 +138,7 @@ public final class Constants {
         public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
         public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
                 
-        public static final double DEADBAND = 0.4;
+        public static final double DEADBAND = 0.2;
 
     }
 
@@ -176,5 +175,21 @@ public final class Constants {
         public static final double SHOOTER_REVERSE_SPEED = 0.15;
         public static final double SPEAKER_SPEED = 0.5;
         public static final double AMP_SPEED = 0.4;
+    }
+
+    public static final class IntakeConstants
+    {
+        public static final double INTAKING_SPEED = 0.35;
+        public static final double POSITIONING_SPEED = 0.25;
+        public static final double FEEDER_SPEED = 0.15;
+    }
+
+    public static final class ElevatorConstants
+    {
+        public static final double TOP_ELEVATOR_LIMIT = 42;
+        public static final double BOT_ELEVATOR_LIMIT = 0;
+
+        public static final double LEFT_MOTOR_SPEED = 0.4;
+        public static final double RIGHT_MOTOR_SPEED = 0.4;
     }
 }

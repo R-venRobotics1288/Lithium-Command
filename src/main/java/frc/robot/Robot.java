@@ -51,14 +51,14 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.driveSubsystem.getFrontLeft()));
-    SmartDashboard.putNumber("Front Right Encoder", Math.toDegrees(robotContainer.driveSubsystem.getFrontRight()));
-    SmartDashboard.putNumber("Rear Left Encoder", Math.toDegrees(robotContainer.driveSubsystem.getRearLeft()));
-    SmartDashboard.putNumber("Rear Right Encoder", Math.toDegrees(robotContainer.driveSubsystem.getRearRight()));
+    SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
+    SmartDashboard.putNumber("Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
+    SmartDashboard.putNumber("Rear Left Encoder", Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
+    SmartDashboard.putNumber("Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
     SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
     SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
     SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRawAxis(4));
-    SmartDashboard.putNumberArray("Desired State", robotContainer.driveSubsystem.getDesiredState());
+    SmartDashboard.putNumberArray("Desired State", robotContainer.robotDrive.getDesiredState());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -109,5 +109,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
+  }
+
+  @Override
+  public void simulationPeriodic() {
+        CommandScheduler.getInstance().run();
+
   }
 }

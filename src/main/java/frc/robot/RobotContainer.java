@@ -8,15 +8,17 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 import frc.robot.subsystems.LimitSwitchSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -25,6 +27,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -32,75 +39,90 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
-  public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
-  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
-  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
-  public final ShooterSubsystem shooterSubsystem;
-  public final IntakeSubsystem intakeSubsystem;
-  public final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
   // The driver's controller
-  public final CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
-  public final XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+  public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public static CommandXboxController operatorController = new CommandXboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+  public static CANSparkMax feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
+  
+  // The robot's subsystems
+  public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(feederMotor);
+  public final DriveSubsystem robotDrive = new DriveSubsystem();
+ // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
+ //  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+  public final IntakeSubsystem robotIntake = new IntakeSubsystem(feederMotor);
+  public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Initialise subsystems dependent on controllers.
-    shooterSubsystem = new ShooterSubsystem(operatorController);
-    intakeSubsystem = new IntakeSubsystem(operatorController);
+  public RobotContainer() 
+  {
+    feederMotor.setSmartCurrentLimit(80);
+    feederMotor.setIdleMode(IdleMode.kBrake);
+    feederMotor.burnFlash();
 
     // Configure the button bindings
     configureButtonBindings();
 
     // Configure default commands
-    driveSubsystem.setDefaultCommand(
+    robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> {
-              driveSubsystem.drive(
+              robotDrive.drive(
                   Math.pow(MathUtil.applyDeadband(-driverController.getLeftY(), ModuleConstants.DEADBAND), 3),
                   Math.pow(MathUtil.applyDeadband(-driverController.getLeftX(), ModuleConstants.DEADBAND), 3),
                   Math.pow(MathUtil.applyDeadband(driverController.getRawAxis(4), ModuleConstants.DEADBAND), 3),
                   true);
             },
-            driveSubsystem));
+            robotDrive));
 
     /* Configure default commands */
-    cameraSubsystem.setDefaultCommand(
-        /* Prints estimated pose to SmartDashboard */
-        new RunCommand(
-            () -> {
-              Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
-              SmartDashboard.putNumberArray("Camera Estimated Position",
-                  new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
-              SmartDashboard.putNumberArray("Camera Estimated Rotation",
-                  new double[] { Math.toDegrees(estimatedPose.getRotation().getX()),
-                      Math.toDegrees(estimatedPose.getRotation().getY()),
-                      Math.toDegrees(estimatedPose.getRotation().getZ()) });
-            },
-            cameraSubsystem));
-    /* Prints Colour Sensor information to SmartDashboard */
-    colourSensorSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              SmartDashboard.putNumber("Colour Sensor Proximity", colourSensorSubsystem.getProximity());
-              SmartDashboard.putString("Colour Sensor Detected Colour",
-                  colourSensorSubsystem.getDetectedColour().toHexString());
-            },
-            colourSensorSubsystem));
-    intakeSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              intakeSubsystem.intake();
-            }, intakeSubsystem));
+    // cameraSubsystem.setDefaultCommand(
+    //     /* Prints estimated pose to SmartDashboard */
+    //     new RunCommand(
+    //         () -> {
+    //           Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
+    //           SmartDashboard.putNumberArray("Camera Estimated Position",
+    //               new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
+    //           SmartDashboard.putNumberArray("Camera Estimated Rotation",
+    //               new double[] { Math.toDegrees(estimatedPose.getRotation().getX()),
+    //                   Math.toDegrees(estimatedPose.getRotation().getY()),
+    //                   Math.toDegrees(estimatedPose.getRotation().getZ()) });
+    //         },
+    //         cameraSubsystem));
+    // /* Prints Colour Sensor information to SmartDashboard */
 
-    intakeSubsystem.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              intakeSubsystem.intake();;
-            }, intakeSubsystem));
+    /* Prints current status of limit switches to SmartDashboard */
+    // limitSwitchSubsystem.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> {
+    //       for (int i = 0; i < Constants.ModuleConstants.LIMIT_SWITCHES.length; i++) {
+    //         SmartDashboard.putBoolean("Limit Switch #" + i, limitSwitchSubsystem.isClosed(i));
+    //       }
+    //     },
+    //     limitSwitchSubsystem
+    //   )
+    // );
+
+    robotElevator.setDefaultCommand(
+      new RunCommand
+      (
+        () -> {
+          robotElevator.elevatorControl();
+        }, robotElevator
+      )
+    );
+
+  //  colourSensorSubsystem.setDefaultCommand(
+  //      new RunCommand(
+  //          () -> {
+  //            SmartDashboard.putNumber("Colour Sensor Proximity", colourSensorSubsystem.getProximity());
+  //           SmartDashboard.putString("Colour Sensor Detected Colour",
+  //                colourSensorSubsystem.getDetectedColour().toHexString());
+  //          },
+  //         colourSensorSubsystem));
   }
 
   /**
@@ -111,8 +133,32 @@ public class RobotContainer {
    * passing it to a
    * {@link JoystickButton}.
    */
-  private void configureButtonBindings() {
-    // HOW TO RUN COMMAND ON BUTTON PRESS -> driverController.x().onTrue(new RunCommand(() -> {}, robotDrive));
+  private void configureButtonBindings() 
+  {
+    driverController.button(7).and(driverController.button(8)).whileTrue(robotDrive.ResetGyro());
+
+    operatorController.rightBumper().whileTrue(robotIntake.IntakeForward());
+    operatorController.leftBumper().whileTrue(robotIntake.IntakeReverse());
+
+    operatorController.leftBumper().whileFalse(robotIntake.IntakeStop());
+    operatorController.rightBumper().whileFalse(robotIntake.IntakeStop());
+
+    operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsystem.FeederMotorForward());
+    operatorController.axisGreaterThan(2, 0.75).whileTrue(shooterSubsystem.FeederMotorReverse());
+
+    operatorController.axisGreaterThan(3, 0.75).whileFalse(shooterSubsystem.FeederStop());
+    operatorController.axisGreaterThan(2, 0.75).whileFalse(shooterSubsystem.FeederStop());
+
+    operatorController.x().whileTrue(shooterSubsystem.ShooterReverse());
+    operatorController.x().whileFalse(shooterSubsystem.ShooterStop());
+
+    operatorController.y().whileTrue(shooterSubsystem.SpeakerShooter());
+    operatorController.y().whileFalse(shooterSubsystem.ShooterStop());
+
+    operatorController.a().whileTrue(shooterSubsystem.AMPShooter());
+    operatorController.a().whileFalse(shooterSubsystem.ShooterStop());
+
+    operatorController.button(7).whileTrue(robotElevator.ResetEncoders());
   }
 
   /**

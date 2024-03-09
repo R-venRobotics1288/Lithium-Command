@@ -102,8 +102,8 @@ public class SwerveModule {
     // m_turningPIDController.setFF(1 / ModuleConstants.kDriveWheelFreeSpeedRps);
     m_turningPIDController.setOutputRange(-1, 1);
 
-    m_drivingSparkMax.setIdleMode(IdleMode.kBrake);
-    m_turningSparkMax.setIdleMode(IdleMode.kBrake);
+    m_drivingSparkMax.setIdleMode(IdleMode.kCoast);
+    m_turningSparkMax.setIdleMode(IdleMode.kCoast);
     m_drivingSparkMax.setSmartCurrentLimit(60);
     m_turningSparkMax.setSmartCurrentLimit(20);
 
@@ -135,9 +135,9 @@ public class SwerveModule {
   }
 
   /**
-   * Returns the current state of the module.
+   * Returns the current state (angle and speed) of the module.
    *
-   * @return The current state of the module.
+   * @return The current state (angle and speed) of the module.
    */
   public SwerveModuleState getState() {
     // Apply chassis angular offset to the encoder position to get the position
@@ -147,9 +147,9 @@ public class SwerveModule {
   }
 
   /**
-   * Returns the current position of the module.
+   * Returns the current position (angle and distance) of the module.
    *
-   * @return The current position of the module.
+   * @return The current position (angle and distance) of the module.
    */
   public SwerveModulePosition getPosition() {
     // Apply chassis angular offset to the encoder position to get the position
@@ -165,26 +165,30 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-    var encoderPosition = new Rotation2d(m_turningEncoder.getPosition());
+    // get current state, already corrected by offset
+    SwerveModuleState currentState = getState();
 
-    // Apply chassis angular offset to the desired state.
-    SwerveModuleState correctedDesiredState = new SwerveModuleState();
-    correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
-    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
+    // From this point, everything is done in the chassis reference frame.
 
     // Optimize the reference state to avoid spinning further than 90 degrees.
-    SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState, encoderPosition);
+    SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(desiredState, currentState.angle);
 
     // Move slower on harder turns
-    optimizedDesiredState.speedMetersPerSecond *= optimizedDesiredState.angle.minus(encoderPosition).getCos();
+    optimizedDesiredState.speedMetersPerSecond *= optimizedDesiredState.angle.minus(currentState.angle).getCos();
 
-    System.out.println("Desired State - " + optimizedDesiredState);
+    // System.out.println("Desired State - " + optimizedDesiredState);
 
     // Command driving and turning SPARKS MAX towards their respective setpoints.
-    m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
-    m_turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
+    m_drivingPIDController.setReference(
+        optimizedDesiredState.speedMetersPerSecond,
+        CANSparkMax.ControlType.kVelocity);
+    // Add the offset back as we set the PIDController, because the PIDController
+    // cares about the encoder's reference frame
+    m_turningPIDController.setReference(
+        optimizedDesiredState.angle.getRadians() + m_chassisAngularOffset,
+        CANSparkMax.ControlType.kPosition);
 
-    m_desiredState = optimizedDesiredState;
+    m_desiredState = optimizedDesiredState; // still chassis reference frame
   }
   
   public double getDesiredState()
