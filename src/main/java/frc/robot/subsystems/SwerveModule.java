@@ -165,7 +165,7 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-    var encoderPosition = new Rotation2d(m_turningEncoder.getPosition());
+    Rotation2d encoderPosition = new Rotation2d(m_turningEncoder.getPosition());
 
     // Apply chassis angular offset to the desired state.
     SwerveModuleState correctedDesiredState = new SwerveModuleState();
@@ -178,7 +178,7 @@ public class SwerveModule {
     // Move slower on harder turns
     optimizedDesiredState.speedMetersPerSecond *= optimizedDesiredState.angle.minus(encoderPosition).getCos();
 
-    System.out.println("Desired State - " + optimizedDesiredState);
+    // System.out.println("Desired State - " + optimizedDesiredState);
 
     // Command driving and turning SPARKS MAX towards their respective setpoints.
     m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);

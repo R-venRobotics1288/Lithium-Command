@@ -29,10 +29,10 @@ public final class Constants {
          * */
 
         public static final double[] ENCODER_OFFSETS = {
-                Math.PI - Math.toRadians(187.5),
-                Math.toRadians(358.9),
-                Math.PI + Math.toRadians(160.54),
-                Math.PI - Math.toRadians(185.4)
+            Math.PI - Math.toRadians(185.83),
+            Math.PI + Math.toRadians(174.5),
+            Math.toRadians(346.31),
+            Math.toRadians(355.45)
         };
 
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 4;
@@ -90,7 +90,7 @@ public final class Constants {
         public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
         public static final double MAX_SPEED_METERS_PER_SECOND = 5;
-                public static final double ROTATION_DIVISOR = 4;
+        public static final double ROTATION_DIVISOR = 7;
 
     }
 
