@@ -29,10 +29,10 @@ public final class Constants {
          * */
 
         public static final double[] ENCODER_OFFSETS = {
-            Math.PI - Math.toRadians(185.83),
-            Math.PI + Math.toRadians(174.5),
-            Math.toRadians(346.31),
-            Math.toRadians(355.45)
+                Math.PI + Math.toRadians(180.83),
+                Math.PI + Math.toRadians(174.21),
+                Math.toRadians(345.98),
+                Math.toRadians(356.82)
         };
 
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 4;
@@ -148,7 +148,7 @@ public final class Constants {
         public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
         public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
                 
-        public static final double DEADBAND = 0.4;
+        public static final double DEADBAND = 0.2;
 
     }
 
