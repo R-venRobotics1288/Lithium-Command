@@ -26,25 +26,25 @@ public class DriveSubsystem extends SubsystemBase {
 			new SwerveModule(
 					DriveConstants.FRONT_LEFT_DRIVE_MOTOR_PORT,
 					DriveConstants.FRONT_LEFT_TURNING_MOTOR_PORT,
-							DriveConstants.ENCODER_OFFSETS[0], true);
+					DriveConstants.FRONT_LEFT_ENCODER_OFFSET, true);
 
 	public final SwerveModule rearLeft =
 			new SwerveModule(
 					DriveConstants.REAR_LEFT_DRIVE_MOTOR_PORT,
 					DriveConstants.REAR_LEFT_TURNING_MOTOR_PORT,
-							DriveConstants.ENCODER_OFFSETS[1], true);
+					DriveConstants.REAR_LEFT_ENCODER_OFFSET, true);
 
 	public final SwerveModule frontRight =
 			new SwerveModule(
 					DriveConstants.FRONT_RIGHT_DRIVE_MOTOR_PORT,
 					DriveConstants.FRONT_RIGHT_TURNING_MOTOR_PORT,
-							DriveConstants.ENCODER_OFFSETS[2], true);
+					DriveConstants.FRONT_RIGHT_ENCODER_OFFSET, true);
 
 	public final SwerveModule rearRight =
 			new SwerveModule(
 					DriveConstants.REAR_RIGHT_DRIVE_MOTOR_PORT,
 					DriveConstants.REAR_RIGHT_TURNING_MOTOR_PORT,
-							DriveConstants.ENCODER_OFFSETS[3], true);
+					DriveConstants.REAR_RIGHT_ENCODER_OFFSET, true);
 
 	// The gyro sensor
 	private final PigeonIMU gyro = new PigeonIMU(30);

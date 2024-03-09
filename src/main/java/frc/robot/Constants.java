@@ -20,20 +20,10 @@ import edu.wpi.first.wpilibj.I2C;
 public final class Constants {
     public static final class DriveConstants {
 
-        /**
-         * The Order from top to bottom is:
-         * Front Left,
-         * Rear Left,
-         * Front Right,
-         * Rear Right
-         * */
-
-        public static final double[] ENCODER_OFFSETS = {
-                Math.PI - Math.toRadians(187.5),
-                Math.toRadians(358.9),
-                Math.PI + Math.toRadians(160.54),
-                Math.PI - Math.toRadians(185.4)
-        };
+        public static final double FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(-7.50);
+        public static final double REAR_LEFT_ENCODER_OFFSET = Math.toRadians(-1.10);
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(-19.46);
+        public static final double REAR_RIGHT_ENCODER_OFFSET = Math.toRadians(-5.40);
 
         public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 4;
         public static final int REAR_LEFT_DRIVE_MOTOR_PORT = 5;
