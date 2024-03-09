@@ -176,7 +176,7 @@ public class SwerveModule {
     // Move slower on harder turns
     optimizedDesiredState.speedMetersPerSecond *= optimizedDesiredState.angle.minus(currentState.angle).getCos();
 
-    System.out.println("Desired State - " + optimizedDesiredState);
+    // System.out.println("Desired State - " + optimizedDesiredState);
 
     // Command driving and turning SPARKS MAX towards their respective setpoints.
     m_drivingPIDController.setReference(
