@@ -186,7 +186,7 @@ public final class Constants {
 
     public static final class ElevatorConstants
     {
-        public static final double TOP_ELEVATOR_LIMIT = 42;
+        public static final double TOP_ELEVATOR_LIMIT = 290;
         public static final double BOT_ELEVATOR_LIMIT = 0;
 
         public static final double LEFT_MOTOR_SPEED = 0.4;
