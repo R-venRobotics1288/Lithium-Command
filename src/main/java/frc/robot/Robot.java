@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
   private Command alignmentCommand;
   private Command shooterCommand;
 
-  private RobotContainer robotContainer;
+  public RobotContainer robotContainer;
   private SendableChooser chooser;
 
   /**
@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override 
   public void autonomousInit() {
-    autonomousCommand = robotContainer.getAutonomousCommand();
+    autonomousCommand = robotContainer.startAuto();
     
     if (autonomousCommand != null) {
       autonomousCommand.schedule();

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.AutoSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColourSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -53,6 +54,7 @@ public class RobotContainer {
  //  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(feederMotor);
   public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
+  public final AutoSubsystem robotAuto = new AutoSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
@@ -136,6 +138,8 @@ public class RobotContainer {
   private void configureButtonBindings() 
   {
     driverController.button(7).and(driverController.button(8)).whileTrue(robotDrive.ResetGyro());
+    ///driverController.leftBumper().whileTrue(robotDrive.SlowSwerve());
+    //driverController.leftBumper().whileFalse(robotDrive.NormalSwerve());
 
     operatorController.rightBumper().whileTrue(robotIntake.IntakeForward());
     operatorController.leftBumper().whileTrue(robotIntake.IntakeReverse());
@@ -168,5 +172,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return new PathPlannerAuto("RavenCompetition");
+  }
+
+  public Command startAuto()
+  {
+     return robotAuto.startAutos();
   }
 }
