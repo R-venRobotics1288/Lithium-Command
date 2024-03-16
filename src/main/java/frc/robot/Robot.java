@@ -23,8 +23,7 @@ public class Robot extends TimedRobot {
   private Command shooterCommand;
 
   private RobotContainer robotContainer;
-
-
+  private SendableChooser chooser;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -37,11 +36,9 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
 
      
-    SendableChooser chooser = new SendableChooser<>();
-    chooser.addOption("Test", chooser);
-    chooser.addOption("null", chooser);
-    SmartDashboard.putData("Autonomous mode chooser", chooser);
-    System.out.println(chooser.getSelected());
+    chooser = new SendableChooser<>();
+
+    
 
   }
 
@@ -61,7 +58,11 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-   
+    chooser.addOption("Test", robotContainer);
+    chooser.addOption("null", chooser);
+    SmartDashboard.putData("Autonomous mode chooser", chooser);
+
+    System.out.println(chooser.getSelected());
 
 
     SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
