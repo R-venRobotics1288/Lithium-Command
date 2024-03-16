@@ -73,7 +73,7 @@ public class RobotContainer {
               robotDrive.drive(
                   Math.pow(MathUtil.applyDeadband(-driverController.getLeftY(), ModuleConstants.DEADBAND), 3),
                   Math.pow(MathUtil.applyDeadband(-driverController.getLeftX(), ModuleConstants.DEADBAND), 3),
-                  Math.pow(MathUtil.applyDeadband(driverController.getRawAxis(4), ModuleConstants.DEADBAND), 3),
+                  Math.pow(MathUtil.applyDeadband(-driverController.getRawAxis(4), ModuleConstants.DEADBAND), 3),
                   true);
             },
             robotDrive));

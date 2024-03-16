@@ -79,8 +79,8 @@ public final class Constants {
         public static final double kvVoltSecondsPerMeter = 0.8;
         public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
-        public static final double MAX_SPEED_METERS_PER_SECOND = 5;
-        public static final double ROTATION_DIVISOR = 7;
+        public static final double MAX_SPEED_METERS_PER_SECOND = 8;
+        public static final double ROTATION_DIVISOR = 4;
 
     }
 
@@ -189,7 +189,7 @@ public final class Constants {
         public static final double TOP_ELEVATOR_LIMIT = 310;
         public static final double BOT_ELEVATOR_LIMIT = 0;
 
-        public static final double LEFT_MOTOR_SPEED = 0.4;
-        public static final double RIGHT_MOTOR_SPEED = 0.4;
+        public static final double LEFT_MOTOR_SPEED = 0.55;
+        public static final double RIGHT_MOTOR_SPEED = 0.55;
     }
 }
