@@ -167,6 +167,9 @@ public class DriveSubsystem extends SubsystemBase {
 		pose);
 	}
 
+	private double xSpeed = 0;
+	private double yS
+
 	/**
 	 * Method to drive the robot using joystick info.
 	 *
@@ -202,10 +205,10 @@ public class DriveSubsystem extends SubsystemBase {
 		rearRight.setDesiredState(swerveModuleStates[3]);
 	}
 
-	public Command Drive(SwerveModuleState distance)
+	public Command AutoDrive(double xSpeed)
 	{
 		return this.runOnce(() ->{
-			
+			drive(omega, lastYaw, rollingDeltaYawIndex, false);
 		});
 	}
 
