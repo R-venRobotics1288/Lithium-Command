@@ -202,6 +202,13 @@ public class DriveSubsystem extends SubsystemBase {
 		rearRight.setDesiredState(swerveModuleStates[3]);
 	}
 
+	public Command Drive(SwerveModuleState distance)
+	{
+		return this.runOnce(() ->{
+			
+		});
+	}
+
 	/**
 	 * Sets the swerve ModuleStates.
 	 *

@@ -1,29 +1,36 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class AutoSubsystem extends SubsystemBase
+public class AutoSubsystem
 {
     private ShooterSubsystem shooter;
-    private Robot robot;
+    private IntakeSubsystem intake;
+    private Timer timer;
 
-    public AutoSubsystem() {
-        shooter = new ShooterSubsystem(robot.robotContainer.feederMotor);
-        robot = new Robot();
-    }
-
-    @Override
-    public void periodic()
-    {}
-
-    public Command startAutos()
+    public AutoSubsystem(ShooterSubsystem shooter, IntakeSubsystem intake) {
+        this.shooter = shooter;
+        this.intake = intake;
+        timer = new Timer();
+    }   
+    
+    public SequentialCommandGroup startAutos()
     {
-        return this.run(() -> {
-            shooter.SpeakerShooter();
-            shooter.ShooterStop();
-        });
+        SequentialCommandGroup group = new SequentialCommandGroup();
+
+        group.addCommands
+        (
+            shooter.SpeakerShooter(),
+            new WaitCommand(1),
+            shooter.ShooterStop()
+            
+        );  
         
+        return group;
     }
 }

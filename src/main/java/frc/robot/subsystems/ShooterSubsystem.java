@@ -29,6 +29,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         shooterLeft.setSmartCurrentLimit(80);
         shooterRight.setSmartCurrentLimit(80);
+    
+      
     }
 
     // @Override
@@ -63,11 +65,21 @@ public class ShooterSubsystem extends SubsystemBase {
         });
     }   
 
+    public void FeederMotorForwardFunc()
+    {
+        feederMotor.set(-ShooterConstants.FEEDER_SPEED);
+    }
+
     public Command FeederStop()
     {
         return this.run(() -> {
             feederMotor.set(0);
         });
+    }
+
+    public void FeederStopFunc()
+    {
+        feederMotor.set(0);
     }
 
     public Command ShooterReverse()
@@ -80,10 +92,18 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command SpeakerShooter()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
+            System.out.println("Running");
             shooterLeft.set(ShooterConstants.SPEAKER_SPEED);
             shooterRight.set(-ShooterConstants.SPEAKER_SPEED);
         });
+    }
+
+    public void Speaker()
+    {
+        System.out.println("Running");
+        shooterLeft.set(ShooterConstants.SPEAKER_SPEED);
+        shooterRight.set(-ShooterConstants.SPEAKER_SPEED);
     }
 
     public Command AMPShooter()
@@ -96,9 +116,16 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command ShooterStop()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
+            System.out.println("Shooter Stop");
             shooterLeft.set(0);
             shooterRight.set(0);
         });
+    }
+
+    public void ShooterStopFunc()
+    {
+        shooterLeft.set(0);
+        shooterRight.set(0);
     }
 }

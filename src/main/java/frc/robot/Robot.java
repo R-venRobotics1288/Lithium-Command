@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
   private Command alignmentCommand;
   private Command shooterCommand;
 
-  public RobotContainer robotContainer;
+  public RobotContainer robotContainer = new RobotContainer();
   private SendableChooser chooser;
 
   /**
@@ -34,7 +34,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    robotContainer = new RobotContainer();
 
      
     chooser = new SendableChooser<>();
@@ -59,11 +58,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    chooser.addOption("Test", robotContainer);
-    chooser.addOption("null", chooser);
-    SmartDashboard.putData("Autonomous mode chooser", chooser);
-
-    System.out.println(chooser.getSelected());
+    // System.out.println(chooser.getSelected());
 
 
     SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
@@ -87,17 +82,15 @@ public class Robot extends TimedRobot {
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override 
-  public void autonomousInit() {
-    autonomousCommand = robotContainer.startAuto();
-    
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
-    }
+  public void autonomousInit() 
+  {
+    robotContainer.auto().schedule();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
@@ -128,7 +121,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void simulationPeriodic() {
-        CommandScheduler.getInstance().run();
+        // CommandScheduler.getInstance().run();
 
   }
 }

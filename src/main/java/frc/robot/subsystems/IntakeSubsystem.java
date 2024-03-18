@@ -47,6 +47,13 @@ public class IntakeSubsystem extends SubsystemBase
         });
     };
 
+    public void IntakeForwardFunc()
+    {
+        intakingMotor.set(IntakeConstants.INTAKING_SPEED);
+        positioningMotor.set(IntakeConstants.POSITIONING_SPEED);
+        feederMotor.set(-IntakeConstants.FEEDER_SPEED);
+    }
+
     public Command IntakeReverse()
     {
         return this.run(() -> {
@@ -63,5 +70,12 @@ public class IntakeSubsystem extends SubsystemBase
             positioningMotor.set(0);
             feederMotor.set(0);
         });
+    }
+
+    public void IntakeStopFunc()
+    {
+        intakingMotor.set(0);
+        positioningMotor.set(0);
+        feederMotor.set(0);
     }
 }

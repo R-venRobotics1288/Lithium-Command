@@ -23,6 +23,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -39,7 +40,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer {
+public class RobotContainer extends SubsystemBase {
 
   // The driver's controller
   public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
@@ -54,7 +55,7 @@ public class RobotContainer {
  //  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(feederMotor);
   public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
-  public final AutoSubsystem robotAuto = new AutoSubsystem();
+  public final AutoSubsystem robotAuto = new AutoSubsystem(shooterSubsystem, robotIntake);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
@@ -174,8 +175,10 @@ public class RobotContainer {
     return new PathPlannerAuto("RavenCompetition");
   }
 
-  public Command startAuto()
+  public Command auto()
   {
-     return robotAuto.startAutos();
+    return this.runOnce(() -> {
+      robotAuto.startAutos().schedule();
+    });
   }
 }
