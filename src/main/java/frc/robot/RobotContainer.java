@@ -55,7 +55,7 @@ public class RobotContainer extends SubsystemBase {
  //  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(feederMotor);
   public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
-  public final AutoSubsystem robotAuto = new AutoSubsystem(shooterSubsystem, robotIntake);
+  public final AutoSubsystem robotAuto = new AutoSubsystem(shooterSubsystem, robotIntake, robotDrive);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 

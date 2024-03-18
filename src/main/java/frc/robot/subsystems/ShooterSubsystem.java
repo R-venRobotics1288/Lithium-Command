@@ -65,21 +65,11 @@ public class ShooterSubsystem extends SubsystemBase {
         });
     }   
 
-    public void FeederMotorForwardFunc()
-    {
-        feederMotor.set(-ShooterConstants.FEEDER_SPEED);
-    }
-
     public Command FeederStop()
     {
         return this.run(() -> {
             feederMotor.set(0);
         });
-    }
-
-    public void FeederStopFunc()
-    {
-        feederMotor.set(0);
     }
 
     public Command ShooterReverse()
@@ -99,13 +89,6 @@ public class ShooterSubsystem extends SubsystemBase {
         });
     }
 
-    public void Speaker()
-    {
-        System.out.println("Running");
-        shooterLeft.set(ShooterConstants.SPEAKER_SPEED);
-        shooterRight.set(-ShooterConstants.SPEAKER_SPEED);
-    }
-
     public Command AMPShooter()
     {
         return this.run(() -> {
@@ -121,11 +104,5 @@ public class ShooterSubsystem extends SubsystemBase {
             shooterLeft.set(0);
             shooterRight.set(0);
         });
-    }
-
-    public void ShooterStopFunc()
-    {
-        shooterLeft.set(0);
-        shooterRight.set(0);
     }
 }

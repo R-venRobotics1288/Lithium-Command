@@ -13,11 +13,13 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -167,8 +169,7 @@ public class DriveSubsystem extends SubsystemBase {
 		pose);
 	}
 
-	private double xSpeed = 0;
-	private double yS
+
 
 	/**
 	 * Method to drive the robot using joystick info.
@@ -205,11 +206,12 @@ public class DriveSubsystem extends SubsystemBase {
 		rearRight.setDesiredState(swerveModuleStates[3]);
 	}
 
-	public Command AutoDrive(double xSpeed)
+
+	public Command AutoDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double runTime)
 	{
-		return this.runOnce(() ->{
-			drive(omega, lastYaw, rollingDeltaYawIndex, false);
-		});
+		return this.run(() ->{
+			drive(xSpeed, ySpeed, rot, fieldRelative);	
+		}).withTimeout(runTime);
 	}
 
 	/**

@@ -11,11 +11,13 @@ public class AutoSubsystem
 {
     private ShooterSubsystem shooter;
     private IntakeSubsystem intake;
+    private DriveSubsystem drive;
     private Timer timer;
 
-    public AutoSubsystem(ShooterSubsystem shooter, IntakeSubsystem intake) {
+    public AutoSubsystem(ShooterSubsystem shooter, IntakeSubsystem intake, DriveSubsystem drive) {
         this.shooter = shooter;
         this.intake = intake;
+        this.drive = drive;
         timer = new Timer();
     }   
     
@@ -27,7 +29,10 @@ public class AutoSubsystem
         (
             shooter.SpeakerShooter(),
             new WaitCommand(1),
-            shooter.ShooterStop()
+            shooter.ShooterStop(),
+            new WaitCommand(2),
+            drive.AutoDrive(0, 0.5, 0, true, 2)
+        
             
         );  
         
