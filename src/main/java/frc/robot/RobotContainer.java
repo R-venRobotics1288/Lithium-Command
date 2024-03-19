@@ -8,6 +8,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.Alliance;
+import frc.robot.Constants.AutoMode;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
@@ -178,7 +180,7 @@ public class RobotContainer extends SubsystemBase {
   public Command auto()
   {
     return this.runOnce(() -> {
-      robotAuto.startAutos("center").schedule();
+      robotAuto.startAutos(AutoMode.CENTER, Alliance.BLUE).schedule();
     });
   }
 }

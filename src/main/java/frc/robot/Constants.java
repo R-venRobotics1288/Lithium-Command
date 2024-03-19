@@ -9,6 +9,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.I2C;
 
+
+
+
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -18,6 +22,20 @@ import edu.wpi.first.wpilibj.I2C;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public enum AutoMode
+    {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
+    public enum Alliance
+    {
+        RED,
+        BLUE
+    }
+
     public static final class DriveConstants {
 
         public static final double LEFT_FRONT_ENCODER_OFFSET = Math.PI + Math.toRadians(180.83);
