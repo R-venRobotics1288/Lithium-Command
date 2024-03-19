@@ -178,7 +178,7 @@ public class RobotContainer extends SubsystemBase {
   public Command auto()
   {
     return this.runOnce(() -> {
-      robotAuto.startAutos().schedule();
+      robotAuto.startAutos("center").schedule();
     });
   }
 }
