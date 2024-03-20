@@ -11,7 +11,7 @@ jobs:
 
   test-build:
 
-    runs-on: linux
+    runs-on: ubuntu-latest
 
     steps:
 
