@@ -140,7 +140,7 @@ public class RobotContainer extends SubsystemBase {
    */
   private void configureButtonBindings() 
   {
-    driverController.button(7).and(driverController.button(8)).whileTrue(robotDrive.ResetGyro());
+    driverController.button(7).and(driverController.button(8)).whileTrue(robotDrive.getZeroHeadingCommand());
     ///driverController.leftBumper().whileTrue(robotDrive.SlowSwerve());
     //driverController.leftBumper().whileFalse(robotDrive.NormalSwerve());
 
