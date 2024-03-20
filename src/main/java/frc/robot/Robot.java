@@ -26,8 +26,8 @@ public class Robot extends TimedRobot {
   private Command shooterCommand;
 
   public RobotContainer robotContainer = new RobotContainer();
-  private SendableChooser modeChooser;
-  private SendableChooser allianceChooser;
+  private SendableChooser<AutoMode> modeChooser;
+  private SendableChooser<Alliance> allianceChooser;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -39,14 +39,14 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     // Chooser for start position
-    modeChooser = new SendableChooser<>();
+    modeChooser = new SendableChooser<AutoMode>();
     modeChooser.setDefaultOption("Left", AutoMode.LEFT); // implicitly added as well
     modeChooser.addOption("Center", AutoMode.CENTER);
     modeChooser.addOption("Right", AutoMode.RIGHT);
     SmartDashboard.putData("Auto Mode", modeChooser);
 
     // Chooser for alliance
-    allianceChooser = new SendableChooser<>();
+    allianceChooser = new SendableChooser<Alliance>();
     allianceChooser.setDefaultOption("Red", Alliance.RED); // implicitly added as well
     allianceChooser.addOption("Blue", Alliance.BLUE);
     SmartDashboard.putData("Alliance", allianceChooser);
