@@ -1,0 +1,32 @@
+name: Test that the code will build
+
+on:
+  push:
+    branches:
+      - 'robf_*'
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+
+  test-build:
+
+    runs-on: linux
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: gradle build
+        shell: bash
+        run: bash gradlew build build --warning-mode all
+
+      - name: gradle check
+        shell: bash
+        run: bash gradlew build check
+
+      - name: gradle test
+        shell: bash
+        run: bash gradlew build test
+
