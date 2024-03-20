@@ -177,10 +177,10 @@ public class RobotContainer extends SubsystemBase {
     return new PathPlannerAuto("RavenCompetition");
   }
 
-  public Command auto()
+  public Command auto(AutoMode mode, Alliance alliance)
   {
     return this.runOnce(() -> {
-      robotAuto.startAutos(AutoMode.CENTER, Alliance.BLUE).schedule();
+      robotAuto.startAutos(mode, alliance).schedule();
     });
   }
 }

@@ -53,28 +53,28 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command FeederMotorReverse() 
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             feederMotor.set(ShooterConstants.FEEDER_SPEED);
         });
     }
 
     public Command FeederMotorForward()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             feederMotor.set(-ShooterConstants.FEEDER_SPEED);
         });
     }   
 
     public Command FeederStop()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             feederMotor.set(0);
         });
     }
 
     public Command ShooterReverse()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             shooterLeft.set(-ShooterConstants.SHOOTER_REVERSE_SPEED);
             shooterRight.set(ShooterConstants.SHOOTER_REVERSE_SPEED);
         });
@@ -91,7 +91,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command AMPShooter()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             shooterLeft.set(ShooterConstants.AMP_SPEED);
             shooterRight.set(-ShooterConstants.AMP_SPEED);
         });

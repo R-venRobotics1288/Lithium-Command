@@ -34,7 +34,7 @@ public class IntakeSubsystem extends SubsystemBase
     }
     
     public Command IntakeForward() {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             intakingMotor.set(IntakeConstants.INTAKING_SPEED);
             positioningMotor.set(IntakeConstants.POSITIONING_SPEED);
             feederMotor.set(-IntakeConstants.FEEDER_SPEED);
@@ -43,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase
 
     public Command IntakeReverse()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             intakingMotor.set(-IntakeConstants.INTAKING_SPEED);
             positioningMotor.set(-IntakeConstants.POSITIONING_SPEED);
             feederMotor.set(IntakeConstants.FEEDER_SPEED);
@@ -52,7 +52,7 @@ public class IntakeSubsystem extends SubsystemBase
 
     public Command IntakeStop()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             intakingMotor.set(0);
             positioningMotor.set(0);
             feederMotor.set(0);

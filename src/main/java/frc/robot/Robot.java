@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.Alliance;
+import frc.robot.Constants.AutoMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,7 +26,8 @@ public class Robot extends TimedRobot {
   private Command shooterCommand;
 
   public RobotContainer robotContainer = new RobotContainer();
-  private SendableChooser chooser;
+  private SendableChooser modeChooser;
+  private SendableChooser allianceChooser;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -36,9 +39,18 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
      
-    chooser = new SendableChooser<>();
+    modeChooser = new SendableChooser<>();
+    allianceChooser = new SendableChooser<>();
     CameraServer.startAutomaticCapture();
-    
+
+    allianceChooser.addOption("Red", Alliance.RED);    
+    allianceChooser.addOption("Blue", Alliance.BLUE);
+
+    modeChooser.addOption("Left", AutoMode.LEFT);
+    modeChooser.addOption("Center", AutoMode.CENTER);
+    modeChooser.addOption("Right", AutoMode.RIGHT);
+
+    robotContainer.robotDrive.ResetGyro();
 
   }
 
@@ -58,8 +70,8 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    // System.out.println(chooser.getSelected());
-
+    SmartDashboard.putData("Alliance", allianceChooser);
+    SmartDashboard.putData("Position", modeChooser);
 
     SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
     SmartDashboard.putNumber("Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
@@ -84,7 +96,10 @@ public class Robot extends TimedRobot {
   @Override 
   public void autonomousInit() 
   {
-    robotContainer.auto().schedule();
+    robotContainer.robotDrive.ResetGyro();
+    System.out.println(modeChooser.getSelected());
+    System.out.println(allianceChooser.getSelected());
+    robotContainer.auto((AutoMode)modeChooser.getSelected(), (Alliance)allianceChooser.getSelected()).schedule();
   }
 
   /** This function is called periodically during autonomous. */
