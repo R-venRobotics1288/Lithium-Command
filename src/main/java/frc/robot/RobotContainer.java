@@ -69,6 +69,8 @@ public class RobotContainer extends SubsystemBase {
     // Configure the button bindings
     configureButtonBindings();
 
+    adding bogus stuff here to make build fail
+
     // Configure default commands
     robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
