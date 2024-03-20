@@ -3,7 +3,9 @@ name: Test that the code will build
 on:
   push:
     branches:
-      - 'robf_*'
+      - master
+      - dev
+      - auto
   pull_request: {}
   workflow_dispatch: {}
 
