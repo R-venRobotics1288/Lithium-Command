@@ -70,20 +70,20 @@ public class Robot extends TimedRobot {
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
+    // block in order for anything in the Command-based framework to wok.
     CommandScheduler.getInstance().run();
 
     SmartDashboard.putData("Alliance", allianceChooser);
     SmartDashboard.putData("Position", modeChooser);
 
-    SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
-    SmartDashboard.putNumber("Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
-    SmartDashboard.putNumber("Rear Left Encoder", Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
-    SmartDashboard.putNumber("Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
-    SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
-    SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
-    SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRawAxis(4));
-    SmartDashboard.putNumberArray("Desired State", robotContainer.robotDrive.getDesiredState());
+    // SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
+    // SmartDashboard.putNumber("Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
+    // SmartDashboard.putNumber("Rear Left Encoder", Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
+    // SmartDashboard.putNumber("Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
+    // SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
+    // SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
+    // SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRawAxis(4));
+    // SmartDashboard.putNumberArray("Desired State", robotContainer.robotDrive.getDesiredState());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
   @Override 
   public void autonomousInit() 
   {
-    robotContainer.robotDrive.getZeroHeadingCommand();
+    robotContainer.robotDrive.gyro.setYaw(-90);
 
     System.out.println(modeChooser.getSelected());
     System.out.println(allianceChooser.getSelected());

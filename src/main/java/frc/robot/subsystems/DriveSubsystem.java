@@ -52,7 +52,7 @@ public class DriveSubsystem extends SubsystemBase {
 							DriveConstants.RIGHT_REAR_ENCODER_OFFET, true);
 
 	// The gyro sensor
-	private final PigeonIMU gyro = new PigeonIMU(30);
+	public final PigeonIMU gyro = new PigeonIMU(30);
 
 	// Odometry class for tracking robot pose
 	SwerveDriveOdometry odometry = new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, new Rotation2d(gyro.getYaw()),
