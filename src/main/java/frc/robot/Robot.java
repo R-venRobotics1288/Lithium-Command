@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
     modeChooser.addOption("Center", AutoMode.CENTER);
     modeChooser.addOption("Right", AutoMode.RIGHT);
 
-    robotContainer.robotDrive.ResetGyro();
+    // robotContainer.robotDrive.zeroHeading(); // probably not needed any more -- test for certainty
 
   }
 
@@ -96,7 +96,6 @@ public class Robot extends TimedRobot {
   @Override 
   public void autonomousInit() 
   {
-    robotContainer.robotDrive.ResetGyro();
     System.out.println(modeChooser.getSelected());
     System.out.println(allianceChooser.getSelected());
     robotContainer.auto((AutoMode)modeChooser.getSelected(), (Alliance)allianceChooser.getSelected()).schedule();

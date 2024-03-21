@@ -72,6 +72,8 @@ public class DriveSubsystem extends SubsystemBase {
 
 	/** Creates a new DriveSubsystem. */
 	public DriveSubsystem() {
+                gyro.setYaw(0);
+
 		AutoBuilder.configureHolonomic(
 			this::getPose,
 			this::resetPose,
@@ -85,10 +87,10 @@ public class DriveSubsystem extends SubsystemBase {
 		);
 	}
 
-	public Command ResetGyro()
+	public Command getZeroHeadingCommand()
 	{
 		return this.runOnce(() -> {
-			gyro.setYaw(0);
+			this.zeroHeading();
 		});
 	}
 
