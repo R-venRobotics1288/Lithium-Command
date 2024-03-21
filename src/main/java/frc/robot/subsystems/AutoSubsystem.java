@@ -47,21 +47,20 @@ public class AutoSubsystem
                     case CENTER:
 
                         final double DRIVE_SPEED = 0.15;
-                        final double DRIVE_RUNTIME = 1.5;
+                        final double DRIVE_RUNTIME = 3;
 
                         group.addCommands
                         (
                             shooter.SpeakerShooter(),
                             new WaitCommand(1.5),
                             shooter.FeederMotorReverse(),
-                            new WaitCommand(0.3),
+                            new WaitCommand(1),
                             shooter.ShooterStop(),
                             shooter.FeederStop(),
                             new WaitCommand(0.5),
-                            intake.IntakeForward(),
-                            drive.AutoDrive(0, -DRIVE_SPEED, 0, true, 4),
-                            new WaitCommand(2),
-                            // new WaitCommand(1),                            
+                            intake.IntakeReverse(),
+                            drive.AutoDrive(0, -DRIVE_SPEED, 0, true, DRIVE_RUNTIME),
+                            new WaitCommand(1),
                             intake.IntakeStop()
                             // drive.AutoDrive(0, DRIVE_SPEED, 0, true, DRIVE_RUNTIME),
                             // shooter.SpeakerShooter(),

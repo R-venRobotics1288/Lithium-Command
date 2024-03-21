@@ -209,12 +209,12 @@ public class DriveSubsystem extends SubsystemBase {
 	}
 
 
-	public Command AutoDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, long runTime)
+	public Command AutoDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double runTime)
 	{
 		return this.runOnce(() -> {
 			drive(xSpeed, ySpeed, rot, fieldRelative);
 			try {
-				Thread.sleep(runTime * 1000);
+				Thread.sleep(Double.valueOf(runTime * 1000).longValue());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
