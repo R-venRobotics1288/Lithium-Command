@@ -70,6 +70,8 @@ public class AutoSubsystem
                             drive.AutoDrive(0, DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
                             shooter.SpeakerShooter(),
                             new WaitCommand(1.5),
+                            shooter.FeederMotorForward(),
+                            new WaitCommand(0.2),
                             shooter.FeederMotorReverse(),
                             new WaitCommand(1),
                             shooter.ShooterStop(),
@@ -108,9 +110,10 @@ public class AutoSubsystem
                         // );
                         break;
                     case CENTER:
+
                         DRIVE_SPEED_Y = 0.15;
                         DRIVE_RUNTIME = 3;
-
+              
                         group.addCommands
                         (
                             shooter.SpeakerShooter(),
@@ -127,6 +130,8 @@ public class AutoSubsystem
                             drive.AutoDrive(0, DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
                             shooter.SpeakerShooter(),
                             new WaitCommand(1.5),
+                            shooter.FeederMotorForward(),
+                            new WaitCommand(0.2),
                             shooter.FeederMotorReverse(),
                             new WaitCommand(1),
                             shooter.ShooterStop(),
