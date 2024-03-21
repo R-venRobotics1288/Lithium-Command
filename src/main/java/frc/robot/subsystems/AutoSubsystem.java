@@ -45,28 +45,31 @@ public class AutoSubsystem
                         );
                         break;
                     case CENTER:
-                        
+
+                        final double DRIVE_SPEED = 0.15;
+                        final double DRIVE_RUNTIME = 0.8;
+
                         group.addCommands
                         (
                             shooter.SpeakerShooter(),
-                            new WaitCommand(0.5),
+                            new WaitCommand(1.5),
                             shooter.FeederMotorReverse(),
                             new WaitCommand(0.3),
                             shooter.ShooterStop(),
                             shooter.FeederStop(),
                             new WaitCommand(0.5),
-                            intake.IntakeForward(),
-                            drive.AutoDrive(0, -0.5, 0, true, 0.25),
-                            new WaitCommand(1.2),
-                            intake.IntakeStop(),
-                            drive.AutoDrive(0, 0.5, 0, true, 0.25),
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(0.5),
-                            shooter.FeederMotorReverse(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop(),
-                            drive.AutoDrive(0, 0.5, 0, true, 0.25)
+                            // intake.IntakeForward(),
+                            drive.AutoDrive(0, -DRIVE_SPEED, 0, true, DRIVE_RUNTIME)
+                            // new WaitCommand(1.2),
+                            // intake.IntakeStop(),
+                            // drive.AutoDrive(0, DRIVE_SPEED, 0, true, DRIVE_RUNTIME),
+                            // shooter.SpeakerShooter(),
+                            // new WaitCommand(0.5),
+                            // shooter.FeederMotorReverse(),
+                            // new WaitCommand(1),
+                            // shooter.ShooterStop(),
+                            // shooter.FeederStop(),
+                            // drive.AutoDrive(0, -DRIVE_SPEED, 0, true, DRIVE_RUNTIME)
                         );
                         break;
                     case RIGHT:
