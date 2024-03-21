@@ -33,9 +33,9 @@ public class AutoSubsystem
                 switch (mode) 
                 {
                     case LEFT:
-                        DRIVE_SPEED_X = 0.1;
-                        DRIVE_SPEED_Y = 0.1;
-                        DRIVE_RUNTIME = 3;
+                        DRIVE_SPEED_X = 0.15;
+                        DRIVE_SPEED_Y = 0.15;
+                        DRIVE_RUNTIME = 2;
 
                         group.addCommands
                         (
@@ -79,9 +79,9 @@ public class AutoSubsystem
                         );
                         break;
                     case RIGHT:
-                        DRIVE_SPEED_X = 0.1;
-                        DRIVE_SPEED_Y = 0.1;
-                        DRIVE_RUNTIME = 3;
+                        DRIVE_SPEED_X = 0.15;
+                        DRIVE_SPEED_Y = 0.15;
+                        DRIVE_RUNTIME = 2;
 
                         group.addCommands
                         (
