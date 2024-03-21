@@ -9,10 +9,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.I2C;
 
-
-
-
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -167,7 +163,7 @@ public final class Constants {
 
     public static final class AutoConstants {
         public static final boolean SWITCH_ALLIANCE = false; // switches auto origin between red and blue alliance, default blue-origin
-        public static final double MAX_SPEED_METERS_PER_SECOND = 12;
+        public static final double MAX_SPEED_METERS_PER_SECOND = 10;
         public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED = Math.PI;
@@ -189,7 +185,7 @@ public final class Constants {
 
     public static final class ShooterConstants
     {
-        public static final double FEEDER_SPEED = 0.2;
+        public static final double FEEDER_SPEED = 0.3;
         public static final double SHOOTER_REVERSE_SPEED = 0.2;
         public static final double SPEAKER_SPEED = 0.6;
         public static final double AMP_SPEED = 0.4;
@@ -199,15 +195,15 @@ public final class Constants {
     {
         public static final double INTAKING_SPEED = 0.4;
         public static final double POSITIONING_SPEED = 0.35;
-        public static final double FEEDER_SPEED = 0.2;
+        public static final double FEEDER_SPEED = 0.3;
     }
 
     public static final class ElevatorConstants
     {
-        public static final double TOP_ELEVATOR_LIMIT = 410;
+        public static final double TOP_ELEVATOR_LIMIT = 365;
         public static final double BOT_ELEVATOR_LIMIT = 0;
 
-        public static final double LEFT_MOTOR_SPEED = 0.55;
-        public static final double RIGHT_MOTOR_SPEED = 0.55;
+        public static final double LEFT_MOTOR_SPEED = 1;
+        public static final double RIGHT_MOTOR_SPEED = 1;
     }
 }
