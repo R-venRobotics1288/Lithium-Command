@@ -61,8 +61,8 @@ public class AutoSubsystem
                             intake.IntakeReverse(),
                             drive.AutoDrive(0, -DRIVE_SPEED, 0, true, DRIVE_RUNTIME),
                             new WaitCommand(1),
-                            intake.IntakeStop()
-                            // drive.AutoDrive(0, DRIVE_SPEED, 0, true, DRIVE_RUNTIME),
+                            intake.IntakeStop(),
+                            drive.AutoDrive(0, DRIVE_SPEED, 0, true, DRIVE_RUNTIME)
                             // shooter.SpeakerShooter(),
                             // new WaitCommand(0.5),
                             // shooter.FeederMotorReverse(),
