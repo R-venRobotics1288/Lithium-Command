@@ -62,13 +62,13 @@ public class AutoSubsystem
                             drive.AutoDrive(0, -DRIVE_SPEED, 0, true, DRIVE_RUNTIME),
                             new WaitCommand(1),
                             intake.IntakeStop(),
-                            drive.AutoDrive(0, DRIVE_SPEED, 0, true, DRIVE_RUNTIME)
-                            // shooter.SpeakerShooter(),
-                            // new WaitCommand(0.5),
-                            // shooter.FeederMotorReverse(),
-                            // new WaitCommand(1),
-                            // shooter.ShooterStop(),
-                            // shooter.FeederStop(),
+                            drive.AutoDrive(0, DRIVE_SPEED, 0, true, DRIVE_RUNTIME),
+                            shooter.SpeakerShooter(),
+                            new WaitCommand(1.5),
+                            shooter.FeederMotorReverse(),
+                            new WaitCommand(1),
+                            shooter.ShooterStop(),
+                            shooter.FeederStop()
                             // drive.AutoDrive(0, -DRIVE_SPEED, 0, true, DRIVE_RUNTIME)
                         );
                         break;
