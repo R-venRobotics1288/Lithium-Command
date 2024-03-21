@@ -31,18 +31,18 @@ public class AutoSubsystem
                 switch (mode) 
                 {
                     case LEFT:
-                        group.addCommands
-                        (
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(0.5),
-                            shooter.FeederMotorForward(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop(),
-                            new WaitCommand(0.5),
-                            intake.IntakeForward(),
-                            drive.AutoDrive(-0.3, 0, 0, true, 0.25)
-                        );
+                        // group.addCommands
+                        // (
+                        //     shooter.SpeakerShooter(),
+                        //     new WaitCommand(0.5),
+                        //     shooter.FeederMotorForward(),
+                        //     new WaitCommand(1),
+                        //     shooter.ShooterStop(),
+                        //     shooter.FeederStop(),
+                        //     new WaitCommand(0.5),
+                        //     intake.IntakeForward(),
+                        //     drive.AutoDrive(-0.3, 0, 0, true, 0.25)
+                        // );
                         break;
                     case CENTER:
 
@@ -59,8 +59,9 @@ public class AutoSubsystem
                             shooter.FeederStop(),
                             new WaitCommand(0.5),
                             intake.IntakeForward(),
-                            drive.AutoDrive(0, -DRIVE_SPEED, 0, true, DRIVE_RUNTIME),
-                           // new WaitCommand(1.2),
+                            drive.AutoDrive(0, -DRIVE_SPEED, 0, true, 4),
+                            new WaitCommand(2),
+                            // new WaitCommand(1),                            
                             intake.IntakeStop()
                             // drive.AutoDrive(0, DRIVE_SPEED, 0, true, DRIVE_RUNTIME),
                             // shooter.SpeakerShooter(),
@@ -73,18 +74,18 @@ public class AutoSubsystem
                         );
                         break;
                     case RIGHT:
-                        group.addCommands
-                        (
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(0.5),
-                            shooter.FeederMotorForward(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop(),
-                            new WaitCommand(0.5),
-                            intake.IntakeForward(),
-                            drive.AutoDrive(0.3, 0, 0, true, 0.25)
-                        );
+                        // group.addCommands
+                        // (
+                        //     shooter.SpeakerShooter(),
+                        //     new WaitCommand(0.5),
+                        //     shooter.FeederMotorForward(),
+                        //     new WaitCommand(1),
+                        //     shooter.ShooterStop(),
+                        //     shooter.FeederStop(),
+                        //     new WaitCommand(0.5),
+                        //     intake.IntakeForward(),
+                        //     drive.AutoDrive(0.3, 0, 0, true, 0.25)
+                        // );
                         break;
                     default:
                         System.out.println("Red default");
@@ -95,40 +96,40 @@ public class AutoSubsystem
                 switch (mode) 
                 {
                     case LEFT:   
-                        group.addCommands
-                        (
-                            drive.AutoDrive(0, 0, 0.3, true, 0.5)
-                        );
+                        // group.addCommands
+                        // (
+                        //     drive.AutoDrive(0, 0, 0.3, true, 0.5)
+                        // );
                         break;
                     case CENTER:
-                        group.addCommands
-                        (
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(0.5),
-                            shooter.FeederMotorReverse(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop(),
-                            new WaitCommand(0.5),
-                            intake.IntakeForward(),
-                            drive.AutoDrive(0, -0.5, 0, true, 0.25),
-                            new WaitCommand(1.2),
-                            intake.IntakeStop(),
-                            drive.AutoDrive(0, 0.5, 0, true, 0.25),
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(0.5),
-                            shooter.FeederMotorReverse(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop(),
-                            drive.AutoDrive(0, -0.5, 0, true, 0.25)
-                        );
+                        // group.addCommands
+                        // (
+                        //     shooter.SpeakerShooter(),
+                        //     new WaitCommand(0.5),
+                        //     shooter.FeederMotorReverse(),
+                        //     new WaitCommand(1),
+                        //     shooter.ShooterStop(),
+                        //     shooter.FeederStop(),
+                        //     new WaitCommand(0.5),
+                        //     intake.IntakeForward(),
+                        //     drive.AutoDrive(0, -0.5, 0, true, 0.25),
+                        //     new WaitCommand(1.2),
+                        //     intake.IntakeStop(),
+                        //     drive.AutoDrive(0, 0.5, 0, true, 0.25),
+                        //     shooter.SpeakerShooter(),
+                        //     new WaitCommand(0.5),
+                        //     shooter.FeederMotorReverse(),
+                        //     new WaitCommand(1),
+                        //     shooter.ShooterStop(),
+                        //     shooter.FeederStop(),
+                        //     drive.AutoDrive(0, -0.5, 0, true, 0.25)
+                        // );
                         break;
                     case RIGHT:
-                      group.addCommands
-                        (
-                            drive.AutoDrive(0, 0, -0.3, true, 0.5)
-                        );
+                    //   group.addCommands
+                    //     (
+                    //         drive.AutoDrive(0, 0, -0.3, true, 0.5)
+                    //     );
                         break;
                     default:
                         System.out.println("Blue default");

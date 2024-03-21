@@ -209,11 +209,19 @@ public class DriveSubsystem extends SubsystemBase {
 	}
 
 
-	public Command AutoDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double runTime)
+	public Command AutoDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, long runTime)
 	{
-		return this.run(() ->{
-			drive(xSpeed, ySpeed, rot, fieldRelative);	
-		}).withTimeout(runTime);
+		return this.runOnce(() -> {
+			drive(xSpeed, ySpeed, rot, fieldRelative);
+			try {
+				Thread.sleep(runTime * 1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+
+			drive(0, 0, 0, true);
+		});
 	}
 
 	/**
