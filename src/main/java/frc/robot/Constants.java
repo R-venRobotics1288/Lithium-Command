@@ -69,7 +69,7 @@ public final class Constants {
         public static final boolean FRONT_RIGHT_DRIVE_ENCODER_REVERSED = false;
         public static final boolean REAR_RIGHT_DRIVE_ENCODER_REVERSED = true;
 
-        public static final double SPEED_RATE_LIMIT = 1.0;
+        public static final double SPEED_RATE_LIMIT = 2.0;
         public static final double SPEED_ROT_LIMIT = 3.0;
 
         public static final double TRACK_WIDTH = 25.5625;
@@ -187,7 +187,7 @@ public final class Constants {
     {
         public static final double FEEDER_SPEED = 0.55;
         public static final double SHOOTER_REVERSE_SPEED = 0.2;
-        public static final double SPEAKER_SPEED = 0.6;
+        public static final double SPEAKER_SPEED = 0.65;
         public static final double AMP_SPEED = 0.4;
     }
 

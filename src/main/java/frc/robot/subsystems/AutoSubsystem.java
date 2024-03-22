@@ -26,130 +26,75 @@ public class AutoSubsystem
 
         SequentialCommandGroup group = new SequentialCommandGroup();
 
-
-        switch (alliance) 
+    
+        
+        switch (mode) 
         {
-            case RED:
-                switch (mode) 
-                {
-                    case LEFT:
-                        DRIVE_SPEED_X = 0.15;
-                        DRIVE_SPEED_Y = 0.15;
-                        DRIVE_RUNTIME = 2;
+            case LEFT:
+                DRIVE_SPEED_X = 0.15;
+                DRIVE_SPEED_Y = 0.15;
+                DRIVE_RUNTIME = 2;
 
-                        group.addCommands
-                        (
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(1.5),
-                            shooter.FeederMotorReverse(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop(),
-                            new WaitCommand(0.5),
-                            drive.AutoDrive(-DRIVE_SPEED_X, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME)
-                        );
-                        break;
-                    case CENTER:
-
-                        DRIVE_SPEED_Y = 0.15;
-                        DRIVE_RUNTIME = 3;
-
-                        group.addCommands
-                        (
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(1.5),
-                            shooter.FeederMotorReverse(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop(),
-                            new WaitCommand(0.5),
-                            intake.IntakeReverse(),
-                            drive.AutoDrive(0, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
-                            new WaitCommand(1),
-                            intake.IntakeStop(),
-                            drive.AutoDrive(0, DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(1.5),
-                            shooter.FeederMotorForward(),
-                            new WaitCommand(0.2),
-                            shooter.FeederMotorReverse(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop()
-                        );
-                        break;
-                    case RIGHT:
-                        DRIVE_SPEED_X = 0.15;
-                        DRIVE_SPEED_Y = 0.15;
-                        DRIVE_RUNTIME = 2;
-
-                        group.addCommands
-                        (
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(1.5),
-                            shooter.FeederMotorReverse(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop(),
-                            new WaitCommand(0.5),
-                            drive.AutoDrive(DRIVE_SPEED_X, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME)
-                        );
-                        break;
-                    default:
-                        System.out.println("Red default");
-                        break;
-                }
+                group.addCommands
+                (
+                    shooter.SpeakerShooter(),
+                    new WaitCommand(1.5),
+                    shooter.FeederMotorReverse(),
+                    new WaitCommand(1),
+                    shooter.ShooterStop(),
+                    shooter.FeederStop(),
+                    new WaitCommand(0.5),
+                    drive.AutoDrive(-DRIVE_SPEED_X, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME)
+                );
                 break;
-            case BLUE:
-                switch (mode) 
-                {
-                    case LEFT:   
-                        // group.addCommands
-                        // (
-                        //     drive.AutoDrive(0, 0, 0.3, true, 0.5)
-                        // );
-                        break;
-                    case CENTER:
+            case CENTER:
 
-                        DRIVE_SPEED_Y = 0.15;
-                        DRIVE_RUNTIME = 3;
-              
-                        group.addCommands
-                        (
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(1.5),
-                            shooter.FeederMotorReverse(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop(),
-                            new WaitCommand(0.5),
-                            intake.IntakeReverse(),
-                            drive.AutoDrive(0, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
-                            new WaitCommand(1),
-                            intake.IntakeStop(),
-                            drive.AutoDrive(0, DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
-                            shooter.SpeakerShooter(),
-                            new WaitCommand(1.5),
-                            shooter.FeederMotorForward(),
-                            new WaitCommand(0.2),
-                            shooter.FeederMotorReverse(),
-                            new WaitCommand(1),
-                            shooter.ShooterStop(),
-                            shooter.FeederStop()
-                        );
-                        break;
-                    case RIGHT:
-                    //   group.addCommands
-                    //     (
-                    //         drive.AutoDrive(0, 0, -0.3, true, 0.5)
-                    //     );
-                        break;
-                    default:
-                        System.out.println("Blue default");
-                        break;
-                }
+                DRIVE_SPEED_Y = 0.15;
+                DRIVE_RUNTIME = 3;
+
+                group.addCommands
+                (
+                    shooter.SpeakerShooter(),
+                    new WaitCommand(1.5),
+                    shooter.FeederMotorReverse(),
+                    new WaitCommand(1),
+                    shooter.ShooterStop(),
+                    shooter.FeederStop(),
+                    new WaitCommand(0.5),
+                    intake.IntakeReverse(),
+                    drive.AutoDrive(0, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
+                    new WaitCommand(1),
+                    intake.IntakeStop(),
+                    drive.AutoDrive(0, DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
+                    // shooter.FeederMotorForwardSlow(),
+                    // new WaitCommand(0.3),
+                    shooter.SpeakerShooter(),
+                    new WaitCommand(1.5),
+                    shooter.FeederMotorReverse(),
+                    new WaitCommand(1),
+                    shooter.ShooterStop(),
+                    shooter.FeederStop()
+                );
+                break;
+            case RIGHT:
+                DRIVE_SPEED_X = 0.15;
+                DRIVE_SPEED_Y = 0.15;
+                DRIVE_RUNTIME = 2;
+
+                group.addCommands
+                (
+                    shooter.SpeakerShooter(),
+                    new WaitCommand(1.5),
+                    shooter.FeederMotorReverse(),
+                    new WaitCommand(1),
+                    shooter.ShooterStop(),
+                    shooter.FeederStop(),
+                    new WaitCommand(0.5),
+                    drive.AutoDrive(DRIVE_SPEED_X, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME)
+                );
+                break;
             default:
-                System.out.println("No Alliance default");
+                System.out.println("Red default");
                 break;
         }
      

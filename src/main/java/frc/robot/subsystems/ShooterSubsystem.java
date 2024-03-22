@@ -65,6 +65,13 @@ public class ShooterSubsystem extends SubsystemBase {
         });
     }   
 
+    public Command FeederMotorForwardSlow()
+    {
+        return this.runOnce(() -> {
+            feederMotor.set(-0.15);
+        });
+    }  
+
     public Command FeederStop()
     {
         return this.runOnce(() -> {

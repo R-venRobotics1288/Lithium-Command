@@ -27,7 +27,6 @@ public class Robot extends TimedRobot {
 
   public RobotContainer robotContainer = new RobotContainer();
   private SendableChooser<AutoMode> modeChooser;
-  private SendableChooser<Alliance> allianceChooser;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -46,10 +45,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto Mode", modeChooser);
 
     // Chooser for alliance
-    allianceChooser = new SendableChooser<Alliance>();
-    allianceChooser.setDefaultOption("Red", Alliance.RED); // implicitly added as well
-    allianceChooser.addOption("Blue", Alliance.BLUE);
-    SmartDashboard.putData("Alliance", allianceChooser);
+    // allianceChooser = new SendableChooser<Alliance>();
+    // allianceChooser.setDefaultOption("Red", Alliance.RED); // implicitly added as well
+    // allianceChooser.addOption("Blue", Alliance.BLUE);
+    // SmartDashboard.putData("Alliance", allianceChooser);
 
     CameraServer.startAutomaticCapture();
 
@@ -73,7 +72,6 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to wok.
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putData("Alliance", allianceChooser);
     SmartDashboard.putData("Position", modeChooser);
 
     // SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
@@ -102,8 +100,7 @@ public class Robot extends TimedRobot {
     robotContainer.robotDrive.gyro.setYaw(-90);
 
     System.out.println(modeChooser.getSelected());
-    System.out.println(allianceChooser.getSelected());
-    robotContainer.auto((AutoMode)modeChooser.getSelected(), (Alliance)allianceChooser.getSelected()).schedule();
+    robotContainer.auto((AutoMode)modeChooser.getSelected(), Alliance.RED).schedule();
   }
 
   /** This function is called periodically during autonomous. */
