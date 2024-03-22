@@ -20,27 +20,21 @@ public class IntakeSubsystem extends SubsystemBase
     private CANSparkMax positioningMotor;
     private CANSparkMax feederMotor;
 
-    private ColourSensorSubsystem colourSensorSubsystem;
-
-    private Color detectedColor;
-
     public IntakeSubsystem(CANSparkMax feederMotor) 
     {
         this.feederMotor = feederMotor;
         intakingMotor = new CANSparkMax(DriveConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
         positioningMotor = new CANSparkMax(DriveConstants.POSITION_MOTOR_PORT, MotorType.kBrushless);
 
-        colourSensorSubsystem = new ColourSensorSubsystem();
     }
 
     @Override
     public void periodic()
     {
-        detectedColor = colourSensorSubsystem.getDetectedColour();
     }
     
     public Command IntakeForward() {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             intakingMotor.set(IntakeConstants.INTAKING_SPEED);
             positioningMotor.set(IntakeConstants.POSITIONING_SPEED);
             feederMotor.set(-IntakeConstants.FEEDER_SPEED);
@@ -49,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase
 
     public Command IntakeReverse()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             intakingMotor.set(-IntakeConstants.INTAKING_SPEED);
             positioningMotor.set(-IntakeConstants.POSITIONING_SPEED);
             feederMotor.set(IntakeConstants.FEEDER_SPEED);
@@ -58,7 +52,7 @@ public class IntakeSubsystem extends SubsystemBase
 
     public Command IntakeStop()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             intakingMotor.set(0);
             positioningMotor.set(0);
             feederMotor.set(0);

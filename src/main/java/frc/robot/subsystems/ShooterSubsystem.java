@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -20,7 +19,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     Pose3d robotPositonToApril;
 
-    public ShooterSubsystem(CANSparkMax feederMotor) {
+   public ShooterSubsystem(CANSparkMax feederMotor) {
         this.feederMotor = feederMotor;
         shooterLeft = new CANSparkMax(DriveConstants.LEFT_SHOOTER_MOTOR_PORT,
         MotorType.kBrushless);
@@ -30,6 +29,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         shooterLeft.setSmartCurrentLimit(80);
         shooterRight.setSmartCurrentLimit(80);
+    
+      
     }
 
     // @Override
@@ -52,28 +53,28 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command FeederMotorReverse() 
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             feederMotor.set(ShooterConstants.FEEDER_SPEED);
         });
     }
 
     public Command FeederMotorForward()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             feederMotor.set(-ShooterConstants.FEEDER_SPEED);
         });
     }   
 
     public Command FeederStop()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             feederMotor.set(0);
         });
     }
 
     public Command ShooterReverse()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             shooterLeft.set(-ShooterConstants.SHOOTER_REVERSE_SPEED);
             shooterRight.set(ShooterConstants.SHOOTER_REVERSE_SPEED);
         });
@@ -81,7 +82,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command SpeakerShooter()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
+            System.out.println("Running");
             shooterLeft.set(ShooterConstants.SPEAKER_SPEED);
             shooterRight.set(-ShooterConstants.SPEAKER_SPEED);
         });
@@ -89,7 +91,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command AMPShooter()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             shooterLeft.set(ShooterConstants.AMP_SPEED);
             shooterRight.set(-ShooterConstants.AMP_SPEED);
         });
@@ -97,7 +99,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command ShooterStop()
     {
-        return this.run(() -> {
+        return this.runOnce(() -> {
+            System.out.println("Shooter Stop");
             shooterLeft.set(0);
             shooterRight.set(0);
         });

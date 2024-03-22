@@ -59,6 +59,7 @@ public class ElevatorSubsystem extends SubsystemBase
 
     public void elevatorControl()
     {
+        // System.out.println("Left Elevator Rounded Position: " + Math.round(leftElevatorEncoder.getPosition()));
         // Up
         if((Math.round(rightElevatorEncoder.getPosition()) > -ElevatorConstants.TOP_ELEVATOR_LIMIT) && gController.getLeftY() < -ModuleConstants.DEADBAND)
         {
