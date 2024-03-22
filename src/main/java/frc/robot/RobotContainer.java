@@ -75,10 +75,15 @@ public class RobotContainer extends SubsystemBase {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> {
+
+              double xInput = driverController.getLeftX();
+              double yInput = driverController.getLeftY();
+              double thetaInput = driverController.getRawAxis(4);
+
               robotDrive.drive(
-                  Math.pow(MathUtil.applyDeadband(-driverController.getLeftY(), ModuleConstants.DEADBAND), 3),
-                  Math.pow(MathUtil.applyDeadband(-driverController.getLeftX(), ModuleConstants.DEADBAND), 3),
-                  Math.pow(MathUtil.applyDeadband(-driverController.getRawAxis(4), ModuleConstants.DEADBAND), 3),
+                  Math.pow(MathUtil.applyDeadband(-yInput, ModuleConstants.DEADBAND), 3) * Math.abs(yInput),
+                  Math.pow(MathUtil.applyDeadband(-xInput, ModuleConstants.DEADBAND), 3) * Math.abs(xInput),
+                  Math.pow(MathUtil.applyDeadband(-thetaInput, ModuleConstants.DEADBAND), 3) * Math.abs(thetaInput),
                   true);
             },
             robotDrive));
