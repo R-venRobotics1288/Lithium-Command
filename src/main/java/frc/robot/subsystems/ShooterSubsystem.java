@@ -24,7 +24,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterLeft = new CANSparkMax(DriveConstants.LEFT_SHOOTER_MOTOR_PORT,
         MotorType.kBrushless);
         shooterRight = new CANSparkMax(DriveConstants.RIGHT_SHOOTER_MOTOR_PORT,
-        MotorType.kBrushless);        
+        MotorType.kBrushless);     
         // robotPositonToApril = new Pose3d();
 
         shooterLeft.setSmartCurrentLimit(80);
@@ -61,7 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public Command FeederMotorForward()
     {
         return this.runOnce(() -> {
-            feederMotor.set(-ShooterConstants.FEEDER_SPEED);
+            feederMotor.set(-ShooterConstants.FEEDER_FORWARD_SPEED);
         });
     }   
 
