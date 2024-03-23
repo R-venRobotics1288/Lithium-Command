@@ -80,9 +80,16 @@ public class RobotContainer extends SubsystemBase {
               double yInput = driverController.getLeftY();
               double thetaInput = driverController.getRawAxis(4);
 
+              // Apply a round deadband, based on the x/y distance from the origin
+              double distanceFromZero = Math.sqrt(Math.pow(xInput, 2) + Math.pow(yInput, 2)); // Pythagoras
+              if (distanceFromZero < ModuleConstants.DEADBAND) {
+                  xInput = 0;
+                  yInput = 0;
+              }
+
               robotDrive.drive(
-                  Math.pow(MathUtil.applyDeadband(-yInput, ModuleConstants.DEADBAND), 3) * Math.abs(yInput),
-                  Math.pow(MathUtil.applyDeadband(-xInput, ModuleConstants.DEADBAND), 3) * Math.abs(xInput),
+                  Math.pow(-yInput, 3) * Math.abs(yInput),
+                  Math.pow(-xInput, 3) * Math.abs(xInput),
                   Math.pow(MathUtil.applyDeadband(-thetaInput, ModuleConstants.DEADBAND), 3) * Math.abs(thetaInput),
                   true);
             },
