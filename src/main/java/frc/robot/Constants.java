@@ -152,7 +152,7 @@ public final class Constants {
         public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
         public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
                 
-        public static final double DEADBAND = 0.2;
+        public static final double DEADBAND = 0.15;
 
     }
 
