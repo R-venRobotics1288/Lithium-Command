@@ -4,9 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.Alliance;
+import frc.robot.Constants.AutoMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,10 +22,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command autonomousCommand;
+  private Command alignmentCommand;
+  private Command shooterCommand;
 
-  private RobotContainer robotContainer;
-
-
+  public RobotContainer robotContainer = new RobotContainer();
+  private SendableChooser<AutoMode> modeChooser;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -29,8 +36,23 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    robotContainer = new RobotContainer();
 
+    // Chooser for start position
+    modeChooser = new SendableChooser<AutoMode>();
+    modeChooser.setDefaultOption("Left", AutoMode.LEFT); // implicitly added as well
+    modeChooser.addOption("Center", AutoMode.CENTER);
+    modeChooser.addOption("Right", AutoMode.RIGHT);
+    SmartDashboard.putData("Auto Mode", modeChooser);
+
+    // Chooser for alliance
+    // allianceChooser = new SendableChooser<Alliance>();
+    // allianceChooser.setDefaultOption("Red", Alliance.RED); // implicitly added as well
+    // allianceChooser.addOption("Blue", Alliance.BLUE);
+    // SmartDashboard.putData("Alliance", allianceChooser);
+
+    CameraServer.startAutomaticCapture();
+
+    robotContainer.robotDrive.zeroHeading(); // probably not needed any more -- test for certainty
 
   }
 
@@ -43,17 +65,23 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    // CommandScheduler.getInstance().schedule(alignmentCommand, shooterCommand);
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
+    // block in order for anything in the Command-based framework to wok.
     CommandScheduler.getInstance().run();
-    // SmartDashboard.putNumber("Front Left Encoder", robotContainer.robotDrive.getFrontLeft());
-    // SmartDashboard.putNumber("Front Right Encoder", robotContainer.robotDrive.getFrontRight());
-    // SmartDashboard.putNumber("Rear Left Encoder", robotContainer.robotDrive.getRearLeft());
-    // SmartDashboard.putNumber("Rear Right Encoder", robotContainer.robotDrive.getRearRight());
 
+    SmartDashboard.putData("Position", modeChooser);
 
+    // SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
+    // SmartDashboard.putNumber("Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
+    // SmartDashboard.putNumber("Rear Left Encoder", Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
+    // SmartDashboard.putNumber("Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
+    // SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
+    // SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
+    // SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRawAxis(4));
+    // SmartDashboard.putNumberArray("Desired State", robotContainer.robotDrive.getDesiredState());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -66,19 +94,19 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-  @Override
-  public void autonomousInit() {
-    // autonomousCommand = robotContainer.getAutonomousCommand();
-    // schedule the autonomous command (example)
-    
-    // if (autonomousCommand != null) {
-    //   autonomousCommand.schedule();
-    // }
+  @Override 
+  public void autonomousInit() 
+  {
+    robotContainer.robotDrive.gyro.setYaw(-90);
+
+    System.out.println(modeChooser.getSelected());
+    robotContainer.auto((AutoMode)modeChooser.getSelected(), Alliance.RED).schedule();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
@@ -86,9 +114,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    // if (autonomousCommand != null) {
-    //   autonomousCommand.cancel();
-    // }
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
+    }
   }
 
   /** This function is called periodically during operator control. */
@@ -105,5 +133,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
+  }
+
+  @Override
+  public void simulationPeriodic() {
+        // CommandScheduler.getInstance().run();
+
   }
 }

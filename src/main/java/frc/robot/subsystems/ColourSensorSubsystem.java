@@ -11,15 +11,15 @@ import frc.robot.Constants;
  * Subsystem for managing the ColourSensor subsystem.
  */
 public class ColourSensorSubsystem extends SubsystemBase {
-    private final ColorSensorV3 colourSensor;
+    private final ColorSensorV3 colorSensor;
     private int proximity = 0; // rough proximity based on IR, goes from 0 - 2047 where 2047 is closest
-    private Color detectedColour = new Color(); // estimated colour from sensor - more accurate the closer the object is
+    private Color detectedColor = new Color(); // estimated colour from sensor - more accurate the closer the object is
 
     /**
      * Initialises the ColourSensor subsystem using COLOUR_SENSOR_PORT Module Constant.
      */
     public ColourSensorSubsystem() {
-        colourSensor = new ColorSensorV3(Constants.ModuleConstants.COLOUR_SENSOR_PORT);
+        colorSensor = new ColorSensorV3(Constants.ModuleConstants.COLOUR_SENSOR_PORT);
     }
 
     /**
@@ -35,12 +35,12 @@ public class ColourSensorSubsystem extends SubsystemBase {
      * @return RGBA Colour struct detectedColour
      */
     public Color getDetectedColour() {
-        return detectedColour;
+        return detectedColor;
     }
 
     @Override
     public void periodic() {
-        detectedColour = colourSensor.getColor();
-        proximity = colourSensor.getProximity();
+        detectedColor = colorSensor.getColor();
+        proximity = colorSensor.getProximity();
     }
 }

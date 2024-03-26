@@ -27,6 +27,14 @@ public class LimitSwitchSubsystem extends SubsystemBase {
      * @return Boolean status of the given limit switch
      */
     public boolean isClosed(int index) {
+        try
+        {
         return limitSwitches[index].get();
+        }
+        catch (Exception e)
+        {
+            System.out.println("Limit Switch Error");
+            return false;
+        }
     }
 }
