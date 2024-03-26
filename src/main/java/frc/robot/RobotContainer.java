@@ -75,10 +75,22 @@ public class RobotContainer extends SubsystemBase {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> {
+
+              double xInput = driverController.getLeftX();
+              double yInput = driverController.getLeftY();
+              double thetaInput = driverController.getRawAxis(4);
+
+              // Apply a round deadband, based on the x/y distance from the origin
+              double distanceFromZero = Math.sqrt(Math.pow(xInput, 2) + Math.pow(yInput, 2)); // Pythagoras
+              if (distanceFromZero < ModuleConstants.DEADBAND) {
+                  xInput = 0;
+                  yInput = 0;
+              }
+
               robotDrive.drive(
-                  Math.pow(MathUtil.applyDeadband(-driverController.getLeftY(), ModuleConstants.DEADBAND), 3),
-                  Math.pow(MathUtil.applyDeadband(-driverController.getLeftX(), ModuleConstants.DEADBAND), 3),
-                  Math.pow(MathUtil.applyDeadband(-driverController.getRawAxis(4), ModuleConstants.DEADBAND), 3),
+                  Math.pow(-yInput, 3) * Math.abs(yInput),
+                  Math.pow(-xInput, 3) * Math.abs(xInput),
+                  Math.pow(MathUtil.applyDeadband(-thetaInput, ModuleConstants.DEADBAND), 3) * Math.abs(thetaInput),
                   true);
             },
             robotDrive));

@@ -37,7 +37,7 @@ public class IntakeSubsystem extends SubsystemBase
         return this.runOnce(() -> {
             intakingMotor.set(IntakeConstants.INTAKING_SPEED);
             positioningMotor.set(IntakeConstants.POSITIONING_SPEED);
-            feederMotor.set(-IntakeConstants.FEEDER_SPEED);
+            feederMotor.set(-IntakeConstants.FEEDER_FORWARD_SPEED);
         });
     };
 

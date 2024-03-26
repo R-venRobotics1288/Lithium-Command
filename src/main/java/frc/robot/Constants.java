@@ -69,7 +69,7 @@ public final class Constants {
         public static final boolean FRONT_RIGHT_DRIVE_ENCODER_REVERSED = false;
         public static final boolean REAR_RIGHT_DRIVE_ENCODER_REVERSED = true;
 
-        public static final double SPEED_RATE_LIMIT = 1.0;
+        public static final double SPEED_RATE_LIMIT = 2.0;
         public static final double SPEED_ROT_LIMIT = 3.0;
 
         public static final double TRACK_WIDTH = 25.5625;
@@ -152,7 +152,7 @@ public final class Constants {
         public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
         public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
                 
-        public static final double DEADBAND = 0.2;
+        public static final double DEADBAND = 0.15;
 
     }
 
@@ -186,9 +186,10 @@ public final class Constants {
     public static final class ShooterConstants
     {
         public static final double FEEDER_SPEED = 0.55;
+        public static final double FEEDER_FORWARD_SPEED = 0.15;
         public static final double SHOOTER_REVERSE_SPEED = 0.2;
-        public static final double SPEAKER_SPEED = 0.6;
-        public static final double AMP_SPEED = 0.4;
+        public static final double SPEAKER_SPEED = 0.65;
+        public static final double AMP_SPEED = 0.9;
     }
 
     public static final class IntakeConstants
@@ -196,6 +197,7 @@ public final class Constants {
         public static final double INTAKING_SPEED = 0.4;
         public static final double POSITIONING_SPEED = 0.35;
         public static final double FEEDER_SPEED = 0.3;
+        public static final double FEEDER_FORWARD_SPEED = 0.15; // TODO: fix all these naming conventions
     }
 
     public static final class ElevatorConstants
