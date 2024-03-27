@@ -1,4 +1,2 @@
-/**
- * Base package with main declaration.
- */
+/** Base package with main declaration. */
 package frc.robot;
