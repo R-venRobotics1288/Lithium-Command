@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - master
-      - dev
-      - auto
+      - 2024-Competition-*
   pull_request: {}
   workflow_dispatch: {}
 
