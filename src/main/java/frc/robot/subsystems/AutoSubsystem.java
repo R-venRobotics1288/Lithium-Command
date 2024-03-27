@@ -43,7 +43,7 @@ public class AutoSubsystem
                     new WaitCommand(1),
                     shooter.ShooterStop(),
                     shooter.FeederStop(),
-                    new WaitCommand(0.5),
+                    new WaitCommand(5),
                     drive.AutoDrive(-DRIVE_SPEED_X, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME)
                 );
                 break;
@@ -89,7 +89,7 @@ public class AutoSubsystem
                     new WaitCommand(1),
                     shooter.ShooterStop(),
                     shooter.FeederStop(),
-                    new WaitCommand(0.5),
+                    new WaitCommand(5),
                     drive.AutoDrive(DRIVE_SPEED_X, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME)
                 );
                 break;
