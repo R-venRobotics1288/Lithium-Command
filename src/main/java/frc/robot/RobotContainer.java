@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.Alliance;
 import frc.robot.Constants.AutoMode;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
@@ -183,10 +182,10 @@ public class RobotContainer extends SubsystemBase {
     return new PathPlannerAuto("RavenCompetition");
   }
 
-  public Command auto(AutoMode mode, Alliance alliance) {
+  public Command auto(AutoMode mode) {
     return this.runOnce(
         () -> {
-          robotAuto.startAutos(mode, alliance).schedule();
+          robotAuto.startAutos(mode).schedule();
         });
   }
 }
