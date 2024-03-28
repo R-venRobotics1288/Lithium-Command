@@ -84,8 +84,19 @@ public class ShooterSubsystem extends SubsystemBase {
     return this.runOnce(
         () -> {
           System.out.println("Running");
-          shooterLeft.set(ShooterConstants.SHOOTER_SPEAKER_SPEED);
-          shooterRight.set(-ShooterConstants.SHOOTER_SPEAKER_SPEED);
+          // Setting a min to make sure the motor speed doesn't go over 1.0 or under -1.0
+          // Applying half of the delta value to equally change the motor speeds to balance out the
+          // shooting of the note
+          shooterLeft.set(
+              Math.min(
+                  1.0,
+                  ShooterConstants.SHOOTER_SPEAKER_SPEED_BASE
+                      + ShooterConstants.SHOOTER_SPEAKER_SPEED_DELTA / 2));
+          shooterRight.set(
+              -(Math.min(
+                  1.0,
+                  ShooterConstants.SHOOTER_SPEAKER_SPEED_BASE
+                      - ShooterConstants.SHOOTER_SPEAKER_SPEED_DELTA / 2)));
         });
   }
 
