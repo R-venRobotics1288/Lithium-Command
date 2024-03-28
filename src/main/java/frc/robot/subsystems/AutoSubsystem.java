@@ -30,9 +30,9 @@ public class AutoSubsystem {
         DRIVE_RUNTIME = 1.8;
 
         group.addCommands(
-            shooter.SpeakerShooter(),
+            shooter.ShooterForwardSpeaker(),
             new WaitCommand(1.5),
-            shooter.FeederMotorReverse(),
+            shooter.FeederForward(),
             new WaitCommand(1),
             shooter.ShooterStop(),
             shooter.FeederStop(),
@@ -44,23 +44,23 @@ public class AutoSubsystem {
         DRIVE_RUNTIME = 3;
 
         group.addCommands(
-            shooter.SpeakerShooter(),
+            shooter.ShooterForwardSpeaker(),
             new WaitCommand(1.5),
-            shooter.FeederMotorReverse(),
+            shooter.FeederForward(),
             new WaitCommand(1),
             shooter.ShooterStop(),
             shooter.FeederStop(),
             new WaitCommand(0.5),
-            intake.IntakeReverse(),
+            intake.IntakeForward(),
             drive.AutoDrive(0, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
             new WaitCommand(1),
             intake.IntakeStop(),
             drive.AutoDrive(0, DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
-            // shooter.FeederMotorForwardSlow(),
+            // shooter.FeederReverseSlow(),
             // new WaitCommand(0.3),
-            shooter.SpeakerShooter(),
+            shooter.ShooterForwardSpeaker(),
             new WaitCommand(1.5),
-            shooter.FeederMotorReverse(),
+            shooter.FeederForward(),
             new WaitCommand(1),
             shooter.ShooterStop(),
             shooter.FeederStop());
@@ -71,9 +71,9 @@ public class AutoSubsystem {
         DRIVE_RUNTIME = 1.8;
 
         group.addCommands(
-            shooter.SpeakerShooter(),
+            shooter.ShooterForwardSpeaker(),
             new WaitCommand(1.5),
-            shooter.FeederMotorReverse(),
+            shooter.FeederForward(),
             new WaitCommand(1),
             shooter.ShooterStop(),
             shooter.FeederStop(),

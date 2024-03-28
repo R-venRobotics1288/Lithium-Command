@@ -44,21 +44,21 @@ public class ShooterSubsystem extends SubsystemBase {
 
   // }
 
-  public Command FeederMotorReverse() {
+  public Command FeederForward() {
     return this.runOnce(
         () -> {
-          feederMotor.set(ShooterConstants.FEEDER_SPEED);
+          feederMotor.set(ShooterConstants.FEEDER_FORWARD_SPEED);
         });
   }
 
-  public Command FeederMotorForward() {
+  public Command FeederReverse() {
     return this.runOnce(
         () -> {
-          feederMotor.set(-ShooterConstants.FEEDER_FORWARD_SPEED);
+          feederMotor.set(-ShooterConstants.FEEDER_REVERSE_SPEED);
         });
   }
 
-  public Command FeederMotorForwardSlow() {
+  public Command FeederReverseSlow() {
     return this.runOnce(
         () -> {
           feederMotor.set(-0.15);
@@ -80,20 +80,20 @@ public class ShooterSubsystem extends SubsystemBase {
         });
   }
 
-  public Command SpeakerShooter() {
+  public Command ShooterForwardSpeaker() {
     return this.runOnce(
         () -> {
           System.out.println("Running");
-          shooterLeft.set(ShooterConstants.SPEAKER_SPEED);
-          shooterRight.set(-ShooterConstants.SPEAKER_SPEED);
+          shooterLeft.set(ShooterConstants.SHOOTER_SPEAKER_SPEED);
+          shooterRight.set(-ShooterConstants.SHOOTER_SPEAKER_SPEED);
         });
   }
 
-  public Command AMPShooter() {
+  public Command ShooterForwardAmp() {
     return this.runOnce(
         () -> {
-          shooterLeft.set(ShooterConstants.AMP_SPEED);
-          shooterRight.set(-ShooterConstants.AMP_SPEED);
+          shooterLeft.set(ShooterConstants.SHOOTER_AMP_SPEED);
+          shooterRight.set(-ShooterConstants.SHOOTER_AMP_SPEED);
         });
   }
 

@@ -150,14 +150,14 @@ public class RobotContainer extends SubsystemBase {
     /// driverController.leftBumper().whileTrue(robotDrive.SlowSwerve());
     // driverController.leftBumper().whileFalse(robotDrive.NormalSwerve());
 
-    operatorController.rightBumper().whileTrue(robotIntake.IntakeForward());
-    operatorController.leftBumper().whileTrue(robotIntake.IntakeReverse());
+    operatorController.rightBumper().whileTrue(robotIntake.IntakeReverse());
+    operatorController.leftBumper().whileTrue(robotIntake.IntakeForward());
 
     operatorController.leftBumper().whileFalse(robotIntake.IntakeStop());
     operatorController.rightBumper().whileFalse(robotIntake.IntakeStop());
 
-    operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsystem.FeederMotorForward());
-    operatorController.axisGreaterThan(2, 0.75).whileTrue(shooterSubsystem.FeederMotorReverse());
+    operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsystem.FeederReverse());
+    operatorController.axisGreaterThan(2, 0.75).whileTrue(shooterSubsystem.FeederForward());
 
     operatorController.axisGreaterThan(3, 0.75).whileFalse(shooterSubsystem.FeederStop());
     operatorController.axisGreaterThan(2, 0.75).whileFalse(shooterSubsystem.FeederStop());
@@ -165,10 +165,10 @@ public class RobotContainer extends SubsystemBase {
     operatorController.x().whileTrue(shooterSubsystem.ShooterReverse());
     operatorController.x().whileFalse(shooterSubsystem.ShooterStop());
 
-    operatorController.y().whileTrue(shooterSubsystem.SpeakerShooter());
+    operatorController.y().whileTrue(shooterSubsystem.ShooterForwardSpeaker());
     operatorController.y().whileFalse(shooterSubsystem.ShooterStop());
 
-    operatorController.a().whileTrue(shooterSubsystem.AMPShooter());
+    operatorController.a().whileTrue(shooterSubsystem.ShooterForwardAmp());
     operatorController.a().whileFalse(shooterSubsystem.ShooterStop());
 
     operatorController.button(7).whileTrue(robotElevator.ResetEncoders());

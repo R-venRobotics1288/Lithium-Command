@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {}
 
-  public Command IntakeForward() {
+  public Command IntakeReverse() {
     return this.runOnce(
         () -> {
           intakingMotor.set(IntakeConstants.INTAKING_SPEED);
@@ -31,7 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   ;
 
-  public Command IntakeReverse() {
+  public Command IntakeForward() {
     return this.runOnce(
         () -> {
           intakingMotor.set(-IntakeConstants.INTAKING_SPEED);
