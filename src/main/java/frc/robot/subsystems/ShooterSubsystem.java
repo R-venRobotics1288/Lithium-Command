@@ -44,21 +44,21 @@ public class ShooterSubsystem extends SubsystemBase {
 
   // }
 
-  public Command FeederMotorReverse() {
+  public Command FeederForward() {
     return this.runOnce(
         () -> {
-          feederMotor.set(ShooterConstants.FEEDER_SPEED);
+          feederMotor.set(ShooterConstants.FEEDER_FORWARD_SPEED);
         });
   }
 
-  public Command FeederMotorForward() {
+  public Command FeederReverse() {
     return this.runOnce(
         () -> {
-          feederMotor.set(-ShooterConstants.FEEDER_FORWARD_SPEED);
+          feederMotor.set(-ShooterConstants.FEEDER_REVERSE_SPEED);
         });
   }
 
-  public Command FeederMotorForwardSlow() {
+  public Command FeederReverseSlow() {
     return this.runOnce(
         () -> {
           feederMotor.set(-0.15);
@@ -80,20 +80,31 @@ public class ShooterSubsystem extends SubsystemBase {
         });
   }
 
-  public Command SpeakerShooter() {
+  public Command ShooterForwardSpeaker() {
     return this.runOnce(
         () -> {
           System.out.println("Running");
-          shooterLeft.set(ShooterConstants.SPEAKER_SPEED);
-          shooterRight.set(-ShooterConstants.SPEAKER_SPEED);
+          // Setting a min to make sure the motor speed doesn't go over 1.0 or under -1.0
+          // Applying half of the delta value to equally change the motor speeds to balance out the
+          // shooting of the note
+          shooterLeft.set(
+              Math.min(
+                  1.0,
+                  ShooterConstants.SHOOTER_SPEAKER_SPEED_BASE
+                      + ShooterConstants.SHOOTER_SPEAKER_SPEED_DELTA / 2));
+          shooterRight.set(
+              -(Math.min(
+                  1.0,
+                  ShooterConstants.SHOOTER_SPEAKER_SPEED_BASE
+                      - ShooterConstants.SHOOTER_SPEAKER_SPEED_DELTA / 2)));
         });
   }
 
-  public Command AMPShooter() {
+  public Command ShooterForwardAmp() {
     return this.runOnce(
         () -> {
-          shooterLeft.set(ShooterConstants.AMP_SPEED);
-          shooterRight.set(-ShooterConstants.AMP_SPEED);
+          shooterLeft.set(ShooterConstants.SHOOTER_AMP_SPEED);
+          shooterRight.set(-ShooterConstants.SHOOTER_AMP_SPEED);
         });
   }
 

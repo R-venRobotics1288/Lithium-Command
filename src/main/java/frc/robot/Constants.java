@@ -78,14 +78,6 @@ public final class Constants {
 
     public static final boolean GYRO_REVERSED = false;
 
-    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or theoretically
-    // for *your* robot's drive.
-    // The SysId tool provides a convenient method for obtaining these values for your robot.
-    public static final double ksVolts = 1;
-    public static final double kvVoltSecondsPerMeter = 0.8;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.15;
-
     public static final double MAX_SPEED_METERS_PER_SECOND = 20;
     public static final double ROTATION_DIVISOR = 2;
   }
@@ -127,23 +119,17 @@ public final class Constants {
     public static final double DRIVING_MOTOR_REDUCTION =
         (45.0 * 22) / (DRIVING_MOTOR_PINION_TEETH * 15);
 
-    public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
-    public static final double kWheelCircumferenceMeters = WHEEL_DIAMETER_METERS * Math.PI;
-    public static final double kDriveWheelFreeSpeedRps =
-        (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
-            / DRIVING_MOTOR_REDUCTION; // Current value 4.7902941315418912960821043628581
-
-    public static final double kDrivingEncoderPositionFactor =
+    public static final double DrivingEncoderPositionFactor =
         (WHEEL_DIAMETER_METERS * Math.PI) / DRIVING_MOTOR_REDUCTION; // meters
-    public static final double kDrivingEncoderVelocityFactor =
+    public static final double DrivingEncoderVelocityFactor =
         ((WHEEL_DIAMETER_METERS * Math.PI) / DRIVING_MOTOR_REDUCTION) / 60.0; // meters per second
 
-    public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
-    public static final double kTurningEncoderVelocityFactor =
+    public static final double TurningEncoderPositionFactor = (2 * Math.PI); // radians
+    public static final double TurningEncoderVelocityFactor =
         (2 * Math.PI) / 60.0; // radians per second
 
-    public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
-    public static final double kTurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
+    public static final double TurningEncoderPositionPIDMinInput = 0; // radians
+    public static final double TurningEncoderPositionPIDMaxInput = 2 * Math.PI; // radians
 
     public static final double DEADBAND = 0.15;
   }
@@ -171,24 +157,20 @@ public final class Constants {
             MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
   }
 
-  public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 5676;
-  }
-
   public static final class ShooterConstants {
-    public static final double FEEDER_SPEED = 0.55;
-    public static final double FEEDER_FORWARD_SPEED = 0.15;
+    public static final double FEEDER_FORWARD_SPEED = 0.65;
+    public static final double FEEDER_REVERSE_SPEED = 0.15;
     public static final double SHOOTER_REVERSE_SPEED = 0.2;
-    public static final double SPEAKER_SPEED = 0.65;
-    public static final double AMP_SPEED = 0.9;
+    public static final double SHOOTER_SPEAKER_SPEED_BASE = 0.55;
+    public static final double SHOOTER_SPEAKER_SPEED_DELTA = 0.4;
+    public static final double SHOOTER_AMP_SPEED = 0.9;
   }
 
   public static final class IntakeConstants {
     public static final double INTAKING_SPEED = 0.4;
     public static final double POSITIONING_SPEED = 0.35;
     public static final double FEEDER_SPEED = 0.3;
-    public static final double FEEDER_FORWARD_SPEED =
-        0.15; // TODO: fix all these naming conventions
+    public static final double FEEDER_FORWARD_SPEED = 0.15;
   }
 
   public static final class ElevatorConstants {
