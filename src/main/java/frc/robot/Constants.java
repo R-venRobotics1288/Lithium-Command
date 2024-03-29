@@ -176,7 +176,7 @@ public final class Constants {
     public static final double POSITIONING_SPEED = 0.35;
     public static final double FEEDER_SPEED = 0.3;
     public static final double FEEDER_FORWARD_SPEED =
-        0.15; // TODO: fix all these naming conventions
+        0.15;
   }
 
   public static final class ElevatorConstants {
