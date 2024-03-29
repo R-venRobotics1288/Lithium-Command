@@ -25,11 +25,6 @@ public final class Constants {
     RIGHT
   }
 
-  public enum Alliance {
-    RED,
-    BLUE
-  }
-
   public static final class DriveConstants {
 
     public static final double LEFT_FRONT_ENCODER_OFFSET = Math.PI + Math.toRadians(180.83);
