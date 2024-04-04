@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import org.opencv.core.Mat;
-
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -86,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
         this::setChassisSpeed,
         new HolonomicPathFollowerConfig(
             AutoConstants.MAX_SPEED_METERS_PER_SECOND,
-            0.5 * Math.sqrt(Math.pow(DriveConstants.WHEEL_BASE, 2) + Math.pow(DriveConstants.TRACK_WIDTH, 2)), /* TODO: test / increase accuracy */,
+            0.5 * Math.sqrt(Math.pow(DriveConstants.WHEEL_BASE, 2) + Math.pow(DriveConstants.TRACK_WIDTH, 2)), /* TODO: test / increase accuracy */
             new ReplanningConfig(true, true)),
         this::switchAlliance,
         this);
@@ -194,13 +192,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    // double xspeed = -xSpeedLimiter.calculate(MathUtil.applyDeadband(RobotContainer
-    // .driverController.getLeftY(), Constants.ModuleConstants.DEADBAND));
-
-    // double yspeed = -ySpeedLimiter.calculate(MathUtil
-    // .applyDeadband(RobotContainer.driverController.getLeftX(),
-    // Constants.ModuleConstants.DEADBAND));
-
     xSpeed = xSpeedLimiter.calculate(xSpeed);
     ySpeed = ySpeedLimiter.calculate(ySpeed);
 

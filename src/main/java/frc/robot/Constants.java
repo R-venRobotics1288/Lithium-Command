@@ -67,7 +67,7 @@ public final class Constants {
     public static final boolean FRONT_RIGHT_DRIVE_ENCODER_REVERSED = false;
     public static final boolean REAR_RIGHT_DRIVE_ENCODER_REVERSED = true;
 
-    public static final double SPEED_RATE_LIMIT = 2.0;
+    public static final double SPEED_RATE_LIMIT = 4.0;
     public static final double SPEED_ROT_LIMIT = 3.0;
 
     public static final double TRACK_WIDTH = 25.5625;
