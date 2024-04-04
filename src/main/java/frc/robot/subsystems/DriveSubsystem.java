@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import org.opencv.core.Mat;
+
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -71,7 +73,7 @@ public class DriveSubsystem extends SubsystemBase {
   private double lastYaw = 0;
   private double[] rollingDeltaYaw = new double[50];
   private int rollingDeltaYawIndex = 0;
-  private double omega = 0;
+  private double omega = 0; // Angluar Velocity
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -84,12 +86,11 @@ public class DriveSubsystem extends SubsystemBase {
         this::setChassisSpeed,
         new HolonomicPathFollowerConfig(
             AutoConstants.MAX_SPEED_METERS_PER_SECOND,
-            0.52 /* TODO: test / increase accuracy */,
+            0.5 * Math.sqrt(Math.pow(DriveConstants.WHEEL_BASE, 2) + Math.pow(DriveConstants.TRACK_WIDTH, 2)), /* TODO: test / increase accuracy */,
             new ReplanningConfig(true, true)),
         this::switchAlliance,
         this);
   }
-
   public Command getZeroHeadingCommand() {
     return this.runOnce(
         () -> {
