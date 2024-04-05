@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.Alliance;
 import frc.robot.Constants.AutoMode;
 
 /**
@@ -42,12 +41,6 @@ public class Robot extends TimedRobot {
     modeChooser.addOption("Center", AutoMode.CENTER);
     modeChooser.addOption("Right", AutoMode.RIGHT);
     SmartDashboard.putData("Auto Mode", modeChooser);
-
-    // Chooser for alliance
-    // allianceChooser = new SendableChooser<Alliance>();
-    // allianceChooser.setDefaultOption("Red", Alliance.RED); // implicitly added as well
-    // allianceChooser.addOption("Blue", Alliance.BLUE);
-    // SmartDashboard.putData("Alliance", allianceChooser);
 
     CameraServer.startAutomaticCapture();
 
@@ -99,7 +92,7 @@ public class Robot extends TimedRobot {
     robotContainer.robotDrive.gyro.setYaw(-90);
 
     System.out.println(modeChooser.getSelected());
-    robotContainer.auto((AutoMode) modeChooser.getSelected(), Alliance.RED).schedule();
+    robotContainer.auto((AutoMode) modeChooser.getSelected()).schedule();
   }
 
   /** This function is called periodically during autonomous. */

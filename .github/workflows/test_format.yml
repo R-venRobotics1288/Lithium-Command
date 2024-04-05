@@ -1,4 +1,4 @@
-name: Test that the code will build
+name: Test that the code is formatted properly
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-  test-build:
+  test-format:
 
     runs-on: ubuntu-latest
 
@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build with gradle wrapper
+      - name: Check formatting with spotless
         shell: bash
-        run: bash gradlew build --warning-mode all
+        run: bash gradlew spotlessCheck
 

@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants.Alliance;
 import frc.robot.Constants.AutoMode;
 
 public class AutoSubsystem {
@@ -16,7 +15,7 @@ public class AutoSubsystem {
     this.drive = drive;
   }
 
-  public SequentialCommandGroup startAutos(AutoMode mode, Alliance alliance) {
+  public SequentialCommandGroup startAutos(AutoMode mode) {
     double DRIVE_SPEED_X = 0.1;
     double DRIVE_SPEED_Y = 0.15;
     double DRIVE_RUNTIME = 3;
