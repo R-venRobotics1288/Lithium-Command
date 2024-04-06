@@ -73,8 +73,7 @@ public class ADRateLimiter {
 //             m_negativeRateLimit * elapsedTime,
 //             m_positiveRateLimit * elapsedTime);
 //     m_prevTime = currentTime;
-//     return m_prevVal;
-//   }
+//     return m_prevVal;       }
 
     public double calculate(double input) {
         
