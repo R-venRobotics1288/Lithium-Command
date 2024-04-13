@@ -14,7 +14,7 @@ import frc.robot.Constants.ModuleConstants;
 public class ElevatorSubsystem extends SubsystemBase {
   private CANSparkMax leftElevatorMotor;
   private CANSparkMax rightElevatorMotor;
-  private RelativeEncoder rightElevatorEncoder;
+  public RelativeEncoder rightElevatorEncoder;
   private RelativeEncoder leftElevatorEncoder;
 
   private CommandXboxController gController;
