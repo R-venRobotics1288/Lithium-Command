@@ -27,8 +27,8 @@ public final class Constants {
 
   public static final class DriveConstants {
 
-    public static final double LEFT_FRONT_ENCODER_OFFSET = Math.PI + Math.toRadians(186.87);
-    public static final double LEFT_REAR_ENCODER_OFFSET = Math.PI + Math.toRadians(349.28);
+    public static final double LEFT_FRONT_ENCODER_OFFSET =  Math.toRadians(6.87);
+    public static final double LEFT_REAR_ENCODER_OFFSET = Math.toRadians(349.28);
     public static final double RIGHT_FRONT_ENCODER_OFFET = Math.toRadians(346.68);
     public static final double RIGHT_REAR_ENCODER_OFFET = Math.toRadians(358.19);
 
