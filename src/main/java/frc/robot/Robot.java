@@ -64,7 +64,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     SmartDashboard.putData("Position", modeChooser);
-    //SmartDashboard.putNumber("Elevator Position", robotContainer.robotElevator.rightElevatorEncoder.getPosition());
+    // SmartDashboard.putNumber("Elevator Position",
+    // robotContainer.robotElevator.rightElevatorEncoder.getPosition());
 
     // SmartDashboard.putNumber("Front Left Encoder",
     // Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
