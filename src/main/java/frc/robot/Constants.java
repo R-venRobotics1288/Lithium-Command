@@ -27,8 +27,8 @@ public final class Constants {
 
   public static final class DriveConstants {
 
-    public static final double LEFT_FRONT_ENCODER_OFFSET = Math.toRadians(6.87);
-    public static final double LEFT_REAR_ENCODER_OFFSET = Math.toRadians(349.28);
+    public static final double LEFT_FRONT_ENCODER_OFFSET = Math.toRadians(7.22);
+    public static final double LEFT_REAR_ENCODER_OFFSET = Math.toRadians(353.85);
     public static final double RIGHT_FRONT_ENCODER_OFFET = Math.toRadians(346.68);
     public static final double RIGHT_REAR_ENCODER_OFFET = Math.toRadians(358.19);
 
@@ -174,7 +174,7 @@ public final class Constants {
   }
 
   public static final class ElevatorConstants {
-    public static final double TOP_ELEVATOR_LIMIT = 338;
+    public static final double TOP_ELEVATOR_LIMIT = 365;
     public static final double BOT_ELEVATOR_LIMIT = 0;
 
     public static final double LEFT_MOTOR_SPEED = 1;
