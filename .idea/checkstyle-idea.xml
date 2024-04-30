@@ -11,9 +11,14 @@
     </option>
     <option name="locations">
       <list>
-        <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
-        <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
-        <ConfigurationLocation id="f311d471-2948-41e4-b0f4-333deecc8ded" type="PROJECT_RELATIVE" scope="All" description="RavenCS">$PROJECT_DIR$/.idea/Raven-CheckStyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="bundled-sun-checks"
+          type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation
+          id="bundled-google-checks" type="BUNDLED" scope="All"
+          description="Google Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation
+          id="f311d471-2948-41e4-b0f4-333deecc8ded" type="PROJECT_RELATIVE"
+          scope="All" description="RavenCS">$PROJECT_DIR$/.idea/Raven-CheckStyle.xml</ConfigurationLocation>
       </list>
     </option>
   </component>

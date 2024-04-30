@@ -5,13 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.Alliance;
 import frc.robot.Constants.AutoMode;
 
 /**
@@ -44,16 +42,9 @@ public class Robot extends TimedRobot {
     modeChooser.addOption("Right", AutoMode.RIGHT);
     SmartDashboard.putData("Auto Mode", modeChooser);
 
-    // Chooser for alliance
-    // allianceChooser = new SendableChooser<Alliance>();
-    // allianceChooser.setDefaultOption("Red", Alliance.RED); // implicitly added as well
-    // allianceChooser.addOption("Blue", Alliance.BLUE);
-    // SmartDashboard.putData("Alliance", allianceChooser);
-
     CameraServer.startAutomaticCapture();
 
     robotContainer.robotDrive.zeroHeading(); // probably not needed any more -- test for certainty
-
   }
 
   /**
@@ -73,11 +64,17 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     SmartDashboard.putData("Position", modeChooser);
+    // SmartDashboard.putNumber(
+    //     "Elevator Position", robotContainer.robotElevator.rightElevatorEncoder.getPosition());
 
-    // SmartDashboard.putNumber("Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
-    // SmartDashboard.putNumber("Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
-    // SmartDashboard.putNumber("Rear Left Encoder", Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
-    // SmartDashboard.putNumber("Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
+    SmartDashboard.putNumber(
+        "Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
+    SmartDashboard.putNumber(
+        "Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
+    SmartDashboard.putNumber(
+        "Rear Left Encoder", Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
+    SmartDashboard.putNumber(
+        "Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
     // SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
     // SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
     // SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRawAxis(4));
@@ -86,27 +83,23 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {
-
-  }
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-  @Override 
-  public void autonomousInit() 
-  {
+  @Override
+  public void autonomousInit() {
     robotContainer.robotDrive.gyro.setYaw(-90);
 
     System.out.println(modeChooser.getSelected());
-    robotContainer.auto((AutoMode)modeChooser.getSelected(), Alliance.RED).schedule();
+    robotContainer.auto((AutoMode) modeChooser.getSelected()).schedule();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
@@ -121,8 +114,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {
@@ -132,12 +124,11 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {
-  }
+  public void testPeriodic() {}
 
   @Override
   public void simulationPeriodic() {
-        // CommandScheduler.getInstance().run();
+    // CommandScheduler.getInstance().run();
 
   }
 }

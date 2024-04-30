@@ -4,37 +4,27 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.Alliance;
-import frc.robot.Constants.AutoMode;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.ModuleConstants;
-import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.AutoSubsystem;
-import frc.robot.subsystems.CameraSubsystem;
-import frc.robot.subsystems.ColourSensorSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-
-import frc.robot.subsystems.LimitSwitchSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import frc.robot.Constants.AutoMode;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.AutoSubsystem;
+import frc.robot.subsystems.ColourSensorSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -45,23 +35,26 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 public class RobotContainer extends SubsystemBase {
 
   // The driver's controller
-  public static CommandXboxController driverController = new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
-  public static CommandXboxController operatorController = new CommandXboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
-  public static CANSparkMax feederMotor = new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
-  
+  public static CommandXboxController driverController =
+      new CommandXboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public static CommandXboxController operatorController =
+      new CommandXboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
+  public static CANSparkMax feederMotor =
+      new CANSparkMax(DriveConstants.FEEDER_MOTOR_PORT, MotorType.kBrushless);
+
   // The robot's subsystems
   public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(feederMotor);
   public final DriveSubsystem robotDrive = new DriveSubsystem();
- // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  // public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public final ColourSensorSubsystem colourSensorSubsystem = new ColourSensorSubsystem();
- //  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
+  //  public final LimitSwitchSubsystem limitSwitchSubsystem = new LimitSwitchSubsystem();
   public final IntakeSubsystem robotIntake = new IntakeSubsystem(feederMotor);
   public final ElevatorSubsystem robotElevator = new ElevatorSubsystem(operatorController);
-  public final AutoSubsystem robotAuto = new AutoSubsystem(shooterSubsystem, robotIntake, robotDrive);
+  public final AutoSubsystem robotAuto =
+      new AutoSubsystem(shooterSubsystem, robotIntake, robotDrive);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() 
-  {
+  public RobotContainer() {
     feederMotor.setSmartCurrentLimit(80);
     feederMotor.setIdleMode(IdleMode.kBrake);
     feederMotor.burnFlash();
@@ -75,22 +68,23 @@ public class RobotContainer extends SubsystemBase {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> {
-
               double xInput = driverController.getLeftX();
               double yInput = driverController.getLeftY();
               double thetaInput = driverController.getRawAxis(4);
 
               // Apply a round deadband, based on the x/y distance from the origin
-              double distanceFromZero = Math.sqrt(Math.pow(xInput, 2) + Math.pow(yInput, 2)); // Pythagoras
+              double distanceFromZero =
+                  Math.sqrt(Math.pow(xInput, 2) + Math.pow(yInput, 2)); // Pythagoras
               if (distanceFromZero < ModuleConstants.DEADBAND) {
-                  xInput = 0;
-                  yInput = 0;
+                xInput = 0;
+                yInput = 0;
               }
 
               robotDrive.drive(
                   Math.pow(-yInput, 3) * Math.abs(yInput),
                   Math.pow(-xInput, 3) * Math.abs(xInput),
-                  Math.pow(MathUtil.applyDeadband(-thetaInput, ModuleConstants.DEADBAND), 3) * Math.abs(thetaInput),
+                  Math.pow(MathUtil.applyDeadband(-thetaInput, ModuleConstants.DEADBAND), 3)
+                      * Math.abs(thetaInput),
                   true);
             },
             robotDrive));
@@ -102,7 +96,8 @@ public class RobotContainer extends SubsystemBase {
     //         () -> {
     //           Pose3d estimatedPose = cameraSubsystem.getLastEstimatedRobotPose(false);
     //           SmartDashboard.putNumberArray("Camera Estimated Position",
-    //               new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ() });
+    //               new double[] { estimatedPose.getX(), estimatedPose.getY(), estimatedPose.getZ()
+    // });
     //           SmartDashboard.putNumberArray("Camera Estimated Rotation",
     //               new double[] { Math.toDegrees(estimatedPose.getRotation().getX()),
     //                   Math.toDegrees(estimatedPose.getRotation().getY()),
@@ -124,46 +119,44 @@ public class RobotContainer extends SubsystemBase {
     // );
 
     robotElevator.setDefaultCommand(
-      new RunCommand
-      (
-        () -> {
-          robotElevator.elevatorControl();
-        }, robotElevator
-      )
-    );
+        new RunCommand(
+            () -> {
+              robotElevator.elevatorControl();
+            },
+            robotElevator));
 
-  //  colourSensorSubsystem.setDefaultCommand(
-  //      new RunCommand(
-  //          () -> {
-  //            SmartDashboard.putNumber("Colour Sensor Proximity", colourSensorSubsystem.getProximity());
-  //           SmartDashboard.putString("Colour Sensor Detected Colour",
-  //                colourSensorSubsystem.getDetectedColour().toHexString());
-  //          },
-  //         colourSensorSubsystem));
+    //  colourSensorSubsystem.setDefaultCommand(
+    //      new RunCommand(
+    //          () -> {
+    //            SmartDashboard.putNumber("Colour Sensor Proximity",
+    // colourSensorSubsystem.getProximity());
+    //           SmartDashboard.putString("Colour Sensor Detected Colour",
+    //                colourSensorSubsystem.getDetectedColour().toHexString());
+    //          },
+    //         colourSensorSubsystem));
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
-   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
-   * subclasses ({@link XboxController}), and then calling
-   * passing it to a
-   * {@link JoystickButton}.
+   * Use this method to define your button->command mappings. Buttons can be created by
+   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its subclasses ({@link
+   * XboxController}), and then calling passing it to a {@link JoystickButton}.
    */
-  private void configureButtonBindings() 
-  {
-    driverController.button(7).and(driverController.button(8)).whileTrue(robotDrive.getZeroHeadingCommand());
-    ///driverController.leftBumper().whileTrue(robotDrive.SlowSwerve());
-    //driverController.leftBumper().whileFalse(robotDrive.NormalSwerve());
+  private void configureButtonBindings() {
+    driverController
+        .button(7)
+        .and(driverController.button(8))
+        .whileTrue(robotDrive.getZeroHeadingCommand());
+    /// driverController.leftBumper().whileTrue(robotDrive.SlowSwerve());
+    // driverController.leftBumper().whileFalse(robotDrive.NormalSwerve());
 
-    operatorController.rightBumper().whileTrue(robotIntake.IntakeForward());
-    operatorController.leftBumper().whileTrue(robotIntake.IntakeReverse());
+    operatorController.rightBumper().whileTrue(robotIntake.IntakeReverse());
+    operatorController.leftBumper().whileTrue(robotIntake.IntakeForward());
 
     operatorController.leftBumper().whileFalse(robotIntake.IntakeStop());
     operatorController.rightBumper().whileFalse(robotIntake.IntakeStop());
 
-    operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsystem.FeederMotorForward());
-    operatorController.axisGreaterThan(2, 0.75).whileTrue(shooterSubsystem.FeederMotorReverse());
+    operatorController.axisGreaterThan(3, 0.75).whileTrue(shooterSubsystem.FeederReverse());
+    operatorController.axisGreaterThan(2, 0.75).whileTrue(shooterSubsystem.FeederForward());
 
     operatorController.axisGreaterThan(3, 0.75).whileFalse(shooterSubsystem.FeederStop());
     operatorController.axisGreaterThan(2, 0.75).whileFalse(shooterSubsystem.FeederStop());
@@ -171,10 +164,10 @@ public class RobotContainer extends SubsystemBase {
     operatorController.x().whileTrue(shooterSubsystem.ShooterReverse());
     operatorController.x().whileFalse(shooterSubsystem.ShooterStop());
 
-    operatorController.y().whileTrue(shooterSubsystem.SpeakerShooter());
+    operatorController.y().whileTrue(shooterSubsystem.ShooterForwardSpeaker());
     operatorController.y().whileFalse(shooterSubsystem.ShooterStop());
 
-    operatorController.a().whileTrue(shooterSubsystem.AMPShooter());
+    operatorController.a().whileTrue(shooterSubsystem.ShooterForwardAmp());
     operatorController.a().whileFalse(shooterSubsystem.ShooterStop());
 
     operatorController.button(7).whileTrue(robotElevator.ResetEncoders());
@@ -189,10 +182,10 @@ public class RobotContainer extends SubsystemBase {
     return new PathPlannerAuto("RavenCompetition");
   }
 
-  public Command auto(AutoMode mode, Alliance alliance)
-  {
-    return this.runOnce(() -> {
-      robotAuto.startAutos(mode, alliance).schedule();
-    });
+  public Command auto(AutoMode mode) {
+    return this.runOnce(
+        () -> {
+          robotAuto.startAutos(mode).schedule();
+        });
   }
 }
