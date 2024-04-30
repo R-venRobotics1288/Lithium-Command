@@ -64,16 +64,17 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     SmartDashboard.putData("Position", modeChooser);
-    //SmartDashboard.putNumber("Elevator Position", robotContainer.robotElevator.rightElevatorEncoder.getPosition());
+    // SmartDashboard.putNumber(
+    //     "Elevator Position", robotContainer.robotElevator.rightElevatorEncoder.getPosition());
 
-    // SmartDashboard.putNumber("Front Left Encoder",
-    // Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
-    // SmartDashboard.putNumber("Front Right Encoder",
-    // Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
-    // SmartDashboard.putNumber("Rear Left Encoder",
-    // Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
-    // SmartDashboard.putNumber("Rear Right Encoder",
-    // Math.toDegrees(robotContainer.robotDrive.getRearRight()));
+    SmartDashboard.putNumber(
+        "Front Left Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontLeft()));
+    SmartDashboard.putNumber(
+        "Front Right Encoder", Math.toDegrees(robotContainer.robotDrive.getFrontRight()));
+    SmartDashboard.putNumber(
+        "Rear Left Encoder", Math.toDegrees(robotContainer.robotDrive.getRearLeft()));
+    SmartDashboard.putNumber(
+        "Rear Right Encoder", Math.toDegrees(robotContainer.robotDrive.getRearRight()));
     // SmartDashboard.putNumber("Left Joystick X", robotContainer.driverController.getLeftX());
     // SmartDashboard.putNumber("Left Joystick Y", robotContainer.driverController.getLeftY());
     // SmartDashboard.putNumber("Right Joystick X", robotContainer.driverController.getRawAxis(4));

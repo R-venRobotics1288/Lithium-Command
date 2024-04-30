@@ -27,8 +27,8 @@ public final class Constants {
 
   public static final class DriveConstants {
 
-    public static final double LEFT_FRONT_ENCODER_OFFSET =  Math.toRadians(6.87);
-    public static final double LEFT_REAR_ENCODER_OFFSET = Math.toRadians(349.28);
+    public static final double LEFT_FRONT_ENCODER_OFFSET = Math.toRadians(7.22);
+    public static final double LEFT_REAR_ENCODER_OFFSET = Math.toRadians(353.85);
     public static final double RIGHT_FRONT_ENCODER_OFFET = Math.toRadians(346.68);
     public static final double RIGHT_REAR_ENCODER_OFFET = Math.toRadians(358.19);
 
@@ -78,7 +78,7 @@ public final class Constants {
 
     public static final boolean GYRO_REVERSED = false;
 
-    public static final double MAX_SPEED_METERS_PER_SECOND = 20;
+    public static final double MAX_SPEED_METERS_PER_SECOND = 25;
     public static final double ROTATION_DIVISOR = 2;
   }
 
@@ -96,7 +96,7 @@ public final class Constants {
     public static final double MAX_MODULE_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED =
         2 * Math.PI;
 
-    public static final double MAX_MODULE_METERS_PER_SECOND = 20;
+    public static final double MAX_MODULE_METERS_PER_SECOND = 25;
 
     // public static final double GEAR_RATIO = 8.14;
 
@@ -158,23 +158,23 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final double FEEDER_FORWARD_SPEED = 0.65;
+    public static final double FEEDER_FORWARD_SPEED = 0.3;
     public static final double FEEDER_REVERSE_SPEED = 0.15;
     public static final double SHOOTER_REVERSE_SPEED = 0.2;
-    public static final double SHOOTER_SPEAKER_SPEED_BASE = 0.55;
-    public static final double SHOOTER_SPEAKER_SPEED_DELTA = 0.4;
+    public static final double SHOOTER_SPEAKER_SPEED_BASE = 0.7;
+    public static final double SHOOTER_SPEAKER_SPEED_DELTA = 0.3;
     public static final double SHOOTER_AMP_SPEED = 0.9;
   }
 
   public static final class IntakeConstants {
-    public static final double INTAKING_SPEED = 0.4;
-    public static final double POSITIONING_SPEED = 0.35;
+    public static final double INTAKING_SPEED = 0.5;
+    public static final double POSITIONING_SPEED = 0.45;
     public static final double FEEDER_SPEED = 0.3;
     public static final double FEEDER_FORWARD_SPEED = 0.15;
   }
 
   public static final class ElevatorConstants {
-    public static final double TOP_ELEVATOR_LIMIT = 338;
+    public static final double TOP_ELEVATOR_LIMIT = 365;
     public static final double BOT_ELEVATOR_LIMIT = 0;
 
     public static final double LEFT_MOTOR_SPEED = 1;

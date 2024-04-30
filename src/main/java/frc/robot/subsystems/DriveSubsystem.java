@@ -84,11 +84,16 @@ public class DriveSubsystem extends SubsystemBase {
         this::setChassisSpeed,
         new HolonomicPathFollowerConfig(
             AutoConstants.MAX_SPEED_METERS_PER_SECOND,
-            0.5 * Math.sqrt(Math.pow(DriveConstants.WHEEL_BASE, 2) + Math.pow(DriveConstants.TRACK_WIDTH, 2)), /* TODO: test / increase accuracy */
+            0.5
+                * Math.sqrt(
+                    Math.pow(DriveConstants.WHEEL_BASE, 2)
+                        + Math.pow(
+                            DriveConstants.TRACK_WIDTH, 2)), /* TODO: test / increase accuracy */
             new ReplanningConfig(true, true)),
         this::switchAlliance,
         this);
   }
+
   public Command getZeroHeadingCommand() {
     return this.runOnce(
         () -> {

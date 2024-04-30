@@ -35,7 +35,7 @@ public class AutoSubsystem {
             new WaitCommand(1),
             shooter.ShooterStop(),
             shooter.FeederStop(),
-            new WaitCommand(5),
+            new WaitCommand(7),
             drive.AutoDrive(-DRIVE_SPEED_X, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME));
         break;
       case CENTER:
@@ -77,7 +77,9 @@ public class AutoSubsystem {
             shooter.ShooterStop(),
             shooter.FeederStop(),
             new WaitCommand(5),
-            drive.AutoDrive(DRIVE_SPEED_X, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME));
+            drive.AutoDrive(DRIVE_SPEED_X, -DRIVE_SPEED_Y, 0, true, DRIVE_RUNTIME),
+            new WaitCommand(2),
+            drive.AutoDrive(0, 0, 0.5, true, 0.8));
         break;
       default:
         System.out.println("Red default");
